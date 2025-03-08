@@ -8,6 +8,8 @@ package assas.computers;
  *
  * @author Acer
  */
+import java.util.Scanner;
+
 public class AssasComputers {
 
     /**
@@ -16,6 +18,11 @@ public class AssasComputers {
     public static void main(String[] args) {
         // TODO code application logic here
         
+       
+        
+        User user = new User("ting", "jasden1@gmail.com", "1234567", "920", "jdo");
+        
+        user.registration("jasden1@gmail.com","1234567");
         
         
         
