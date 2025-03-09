@@ -14,6 +14,7 @@ import java.io.IOException;
  * @author Acer
  */
 public class User {
+
     private String username;
     private String email;
     private String password;
@@ -28,6 +29,7 @@ public class User {
         this.phoneNum = phoneNum;
         this.deliveryAddress = deliveryAddress;
     }
+
    
     
     public void registration(String email, String password) {
