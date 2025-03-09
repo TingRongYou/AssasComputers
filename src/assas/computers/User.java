@@ -19,7 +19,7 @@ public class User {
     String password;
     String phoneNum;
     String deliveryAddress;
-    String filePath = "C:\\Users\\yongc\\Desktop\\AssasComputers\\src\\assas\\computers\\CustomerAcc.txt";
+    String filePath = "C:\\Users\\Acer\\Documents\\NetBeansProjects\\AssasComputers\\src\\assas\\computers\\CustomerAcc.txt";
    
     
     public void registration(String email, String password) {
