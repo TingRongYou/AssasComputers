@@ -5,8 +5,10 @@
 package assas.computers;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -15,12 +17,12 @@ import java.io.IOException;
  */
 public class User {
 
-    private String username;
-    private String email;
-    private String password;
-    private String phoneNum;
-    private String deliveryAddress;
-    private String filePath = "CustomerAcc.txt";
+    private static String username;
+    private static String email;
+    private static String password;
+    private static String phoneNum;
+    private static String deliveryAddress;
+    private static String filePath = "CustomerAcc.txt";
     
      User(String name, String email, String password, String phoneNum, String deliveryAddress) {
         this.username = name;
@@ -31,32 +33,21 @@ public class User {
     }
 
    
-    
-    public void registration(String email, String password) {
-        
-            this.email = email;
-            this.password = password;
+    public static void registration(String email, String password) { 
+            //Check if email already exists
+            if(isEmailRegistered(email)){
+                System.out.println("Error: User already registered. Invalid registration!");
+            }
             
             //Read CustomerAcc.txt
-            try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-                String line;
-                
-                while ((line = reader.readLine()) != null) {
-                String[] words = line.split(";"); // Assuming the file format is: name;email;password;phone;address
-
-                if (words[1].equals(this.email) && words[2].equals(this.password)) { // FIXED: Use .equals()
-                    System.out.println("Error: User already registered. Invalid registration.");
-                    break;
-                }
-            }  
-        }  
-        catch(FileNotFoundException e){
-            System.out.println("Error: Cannot locate the file");
-            
-        }
-        catch(IOException e){
-            System.out.println("Error: Cannot read the file!");
-        }
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
+                writer.write(username + ";" + email + ";" + password + ";" + phoneNum + ";" + deliveryAddress);
+                writer.newLine();
+                System.out.println("Registration successful! User data saved.");
+            }
+            catch(IOException e){
+                System.out.println("Error:Unable to save user data.");
+            }
     }
     
   public static boolean usernameValidate(String username){
@@ -170,6 +161,30 @@ public class User {
           return false;
       }
   }
+  public static boolean isEmailRegistered(String email){
+     
+      //Read CustomerAcc.txt
+            try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                
+                while ((line = reader.readLine()) != null) {
+                String[] words = line.split(";"); // Assuming the file format is: name;email;password;phone;address
+
+                if (words[1].equals(email)) { // FIXED: Use .equals()
+                    System.out.println("Error: User already registered. Invalid registration.");
+                    break;
+                }
+            }  
+        }  
+        catch(FileNotFoundException e){
+            System.out.println("Error: Cannot locate the file");
+            
+        }
+        catch(IOException e){
+            System.out.println("Error: Cannot read the file!");
+        }
+        return true;
+    }
 }
 
 
