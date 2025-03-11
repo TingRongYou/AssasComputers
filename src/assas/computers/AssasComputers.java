@@ -31,6 +31,12 @@ public class AssasComputers {
                             " '----------------'  '----------------'  '----------------'  '----------------'  '----------------' ");
     }
     
+    public static void registration() {
+    
+    
+        
+    }
+    
     public static void customerPage() {
         
                 Scanner scanner = new Scanner(System.in);
@@ -39,9 +45,9 @@ public class AssasComputers {
                 
                 do {
                     
-                    System.out.println("\n\n**********************************************************");
+                    System.out.println("\n\n#" + "=".repeat(26) + "Customer" + "=".repeat(26) + "#");
                     System.out.println("1. Customer registration\n2. Customer login");
-                    System.out.println("**********************************************************");
+                    System.out.println("#" + "=".repeat(60) + "#");
                     System.out.print("Please enter your option(1/2): ");
                     customerOption = scanner.nextInt();
                     
@@ -72,9 +78,9 @@ public class AssasComputers {
                 
                 do {
                     
-                    System.out.println("\n\n**********************************************************");
+                    System.out.println("\n\n#" + "=".repeat(27) + "Staff" + "=".repeat(28) + "#");
                     System.out.println("1. Staff registration\n2. Staff login");
-                    System.out.println("**********************************************************");
+                    System.out.println("#" + "=".repeat(60) + "#");
                     System.out.print("Please enter your option(1/2): ");
                     staffOption = scanner.nextInt();
                     
@@ -108,9 +114,9 @@ public class AssasComputers {
         
         do {
             
-        System.out.println("**********************************************************");
+        System.out.println("\n\n#" + "=".repeat(25) + "Main Menu" + "=".repeat(26) + "#");
         System.out.println("1. Customer \n2. Staff");
-        System.out.println("**********************************************************");
+        System.out.println("#" + "=".repeat(60) + "#");
         System.out.print("Please enter your option(1/2): ");
         identity = scanner.nextInt();
         
