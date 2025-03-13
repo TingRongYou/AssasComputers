@@ -104,7 +104,6 @@ public class AssasComputers {
     }
     
     public static void main(String[] args) {
-        
         Scanner scanner = new Scanner(System.in);
         
         displayLogo();

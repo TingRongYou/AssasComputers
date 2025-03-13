@@ -4,187 +4,166 @@
  */
 package assas.computers;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 
-/**
- *
- * @author Acer
- */
-public class User {
-
-    private static String username;
-    private static String email;
-    private static String password;
-    private static String phoneNum;
-    private static String deliveryAddress;
-    private static String filePath = "CustomerAcc.txt";
+public abstract class User {
+    /*static is not needed since static variable shares resources among all instances of the class,
+    every time a new user registers, their details will overwrite the previous user's data
+    */
     
-     User(String name, String email, String password, String phoneNum, String deliveryAddress) {
+    private String username;
+    private String email;
+    private String password;
+    private String phoneNum;
+
+    // Constructor
+    public User(String name, String email, String password, String phoneNum) {
         this.username = name;
         this.email = email;
         this.password = password;
         this.phoneNum = phoneNum;
-        this.deliveryAddress = deliveryAddress;
     }
 
-   
-    public static void registration(String email, String password) { 
-            //Check if email already exists
-            if(isEmailRegistered(email)){
-                System.out.println("Error: User already registered. Invalid registration!");
-            }
-            
-            //Read CustomerAcc.txt
-            try(BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
-                writer.write(username + ";" + email + ";" + password + ";" + phoneNum + ";" + deliveryAddress);
-                writer.newLine();
-                System.out.println("Registration successful! User data saved.");
-            }
-            catch(IOException e){
-                System.out.println("Error:Unable to save user data.");
-            }
+    // Registration method
+    public void registration() {
+        System.out.println("Congratulations to be a user");
     }
-    
-  public static boolean usernameValidate(String username){
-      //Validate the length of username, length from 1 to 20
-      if(username.length() >0 && username.length() <= 20){
-          return true; 
-      }
-      //Error message if the username does not fit the required length
-      else{
-          System.out.println("Error: Your Username should be between 1 - 20 !! ");
-          return false;   
-      }   
-  }
-  
-  public static boolean emailValidate(String email){
-      //Validate the email format, whether including both of @ and .com
-      if((email.contains("@")) && (email.contains(".com"))){
-          return true;
-      }
-      //Error message if does not align the format
-      else{
-          System.out.println("Error: Your email should include @ and .com !!");
-          return false;
-      }
-  }
-  
-  public static boolean phoneNumValidate(String phoneNum ){
-      //Validate the phone number, starts with 01, and at most 10 to 11 number
-      if(phoneNum.matches("^01\\d{8,9}$")){
-          return true;
-      }
-      //Error message if not meet the format
-      else{
-          System.out.println("Error: Your phone number should start be in 01xxxxxxxx and with 10 or 11 number only !!");
-          return false;
-      }
-  }
-  
-  
-  public static boolean passwordValidate(String password){
-      boolean hasUpper = false;
-      boolean hasLower = false;
-      boolean hasDigit = false;
-      boolean hasSpecial = false;
-      boolean sufficientLength = false;
-      char[] specialCharacters = {'!', '@', '#', '%', '*', '&', '$'};
-      
-      //Validate the length of password, from 8 to 15
-      if(password.length()>=8 && password.length() <=15){
-          sufficientLength = true;   
-      }
-      else{
-          System.out.println("Error: Your password should within 8 to 15 characters");
-          sufficientLength = false;
-      }
-      
-     //Loop the password,and validate
-      for(char ch: password.toCharArray()){
-          //Validate whether has at least one Uppercase Letter
-          if(Character.isUpperCase(ch)){
-              hasUpper = true;  
-          }
-          //Validate whether has at least one Lowerrcase Letter
-          else if(Character.isLowerCase(ch)){
-              hasLower = true;
-          }
-          //Validate whether has at least one Digit
-          else if(Character.isDigit(ch)){
-              hasDigit = true;
-          }
-          //Validate whether has at least one Special Character
-          else{
-                  for(char special : specialCharacters){
-                      if(ch == special){
-                          hasSpecial = true;
-                          break;
-                      }   
-                  }   
-          }   
-      }
-      
-      //Error message if does not meet the password format
-      if(!hasUpper){
-          System.out.println("Error: Password must contain at least one uppercase letter!");
-      }
-      if(!hasLower){
-          System.out.println("Error: Password must contain at least one lowercase letter!");
-      }
-      if(!hasDigit){
-          System.out.println("Error: Password must contain at least one digit!");
-      }
-      if(!hasSpecial){
-          System.out.println("Error: Password must contain at least one special character (@, #, $, %, &, *, !, ?)");
-      }
-      
-      
-      return hasUpper && hasLower && hasDigit && hasSpecial && sufficientLength;
-  
-  }
-  
-  public static boolean addressCheck(String deliveryAddress){
-      //Trim white space
-      deliveryAddress = deliveryAddress.trim();
-    
-      //Validate Length of Delivery Address, from length of 1 to 50
-      if(deliveryAddress.length() > 0 && deliveryAddress.length()<=50){
-          return true; 
-      }
-      else{
-          System.out.println("Error: Your Delivery Address should be in length of between 1 to 50");
-          return false;
-      }
-  }
-  public static boolean isEmailRegistered(String email){
-     
-      //Read CustomerAcc.txt
-            try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-                String line;
-                
-                while ((line = reader.readLine()) != null) {
-                String[] words = line.split(";"); // Assuming the file format is: name;email;password;phone;address
 
-                if (words[1].equals(email)) { // FIXED: Use .equals()
-                    System.out.println("Error: User already registered. Invalid registration.");
-                    break;
-                }
-            }  
-        }  
-        catch(FileNotFoundException e){
-            System.out.println("Error: Cannot locate the file");
-            
-        }
-        catch(IOException e){
-            System.out.println("Error: Cannot read the file!");
-        }
+    // Method to check if an email is already registered
+    public boolean isEmailRegistered(String email) {
+        System.out.println("You had registered successfully");
         return true;
     }
+
+    // Username validation (1-20 characters)
+    public static boolean usernameValidate(String username) {
+        if (username.length() > 0 && username.length() <= 20) {
+            return true;
+        }
+        System.out.println("Error: Your Username should be between 1 - 20 characters!");
+        return false;
+    }
+
+    // Email validation
+    public static boolean emailValidate(String email) {
+        if (email.contains("@") && email.contains(".com")) {
+            return true;
+        }
+        System.out.println("Error: Your email should include '@' and '.com'!");
+        return false;
+    }
+
+    // Phone number validation (Starts with 01 and 10-11 digits)
+    public static boolean phoneNumValidate(String phoneNum) {
+        if (phoneNum.matches("^01\\d{8,9}$")) {
+            return true;
+        }
+        System.out.println("Error: Your phone number should start with '01' and be 10 or 11 digits long!");
+        return false;
+    }
+
+    // Password validation
+    public static boolean passwordValidate(String password) {
+        boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false, sufficientLength = false;
+        char[] specialCharacters = {'!', '@', '#', '%', '*', '&', '$'};
+
+        if (password.length() >= 8 && password.length() <= 15) {
+            sufficientLength = true;
+        } else {
+            System.out.println("Error: Your password should be between 8 to 15 characters.");
+        }
+
+        for (char ch : password.toCharArray()) {
+            if (Character.isUpperCase(ch)) hasUpper = true;
+            else if (Character.isLowerCase(ch)) hasLower = true;
+            else if (Character.isDigit(ch)) hasDigit = true;
+            else {
+                for (char special : specialCharacters) {
+                    if (ch == special) {
+                        hasSpecial = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!hasUpper) System.out.println("Error: Password must contain at least one uppercase letter!");
+        if (!hasLower) System.out.println("Error: Password must contain at least one lowercase letter!");
+        if (!hasDigit) System.out.println("Error: Password must contain at least one digit!");
+        if (!hasSpecial) System.out.println("Error: Password must contain at least one special character (@, #, $, %, &, *, !, ?)");
+
+        return hasUpper && hasLower && hasDigit && hasSpecial && sufficientLength;
+    }
+
+    // Delivery address validation (1-50 characters)
+    public static boolean addressCheck(String deliveryAddress) {
+        deliveryAddress = deliveryAddress.trim();
+        if (deliveryAddress.length() > 0 && deliveryAddress.length() <= 50) {
+            return true;
+        }
+        System.out.println("Error: Your Delivery Address should be between 1 to 50 characters.");
+        return false;
+    }
+    
+    public String getUsername(){
+        return username;  
+    }
+    
+    public String getEmail(){
+       return email;
+    }
+    
+    public String getPassword(){
+        return password;
+    }
+    public String getPhoneNum(){
+        return phoneNum;
+    }
+    
+    public static void login(){
+        boolean isValidEmail = true;
+        boolean isValidPassword = true;
+        String password;
+        String email;
+        String line;
+        final String filePath = "";
+        Scanner scanner = new Scanner(System.in);
+        try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
+            do{
+            System.out.print("Please Enter User Email");
+            email = scanner.nextLine();
+            System.out.print("Please Enter User Password:");
+            password = scanner.nextLine();
+            
+            while((line = reader.readLine())!=null){
+                String[] words = line.split(";");
+                if (words[1].equals(email)) {
+                    System.out.println("Error: Invalid email entered");
+                    isValidEmail = false;
+                }
+                else if(words [2].equals(password)){
+                    System.out.println("Error: Invalid password entered");
+                    isValidPassword = false;
+                }
+ 
+            }    
+           }while(!(isValidEmail && isValidPassword));
+            
+        }
+        catch(FileNotFoundException e){
+            System.out.println("Error: Cannot locate the file");
+        }
+        
+        catch(IOException e){
+            System.out.println("Error: Cannot read the file");
+        }
+        
+        finally{
+            scanner.close();
+        }    
+    }
+        
 }
 
 
