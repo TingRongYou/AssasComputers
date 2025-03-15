@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/AssasComputers.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Customer.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Staff.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/CustomerAcc.txt</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/User.java</file>
+        </group>
+>>>>>>> 3ddac6549eee03effc4656b9c3ae9402e94cf545
     </open-files>
 </project-private>

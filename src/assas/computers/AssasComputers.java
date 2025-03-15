@@ -104,15 +104,17 @@ public class AssasComputers {
     }
     
     public static void main(String[] args) {
-        
-        Scanner scanner = new Scanner(System.in);
+        Customer customer1 = new Customer("Jasden","yong@gmail.com", "123456", "0109274302", "Jalan" );
         
         displayLogo();
         System.out.println("\n\nWelcome to Assas Computer!");
+        customer1.login();
+
         
         int identity;
         
         do {
+        Scanner scanner = new Scanner(System.in);
             
         System.out.println("\n\n#" + "=".repeat(25) + "Main Menu" + "=".repeat(26) + "#");
         System.out.println("1. Customer \n2. Staff");
@@ -133,11 +135,10 @@ public class AssasComputers {
             default: System.out.println("\nPlease enter valid option(1/2)!!\n");
 
         }
-        
-        } while (identity != 1 && identity != 2);
-        
         scanner.close();
-        
+
+        } while (identity != 1 && identity != 2);
+                
     }
     
 }
