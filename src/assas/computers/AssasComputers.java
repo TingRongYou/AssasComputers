@@ -87,14 +87,16 @@ public class AssasComputers {
                     System.out.print("Please enter your option(1/2): ");
                     staffOption = scanner.nextInt();
                     
+                   Staff staff = new Staff();
+                    
                     switch (staffOption)
                     {
                         case 1:
-                            //login()
+                            staff.registration();
                             break;
 
                         case 2:
-                            //registration
+                            staff.login();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
 
