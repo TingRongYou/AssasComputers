@@ -104,9 +104,11 @@ public class AssasComputers {
     }
     
     public static void main(String[] args) {
-        Customer customer1 = new Customer("Jasden","yong@gmail.com", "123456", "0109274302", "Jalan" );
-        
+        Customer customer1 = new Customer("dato","dato666@gmail.com", "Dato666!!", "0185716283", "Jalan Bukit" );
+                
         displayLogo();
+        customer1.registration();
+
         System.out.println("\n\nWelcome to Assas Computer!");
         customer1.login();
 
