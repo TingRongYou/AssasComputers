@@ -6,7 +6,7 @@ package assas.computers;
 
 import java.io.*;
 import java.util.Scanner;
-
+    
 public abstract class User {
     /*static is not needed since static variable shares resources among all instances of the class,
     every time a new user registers, their details will overwrite the previous user's data
