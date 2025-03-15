@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  *
@@ -59,4 +60,56 @@ public class Staff extends User {
         return false; // Email not found
          
      }
+     
+     @Override
+     public void login(){
+        boolean isValidEmail = true;
+        boolean isValidPassword = true;
+        boolean isAuthenticated = false;
+        String password;
+        String email;
+        String line;
+        Scanner scanner = new Scanner(System.in);
+        try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
+            do{
+            System.out.print("Please Enter Customer account Email");
+            email = scanner.nextLine();
+            System.out.print("Please Enter Customer account Password:");
+            password = scanner.nextLine();
+            
+            while((line = reader.readLine())!=null){
+                String[] words = line.split(";");
+                if (words[1].equals(email) && words[2].equals(password)) {
+                    isAuthenticated = true;
+                    System.out.println("Login Successfully! Welcome, " + words[0]);
+                    break;
+                }   
+                else if(!words[1].equals(email)){
+                    System.out.println("Error: Email not found. Please try again.");
+                    isValidEmail = false;
+                    
+                }
+                
+                else{
+                    System.out.println("Error: Incorrect password. Please try again.");
+                    isValidPassword = false;
+                }
+                
+           }
+            
+           }while(!isAuthenticated);
+        }
+        
+        catch(FileNotFoundException e){
+            System.out.println("Error: Cannot locate the file");
+        }
+        
+        catch(IOException e){
+            System.out.println("Error: Cannot read the file");
+        }
+        
+        finally{
+            scanner.close();
+        }    
+    }
 }

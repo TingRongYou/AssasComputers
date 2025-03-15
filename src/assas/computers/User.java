@@ -121,9 +121,10 @@ public abstract class User {
         return phoneNum;
     }
     
-    public static void login(){
+    public void login(){
         boolean isValidEmail = true;
         boolean isValidPassword = true;
+        boolean isAuthenticated = false;
         String password;
         String email;
         String line;
@@ -136,21 +137,30 @@ public abstract class User {
             System.out.print("Please Enter User Password:");
             password = scanner.nextLine();
             
+            
             while((line = reader.readLine())!=null){
                 String[] words = line.split(";");
-                if (words[1].equals(email)) {
-                    System.out.println("Error: Invalid email entered");
+                if (words[1].equals(email) && words[2].equals(password)) {
+                    isAuthenticated = true;
+                    System.out.println("Login Successfully! Welcome, " + words[0]);
+                    break;
+                }   
+                else if(!words[1].equals(email)){
+                    System.out.println("Error: Email not found. Please try again.");
                     isValidEmail = false;
+                    
                 }
-                else if(words [2].equals(password)){
-                    System.out.println("Error: Invalid password entered");
+                
+                else{
+                    System.out.println("Error: Incorrect password. Please try again.");
                     isValidPassword = false;
-                }
- 
-            }    
-           }while(!(isValidEmail && isValidPassword));
+                }  
+           }
             
+           }while(!isAuthenticated);
         }
+            
+        
         catch(FileNotFoundException e){
             System.out.println("Error: Cannot locate the file");
         }
