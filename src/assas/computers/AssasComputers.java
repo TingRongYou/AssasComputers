@@ -54,11 +54,14 @@ public class AssasComputers {
                     switch (customerOption)
                     {
                         case 1:
-                            //login()
+                            
+                            //registration
+                            
                             break;
 
                         case 2:
-                            //registration
+                            Customer customer = new Customer();
+                            customer.login();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
 
@@ -104,12 +107,9 @@ public class AssasComputers {
     }
     
     public static void main(String[] args) {
-        Customer customer1 = new Customer("Jasden","jasden1@gmail.com", "1234567", "0109274302", "Jalan" );
         
         displayLogo();
         System.out.println("\n\nWelcome to Assas Computer!");
-        customer1.login();
-
         
         int identity;
         

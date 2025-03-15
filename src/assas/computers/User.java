@@ -24,6 +24,10 @@ public abstract class User {
         this.password = password;
         this.phoneNum = phoneNum;
     }
+    
+    public User() {
+        
+    }
 
     // Registration method
     public void registration() {

@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @author Acer
  */
 public class Customer extends User {
-    private static final String filePath = "CustomerAcc.txt"; // Keep as static constant
+    private static final String filePath = "src/CustomerAcc.txt"; // Keep as static constant
     private final String deliveryAddress;
     
     public Customer(String name, String email, String password, String phoneNum, String deliveryAddress) {
@@ -26,6 +26,9 @@ public class Customer extends User {
         this.deliveryAddress = deliveryAddress;
     }
     
+    public Customer() {
+        this.deliveryAddress = null;
+    }
     
     @Override
      public void registration() {
@@ -66,49 +69,50 @@ public class Customer extends User {
      
      @Override
      public void login(){
-        boolean isValidEmail = true;
-        boolean isValidPassword = true;
+         
         boolean isAuthenticated = false;
-        String password;
-        String email;
-        String line;
+        String email, password,line;
+ 
         Scanner scanner = new Scanner(System.in);
 
-        try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
-            do{
-            System.out.print("Please Enter Customer account Email: ");
+        do{
+            
+            System.out.println("\n\n#" + "=".repeat(27) + "Login" + "=".repeat(28) + "#");
+            
+            System.out.print("Please enter your email: ");
             email = scanner.nextLine();
-            System.out.print("Please Enter Customer account Password: ");
+            
+            System.out.print("Please enter your password: ");
             password = scanner.nextLine();
             
-            while((line = reader.readLine())!=null){
-                String[] words = line.split(";");
-                if (words[1].equals(email) && words[2].equals(password)) {
-                    isAuthenticated = true;
-                    System.out.println("Login Successfully! Welcome, " + words[0]);
-                    break;
-                }
-                else{
-                    System.out.println("Error: Incorrect email or password. Please try again.");
-                    isValidPassword = false;
-                }
-                
+            try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
+                while((line = reader.readLine())!=null){
+                    String[] words = line.split(";");
+                    if (words[1].equals(email) && words[2].equals(password)) {
+                        isAuthenticated = true;
+                        System.out.println(">>> Login Successfully! Welcome, " + words[0]);
+                        break;
+                    }
+                    else if (words[1].equals(email) && !words[2].equals(password)) {
+                        System.out.println(">>> Incorrect Password");
+                    }
+                    else{
+                        System.out.println(">>> Error: Incorrect email or password. Please try again.");
+                    }
+
+               }
+            
            }
-            
-           }while(!isAuthenticated);
-        }
-            
-        catch(FileNotFoundException e){
+            catch(FileNotFoundException e){
             System.out.println("Error: Cannot locate the file");
-        }
+            }
+
+            catch(IOException e){
+                System.out.println("Error: Cannot read the file");
+            }  
+        }while(!isAuthenticated);
+            
         
-        catch(IOException e){
-            System.out.println("Error: Cannot read the file");
-        }
-        
-        finally{
-          System.out.println("blablabla");
-        }    
     }
 }
      
