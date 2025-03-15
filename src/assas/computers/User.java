@@ -45,8 +45,9 @@ public abstract class User {
         if (username.length() > 0 && username.length() <= 20) {
             return true;
         }
-        System.out.println("Error: Your Username should be between 1 - 20 characters!");
+        else{
         return false;
+        }
     }
 
     // Email validation
@@ -54,8 +55,9 @@ public abstract class User {
         if (email.contains("@") && email.contains(".com")) {
             return true;
         }
-        System.out.println("Error: Your email should include '@' and '.com'!");
+        else{
         return false;
+        }
     }
 
     // Phone number validation (Starts with 01 and 10-11 digits)
@@ -63,25 +65,35 @@ public abstract class User {
         if (phoneNum.matches("^01\\d{8,9}$")) {
             return true;
         }
-        System.out.println("Error: Your phone number should start with '01' and be 10 or 11 digits long!");
+        else{
         return false;
+        }
     }
 
     // Password validation
     public static boolean passwordValidate(String password) {
         boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false, sufficientLength = false;
+        boolean validPassword = true;
         char[] specialCharacters = {'!', '@', '#', '%', '*', '&', '$'};
 
         if (password.length() >= 8 && password.length() <= 15) {
             sufficientLength = true;
-        } else {
-            System.out.println("Error: Your password should be between 8 to 15 characters.");
+        } 
+        else{
+            System.out.println("Error: Password must be between 8 and 15 characters!");
         }
 
+
         for (char ch : password.toCharArray()) {
-            if (Character.isUpperCase(ch)) hasUpper = true;
-            else if (Character.isLowerCase(ch)) hasLower = true;
-            else if (Character.isDigit(ch)) hasDigit = true;
+            if (Character.isUpperCase(ch)){
+                hasUpper = true;
+            }
+            else if (Character.isLowerCase(ch)){
+                hasLower = true;
+            }
+            else if (Character.isDigit(ch)){
+                hasDigit = true;
+            }
             else {
                 for (char special : specialCharacters) {
                     if (ch == special) {
@@ -91,14 +103,26 @@ public abstract class User {
                 }
             }
         }
-
-        if (!hasUpper) System.out.println("Error: Password must contain at least one uppercase letter!");
-        if (!hasLower) System.out.println("Error: Password must contain at least one lowercase letter!");
-        if (!hasDigit) System.out.println("Error: Password must contain at least one digit!");
-        if (!hasSpecial) System.out.println("Error: Password must contain at least one special character (@, #, $, %, &, *, !, ?)");
-
+        
+       
+        if (!hasUpper) {
+            System.out.println("Error: Password must contain at least one uppercase letter!");
+                
+        }
+        if (!hasLower){
+            System.out.println("Error: Password must contain at least one lowercase letter!");
+        }
+        if (!hasDigit){
+            System.out.println("Error: Password must contain at least one digit!");
+        }
+        if (!hasSpecial){
+            System.out.println("Error: Password must contain at least one special character (@, #, $, %, &, *, !, ?)");
+        }
+    
         return hasUpper && hasLower && hasDigit && hasSpecial && sufficientLength;
-    }
+
+  }
+    
 
     // Delivery address validation (1-50 characters)
     public static boolean addressCheck(String deliveryAddress) {
@@ -106,8 +130,10 @@ public abstract class User {
         if (deliveryAddress.length() > 0 && deliveryAddress.length() <= 50) {
             return true;
         }
-        System.out.println("Error: Your Delivery Address should be between 1 to 50 characters.");
+        
+        else{
         return false;
+        }
     }
     
     public String getUsername(){

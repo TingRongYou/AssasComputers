@@ -107,9 +107,11 @@ public class AssasComputers {
     }
     
     public static void main(String[] args) {
-        
+
         displayLogo();
+
         System.out.println("\n\nWelcome to Assas Computer!");
+
         
         int identity;
         
