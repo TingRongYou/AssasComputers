@@ -8,8 +8,7 @@ package assas.computers;
  *
  * @author Acer
  */
-public class Staff  {
-    
+public class Staff {
 
     
 }
