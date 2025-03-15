@@ -34,57 +34,59 @@ public class Customer extends User {
         Scanner scanner = new Scanner(System.in);
         String username, email, password, phoneNum, deliveryAddress;
         
+        System.out.println("\n\n#" + "=".repeat(27) + "Customer Account Registration" + "=".repeat(28) + "#");
+                    
         do{
-            System.out.print("Please enter customer username: ");
+            System.out.print("Please enter an username: ");
             username = scanner.nextLine();
             if(!Customer.usernameValidate(username)){
-                System.out.println("Error: Your Username should be between 1 - 20 characters!");
-                System.out.println("Error: Please enter customer username again !!");
+                System.out.println(">>> Error: Your Username Should Be Between 1 - 20 Characters!");
+                System.out.println(">>> Error: Please Enter Username Again !!");
                 System.out.println();
             }
         }while(!Customer.usernameValidate(username));
         
         do{
-            System.out.print("Please enter customer email: ");
+            System.out.print("Please enter your email: ");
             email = scanner.nextLine();
             if(!Customer.emailValidate(email)){
-                System.out.println("Error: Your email should include '@' and '.com'!");
-                System.out.println("Error: Please enter customer email again !!");
+                System.out.println(">>> Error: Your Email Should Include '@' And '.com'!");
+                System.out.println(">>> Error: Please Enter Your Email Again !!");
                 System.out.println();
             }
             else if(isEmailRegistered(email)){
-                System.out.println("Error: Customer account already registered. Invalid registration!");
+                System.out.println(">>> Error: Customer Account Already Registered. Invalid Registration!");
                 System.out.println();
             }
         }while(!Customer.emailValidate(email) || isEmailRegistered(email));
         
         boolean validPassword = true;
         do{
-            System.out.print("Please enter customer password: ");
+            System.out.print("Please enter a password: ");
             password = scanner.nextLine();
             validPassword = Customer.passwordValidate(password);
             if(!validPassword){
-                System.out.println("Error: Please enter customer password again !!");
+                System.out.println(">>> Error: Please Enter Customer Password Again !!");
                 System.out.println();
             }
         }while(!validPassword);
        
        
         do{
-            System.out.print("Please enter customer phone number: ");
+            System.out.print("Please enter your phone number: ");
             phoneNum = scanner.nextLine();
             if(!phoneNumValidate(phoneNum)){
-                System.out.println("Error: Your phone number should start with '01' and be 10 or 11 digits long!");
-                System.out.println("Error: Please enter customer email again !!");
+                System.out.println(">>> Error: Your Phone Number Should Start With '01' And Be 10 Or 11 Digits Long!");
+                System.out.println(">>> Error: Please Enter Your Email Again !!");
                 System.out.println();
             }
         }while(!phoneNumValidate(phoneNum));
         
         do{
-            System.out.print("Please enter customer delivery address: ");
+            System.out.print("Please enter your delivery address: ");
             deliveryAddress = scanner.nextLine();
             if(!addressCheck(deliveryAddress)){
-                System.out.println("Error: Your Delivery Address should be between 1 to 50 characters.");
+                System.out.println(">>> Error: Your Delivery Address Should Be Between 1 to 50 Characters.");
                 System.out.println();
             }
         }while(!addressCheck(deliveryAddress));
@@ -93,10 +95,13 @@ public class Customer extends User {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { 
             writer.write(username + ";" + email + ";" + password + ";" + phoneNum + ";" + deliveryAddress);
             writer.newLine();
-            System.out.println("Registration successful! Customer account data saved.");
+            System.out.println(">>> Registration Successful! Customer Account Data Saved.");
         } catch (IOException e) {
-            System.out.println("Error: Unable to save customer account data.");
+            System.out.println(">>> Error: Unable To Save Customer Account Data.");
         }
+        
+        login();
+        
      }
      
      @Override
@@ -113,7 +118,7 @@ public class Customer extends User {
         }
         reader.close();
     } catch (IOException e) {
-        System.out.println("Error: Cannot read the file!");
+        System.out.println(">>> Error: Cannot Read The File!");
     }
     return false; // Email not found
 }
@@ -127,18 +132,16 @@ public class Customer extends User {
      @Override
      public void login(){
          
-        boolean isAuthenticated = false;
+        boolean emailExists = false, isAuthenticated = false;
         String email, password,line;
  
         Scanner scanner = new Scanner(System.in);
 
         do{
             
-            System.out.println("\n\n#" + "=".repeat(27) + "Login" + "=".repeat(28) + "#");
+            System.out.println("\n\n#" + "=".repeat(27) + "Customer Account Login" + "=".repeat(28) + "#");
             
             System.out.print("Please enter your email: ");
-
-        
             email = scanner.nextLine();
             
             System.out.print("Please enter your password: ");
@@ -147,19 +150,25 @@ public class Customer extends User {
             try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
                 while((line = reader.readLine())!=null){
                     String[] words = line.split(";");
-                    if (words[1].equals(email) && words[2].equals(password)) {
-                        isAuthenticated = true;
-                        System.out.println(">>> Login Successfully! Welcome, " + words[0]);
-                        break;
-                    }
-                    else if (words[1].equals(email) && !words[2].equals(password)) {
-                        System.out.println(">>> Incorrect Password");
-                    }
-                    else{
-                        System.out.println(">>> Error: Incorrect email or password. Please try again.");
+                    
+                    if (words[1].equals(email)) {
+                        emailExists = true;
+                        if (words[2].equals(password)) {
+                            isAuthenticated = true;
+                            System.out.println(">>> Login Successfully! Welcome, " + words[0]);
+                            break;
+                        }
+                        else {
+                            System.out.println(">>> Error: Incorrect Password");
+                            break;
+                        }
                     }
 
                }
+                
+                if (!emailExists) {
+                         System.out.println(">>> Error: Email Not Exists. Please Try Again.");
+                    }
             
            }
             catch(FileNotFoundException e){

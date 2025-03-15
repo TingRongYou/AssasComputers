@@ -56,7 +56,6 @@ public class AssasComputers {
                     switch (customerOption)
                     {
                         case 1:
-                            
                             customer.registration();
                             
                             break;

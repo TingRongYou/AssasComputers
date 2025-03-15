@@ -80,7 +80,7 @@ public abstract class User {
             sufficientLength = true;
         } 
         else{
-            System.out.println("Error: Password must be between 8 and 15 characters!");
+            System.out.println(">>> Error: Password Must Be Between 8 And 15 Characters!");
         }
 
 
@@ -106,17 +106,17 @@ public abstract class User {
         
        
         if (!hasUpper) {
-            System.out.println("Error: Password must contain at least one uppercase letter!");
+            System.out.println(">>> Error: Password Must Contain At Least One Uppercase Letter!");
                 
         }
         if (!hasLower){
-            System.out.println("Error: Password must contain at least one lowercase letter!");
+            System.out.println(">>> Error: Password Must Contain At Least One Lowercase Letter!");
         }
         if (!hasDigit){
-            System.out.println("Error: Password must contain at least one digit!");
+            System.out.println(">>> Error: Password Must Contain At Least One Digit!");
         }
         if (!hasSpecial){
-            System.out.println("Error: Password must contain at least one special character (@, #, $, %, &, *, !, ?)");
+            System.out.println(">>> Error: Password Must Contain At Least One Special Character (@, #, $, %, &, *, !, ?)");
         }
     
         return hasUpper && hasLower && hasDigit && hasSpecial && sufficientLength;
