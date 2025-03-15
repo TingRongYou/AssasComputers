@@ -104,7 +104,7 @@ public class AssasComputers {
     }
     
     public static void main(String[] args) {
-        Customer customer1 = new Customer("Jasden","yong@gmail.com", "123456", "0109274302", "Jalan" );
+        Customer customer1 = new Customer("Jasden","jasden1@gmail.com", "1234567", "0109274302", "Jalan" );
         
         displayLogo();
         System.out.println("\n\nWelcome to Assas Computer!");
