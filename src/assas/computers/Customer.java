@@ -130,57 +130,45 @@ public class Customer extends User {
      
      
      @Override
-     public void login(){
-         
-        boolean emailExists = false, isAuthenticated = false;
-        String email, password,line;
- 
-        Scanner scanner = new Scanner(System.in);
+     public void login() {
+    boolean isAuthenticated = false;
+    String email, password, line;
+    Scanner scanner = new Scanner(System.in);
 
-        do{
-            
-            System.out.println("\n\n#" + "=".repeat(27) + "Customer Account Login" + "=".repeat(28) + "#");
-            
-            System.out.print("Please enter your email: ");
-            email = scanner.nextLine();
-            
-            System.out.print("Please enter your password: ");
-            password = scanner.nextLine();
-            
-            try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
-                while((line = reader.readLine())!=null){
-                    String[] words = line.split(";");
-                    
-                    if (words[1].equals(email)) {
-                        emailExists = true;
-                        if (words[2].equals(password)) {
-                            isAuthenticated = true;
-                            System.out.println(">>> Login Successfully! Welcome, " + words[0]);
-                            break;
-                        }
-                        else {
-                            System.out.println(">>> Error: Incorrect Password");
-                            break;
-                        }
-                    }
+    do {
+        System.out.print("Please enter customer account email: ");
+        email = scanner.nextLine();
+        System.out.print("Please enter customer account password: ");
+        password = scanner.nextLine();
 
-               }
-                
-                if (!emailExists) {
-                         System.out.println(">>> Error: Email Not Exists. Please Try Again.");
+        boolean emailFound = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            while ((line = reader.readLine()) != null) {
+                String[] words = line.split(";");
+
+                if (words[1].equals(email)) {  // Check if email exists
+                    emailFound = true;
+                    if (words[2].equals(password)) { // Check password
+                        isAuthenticated = true;
+                        System.out.println(">>> Login Successfully! Welcome, " + words[0]);
+                        break;
+                    } else {
+                        System.out.println(">>> Error: Incorrect Password. Please Try Again.");
                     }
-            
-           }
-            catch(FileNotFoundException e){
-            System.out.println("Error: Cannot locate the file");
+                }
             }
+        } catch (IOException e) {
+            System.out.println(">>> Error: Unable To Read Account Data.");
+            return;  // Exit the method if file reading fails
+        }
 
-            catch(IOException e){
-                System.out.println("Error: Cannot read the file");
-            }  
-        }while(!isAuthenticated);
-            
-        
-    }
+        if (!emailFound) {
+            System.out.println(">>> Error: Email Not Found. Please Try Again.");
+        }
+
+    } while (!isAuthenticated);
+  }
 }
+   
      
