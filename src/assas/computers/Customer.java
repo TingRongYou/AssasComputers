@@ -91,7 +91,7 @@ public class Customer extends User {
         
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { 
-            writer.write(getUsername() + ";" + getEmail() + ";" + getPassword() + ";" + getPhoneNum() + ";" + getDeliveryAddress());
+            writer.write(username + ";" + email + ";" + password + ";" + phoneNum + ";" + deliveryAddress);
             writer.newLine();
             System.out.println("Registration successful! Customer account data saved.");
         } catch (IOException e) {

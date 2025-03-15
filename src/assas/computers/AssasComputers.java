@@ -51,16 +51,17 @@ public class AssasComputers {
                     System.out.print("Please enter your option(1/2): ");
                     customerOption = scanner.nextInt();
                     
+                    Customer customer = new Customer();
+                    
                     switch (customerOption)
                     {
                         case 1:
                             
-                            //registration
+                            customer.registration();
                             
                             break;
 
                         case 2:
-                            Customer customer = new Customer();
                             customer.login();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
