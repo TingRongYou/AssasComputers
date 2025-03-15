@@ -116,9 +116,9 @@ public class Staff extends User {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Error: Cannot locate the file.");
+            System.out.println(">>> Error: Cannot locate the file.");
         } catch (IOException e) {
-            System.out.println("Error: Cannot read the file!");
+            System.out.println(">>> Error: Cannot read the file!");
         }
         return false; // Email not found
          
