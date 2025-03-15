@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -6,6 +6,7 @@ package assas.computers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -25,9 +26,6 @@ public class Customer extends User {
         this.deliveryAddress = deliveryAddress;
     }
     
-    public static String getCustomerPath(){
-        return filePath;
-    }
     
     @Override
      public void registration() {
@@ -36,7 +34,7 @@ public class Customer extends User {
             return; // Stop execution if email exists
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getCustomerPath(), true))) { 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { 
             writer.write(getUsername() + ";" + getEmail() + ";" + getPassword() + ";" + getPhoneNum() + ";" + deliveryAddress);
             writer.newLine();
             System.out.println("Registration successful! Customer account data saved.");
@@ -75,7 +73,8 @@ public class Customer extends User {
         String email;
         String line;
         Scanner scanner = new Scanner(System.in);
-        try(BufferedReader reader = new BufferedReader (new FileReader("src\\CustomerAcc.txt"))){
+
+        try(BufferedReader reader = new BufferedReader (new FileReader(filePath))){
             do{
             System.out.print("Please Enter Customer account Email: ");
             email = scanner.nextLine();
