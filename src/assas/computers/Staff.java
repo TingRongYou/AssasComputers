@@ -38,7 +38,7 @@ public class Staff extends User {
         String staffID, email, password,phoneNum;
         String role = "";
         
-        System.out.println("\n\n#" + "=".repeat(27) + "Customer Account Registration" + "=".repeat(28) + "#");
+        System.out.println("\n\n#" + "=".repeat(27) + "Staff Account Registration" + "=".repeat(28) + "#");
         
         boolean validID = false;
         do{
@@ -129,6 +129,8 @@ public class Staff extends User {
     boolean isAuthenticated = false;
     String email, password, line;
     Scanner scanner = new Scanner(System.in);
+    
+    System.out.println("\n\n#" + "=".repeat(27) + "Staff Account Login" + "=".repeat(28) + "#");
 
     do {
         System.out.print("Please enter staff account email: ");
@@ -146,20 +148,24 @@ public class Staff extends User {
                     emailFound = true;
                     if (words[2].equals(password)) { // Check password
                         isAuthenticated = true;
-                        System.out.println(">>> Login Successfully! Welcome, " + words[0]);
+                        System.out.println(">>> Login Successfully! Welcome, " + words[0] + "[" + words[3] + "]");
+                        System.out.println("");
                         break;
                     } else {
                         System.out.println(">>> Error: Incorrect Password. Please Try Again.");
+                        System.out.println("");
                     }
                 }
             }
         } catch (IOException e) {
             System.out.println(">>> Error: Unable to read account data.");
+            System.out.println("");
             return;  // Exit the method if file reading fails
         }
 
         if (!emailFound) {
             System.out.println(">>> Error: Email Not Found. Please Try Again.");
+            System.out.println("");
         }
 
     } while (!isAuthenticated);
@@ -179,7 +185,6 @@ public class Staff extends User {
     
     public static boolean staffIdValidate(String staffID){
         boolean isValid = true;
-        int idLength = 5;
         if(staffID.length()!=5){
             System.out.println(">>> Error: Staff ID Should Be In 5 Character !!");
             isValid = false;
@@ -188,7 +193,7 @@ public class Staff extends User {
             System.out.println(">>> Error: Staff ID Should Start With S !!");
             isValid = false;
         }
-        for(int i=1; i<idLength; i++){
+        for(int i=1; i<staffID.length(); i++){
             if(!Character.isDigit(staffID.charAt(i))){
                 System.out.println(">>> Error: The Second Until Fifth Character Should Be Digit");
                 isValid = false;

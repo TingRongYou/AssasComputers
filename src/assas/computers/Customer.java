@@ -134,6 +134,8 @@ public class Customer extends User {
     boolean isAuthenticated = false;
     String email, password, line;
     Scanner scanner = new Scanner(System.in);
+    
+    System.out.println("\n\n#" + "=".repeat(27) + "Customer Account Login" + "=".repeat(28) + "#");
 
     do {
         System.out.print("Please enter customer account email: ");
@@ -152,19 +154,23 @@ public class Customer extends User {
                     if (words[2].equals(password)) { // Check password
                         isAuthenticated = true;
                         System.out.println(">>> Login Successfully! Welcome, " + words[0]);
+                        System.out.println("");
                         break;
                     } else {
                         System.out.println(">>> Error: Incorrect Password. Please Try Again.");
+                        System.out.println("");
                     }
                 }
             }
         } catch (IOException e) {
             System.out.println(">>> Error: Unable To Read Account Data.");
+            System.out.println("");
             return;  // Exit the method if file reading fails
         }
 
         if (!emailFound) {
             System.out.println(">>> Error: Email Not Found. Please Try Again.");
+            System.out.println("");
         }
 
     } while (!isAuthenticated);

@@ -31,9 +31,47 @@ public class AssasComputers {
                             " '----------------'  '----------------'  '----------------'  '----------------'  '----------------' ");
     }
     
-    public static void registration() {
-    
-    
+    public static void home() {
+        
+        Scanner scanner = new Scanner(System.in);
+                
+                int customerOption;
+                
+                do {
+                    
+                    System.out.println("\n\n#" + "=".repeat(28) + "Home" + "=".repeat(28) + "#");
+                    System.out.println("1. Search and filter product\n2. View Cart\n3. View Order History\n4. Track Order Status\n5. Log out");
+                    System.out.println("#" + "=".repeat(60) + "#");
+                    System.out.print("Please enter your option(1-5): ");
+                    customerOption = scanner.nextInt();
+                    
+                    Customer customer = new Customer();
+                    
+                    switch (customerOption)
+                    {
+                        case 1:
+                            //
+                            break;
+
+                        case 2:
+                            //
+                            break;
+                        case 3:
+                            //
+                            break;
+                        case 4:
+                            //
+                            break;
+                        case 5:
+                            customerPage();
+                            break;
+                        default: System.out.println("\nPlease enter valid option(1-5)!!\n");
+
+                    }
+
+                } while (customerOption != 1 && customerOption != 2 && customerOption != 3 && customerOption != 4 && customerOption != 5);
+                
+                scanner.close();
         
     }
     
@@ -57,11 +95,11 @@ public class AssasComputers {
                     {
                         case 1:
                             customer.registration();
-                            
                             break;
 
                         case 2:
                             customer.login();
+                            home();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
 
@@ -94,7 +132,7 @@ public class AssasComputers {
                         case 1:
                             staff.registration();
                             break;
-
+                            
                         case 2:
                             staff.login();
                             break;

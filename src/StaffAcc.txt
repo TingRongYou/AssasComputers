@@ -3,3 +3,4 @@ S0002;damian7181@gmail.com;Damian7181!!;Package Manager;0179546538
 S0003;kuzma7181@gmail.com;Kuzma7181!!;Package Manager;0156798421
 S0004;kevin7181@gmail.com;Kevin7181!!;Supervisor;0105643659
 S0005;jordan7181@gmail.com;Jordan7181!!;Manager;0105643874
+S2345;jj@gmail.com;Jj7181!!;Manager;0153045020
