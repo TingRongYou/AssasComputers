@@ -1,0 +1,1 @@
+S0001;Assass;50;10;h;c;keyboard

@@ -13,8 +13,8 @@ public class Laptop extends Product{
     int rom;
     String cpu;
     
-    Laptop(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, int ram, int rom, String cpu) {
-        super(productID, productName, productPrice, productStock, productDescription, productColor);
+    Laptop(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, int ram, int rom, String cpu) {
+        super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.ram = ram;
         this.rom = rom;
         this.cpu = cpu;
