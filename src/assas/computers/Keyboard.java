@@ -16,11 +16,11 @@ import java.util.Scanner;
 public class Keyboard extends Product{
     String type;
     String switches;
-    double size;
+    String size;
     
 
     
-    Keyboard (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String type, String switches, double size) {
+    Keyboard (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String type, String switches, String size) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.type = type;
         this.switches = switches;
@@ -37,7 +37,7 @@ public class Keyboard extends Product{
                 while ((line = reader.readLine()) != null) {
                     String[] words = line.split(";");
 
-                    if (words[6].equals("keyboard")) {  // Check if email exists
+                    if (words[6].equals("Keyboard")) {  
                         for (int i = 0; i < words.length; i++) {
                             System.out.println(words[i]);
                         }
