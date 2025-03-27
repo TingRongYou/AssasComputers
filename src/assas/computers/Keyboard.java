@@ -20,7 +20,7 @@ public class Keyboard extends Product{
     
 
     
-    Keyboard (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String type, String switches, String size) {
+    public Keyboard (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String type, String switches, String size) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.type = type;
         this.switches = switches;
@@ -48,6 +48,15 @@ public class Keyboard extends Product{
             }
 
     }
+    
+    public String getType() {
+        return type; }
+    
+    public String getSwitches() {
+        return switches; }
+    
+    public String getSize() { 
+        return size; }
 }
 
         

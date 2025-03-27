@@ -19,15 +19,18 @@ import java.util.Scanner;
  * @author Acer
  */
 
-public class Staff extends User {
+public abstract class Staff extends User {
     private static final String filePath = "src/StaffAcc.txt"; // Keep as static constant
-    private String role;
+    protected String staffID;
+    protected String email;
+    protected String role;
     
-    public Staff(String name, String email, String password, String phoneNum) {
-        super(name, email, password, phoneNum);
-    }
     
-    public Staff(){
+    
+    public Staff(String staffID, String email, String role){
+        this.staffID = staffID;
+        this.email = email;
+        this.role = role;
         
     }
     
@@ -88,12 +91,10 @@ public class Staff extends User {
             }
         }while(!phoneNumValidate(phoneNum));        
         
-        Staff staff = new Staff();
-        staff.roleAllocation();
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { 
-            writer.write(staffID + ";" + email + ";" + password + ";" + staff.getRole() + ";" + phoneNum);
+            writer.write(staffID + ";" + email + ";" + password + ";" + phoneNum);
             writer.newLine();
+            writer.flush();
             System.out.println(">>> Registration Successful! Customer Account Data Saved.");
         } catch (IOException e) {
             System.out.println(">>> Error: Unable To Save Customer Account Data.");
@@ -173,7 +174,7 @@ public class Staff extends User {
 }
     public void roleAllocation(){
         String [] position = {"Manager", "Supervisor", "Inventory Manager", "Package Manager"};
-        Random random = new Random();
+        Random random = new Random(); // Normal Staff (cannot add/remove product), Manager(can add/remove), admin(no add/remove)
         int randomIndex = random.nextInt(position.length);
         
         this.role = position[randomIndex];
@@ -181,6 +182,10 @@ public class Staff extends User {
     
     public String getRole(){
         return role;
+    }
+    
+    public static String getStaffPath(){
+        return filePath;
     }
     
     public static boolean staffIdValidate(String staffID){

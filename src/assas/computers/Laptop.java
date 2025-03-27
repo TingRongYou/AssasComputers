@@ -19,7 +19,7 @@ public class Laptop extends Product{
     String rom;
     String cpu;
     
-    Laptop(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String ram, String rom, String cpu) {
+    public Laptop(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String ram, String rom, String cpu) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.ram = ram;
         this.rom = rom;
@@ -47,5 +47,15 @@ public class Laptop extends Product{
             }
 
     }
+    public String getRam() { 
+        return ram; }
+    
+    public String getRom() { 
+        return rom; }
+    
+    public String getCpu() { 
+        return cpu; }
+    
+    
     
 }

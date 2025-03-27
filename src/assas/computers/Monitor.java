@@ -19,7 +19,7 @@ public class Monitor extends Product{
     String panelSize;
     String refreshRate;
     
-    Monitor (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String resolution, String panelSize, String refreshRate) {
+    public Monitor (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String resolution, String panelSize, String refreshRate) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.resolution = resolution;
         this.panelSize = panelSize;
@@ -47,4 +47,13 @@ public class Monitor extends Product{
             }
 
     }
+    
+    public String getResolution() { 
+        return resolution; }
+    
+    public String getPanelSize() { 
+        return panelSize; }
+    
+    public String getRefreshRate() { 
+        return refreshRate; }
 }
