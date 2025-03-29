@@ -31,6 +31,10 @@ public class Inventory {
         }
     }
     System.out.println(">>> Error: Product not found in inventory!");
-}
+    }
+    
+    public void productIDValidate(){
+        System.out.println("Validating the Product ID.....");
+    }
 
 }

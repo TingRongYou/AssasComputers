@@ -19,12 +19,7 @@ import java.util.Scanner;
 public class Admin extends Staff {
     
     public Admin(String staffID, String email, String role) {
-        super(staffID, email, "Admin");
-    }
-    
-    @Override 
-    public void roleAllocation(){
-        this.role = "Admin";
+        super(staffID, email, role);
     }
     
     @Override
@@ -76,7 +71,7 @@ public class Admin extends Staff {
             return;
         }
         
-        if(!found){
+        if(!found || staffDetails == null){
             System.out.println(">>> Error: Staff ID cannot be found!");
             return;
         }
@@ -102,22 +97,44 @@ public class Admin extends Staff {
         scanner.nextLine();
         
         String newValue = "";
+        boolean validity = false;
         switch(choice){
             case 1:
+                do{
                 System.out.print("Enter new email: ");
                 newValue = scanner.nextLine();
+                validity = emailValidate(newValue) && !isEmailRegistered(newValue);
+                
+                 if (!User.emailValidate(newValue)) {
+                    System.out.println(">>> Error: Email Should Include '@' and '.com'!");      
+                 } else if (isEmailRegistered(newValue)) {
+                 System.out.println(">>> Error: Email Already Registered! Please Use Another Email.");
+                 }
+                }while(!validity);
                 staffDetails[1] = newValue;
                 break;
             
             case 2:
+                do{
                 System.out.print("Enter new phone number: ");
                 newValue = scanner.nextLine();
-                staffDetails[4] = newValue;
+                validity = phoneNumValidate(newValue);
+                    if(!validity){
+                        System.out.println(">>> Error: Your Phone Number Should Start With '01' And Be 10 Or 11 Digits Long!");
+                    }
+                }while (!validity);
+                 staffDetails[4] = newValue;
                 break;
-            
-            case 3: 
-                System.out.print("Enter new role: ");
-                newValue = scanner.nextLine();
+                
+            case 3:
+                do{
+                    System.out.print("Enter new role: ");
+                    newValue = scanner.nextLine();
+                    validity = roleValidate(newValue);
+                    if(!validity){
+                        System.out.println(">>> Error: Invalid Role! Please Enter 'Normal Staff', 'Manager', or 'Admin'.");
+                    }
+                }while(!validity);
                 staffDetails[3] = newValue;
                 break;
                 

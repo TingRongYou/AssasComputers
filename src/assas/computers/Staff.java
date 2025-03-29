@@ -86,7 +86,7 @@ public abstract class Staff extends User {
             phoneNum = scanner.nextLine();
             if(!phoneNumValidate(phoneNum)){
                 System.out.println(">>> Error: Your Phone Number Should Start With '01' And Be 10 Or 11 Digits Long!");
-                System.out.println(">>> Error: Please Enter Your Email Again !!");
+                System.out.println(">>> Error: Please Enter Staff Phone Number Again !!");
                 System.out.println();
             }
         }while(!phoneNumValidate(phoneNum));        
@@ -172,12 +172,18 @@ public abstract class Staff extends User {
     } while (!isAuthenticated);
     
 }
-    public void roleAllocation(){
-        String [] position = {"Manager", "Supervisor", "Inventory Manager", "Package Manager"};
-        Random random = new Random(); // Normal Staff (cannot add/remove product), Manager(can add/remove), admin(no add/remove)
-        int randomIndex = random.nextInt(position.length);
-        
-        this.role = position[randomIndex];
+    public boolean roleValidate(String role){
+        boolean found = false;
+        String [] position = {"Normal Staff", "Manager", "Admin"};
+        for (int i = 0; i<position.length ; i++){
+            if(role.equalsIgnoreCase(position[i])){
+                found = true;
+            }   
+            if(!found){
+                System.out.println("Please enter a valid role !! (Normal Staff / Manager / Admin)");
+            }
+        }
+        return found;   
     }
     
     public String getRole(){

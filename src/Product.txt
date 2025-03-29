@@ -1,4 +1,4 @@
-KB0001;Aura F76;5045.30;200;A very good keyboard;white;Keyboard;Mechanical keyboard;blue switch;75%
+KB0001;Aura F76;5045.30;200;A very good keyboard;white;Keyboard;Mechanical;blue switch;75%
 MO0001;Assas MJ10002;7000.89;40;A very good monitor;black;Monitor;1980x100;50cm x 50cm;180Hz
 L0001;HP A32;3204.77;20;A very good laptop;khaki;Laptop;32GB;128GB;i75
 

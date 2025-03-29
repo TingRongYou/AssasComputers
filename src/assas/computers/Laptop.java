@@ -47,6 +47,53 @@ public class Laptop extends Product{
             }
 
     }
+    
+    @Override
+    public boolean productIDValidate(String productID){
+        boolean isValid = true;
+        if(productID.length()!=5){
+            System.out.println(">>> Error: Product ID Should Be In 5 Character !!");
+            isValid = false;
+        }
+        if(productID.charAt(0)!=('L')){
+            System.out.println(">>> Error: Product ID Should Start With L !!");
+            isValid = false;
+        }
+        for(int i=1; i<productID.length(); i++){
+            if(!Character.isDigit(productID.charAt(i))){
+                System.out.println(">>> Error: The Second Until Fifth Character Should Be Digit");
+                isValid = false;
+                break;
+            }
+        }
+        return isValid; 
+    }
+    
+    public boolean validateRam(String ram){
+        if(ram != null && ram.matches("\\d+GB")){
+            return true;
+        }
+        System.out.println(">>> Error: RAM Must Be A Number Followed By 'GB' (eg: 8GB, 16GB)");
+        return false;
+    }
+    
+    public boolean validateRom(String rom){
+        if(ram != null && ram.matches("\\d+GB")){
+            return true;
+        }
+        System.out.println(">>> Error: ROM Must Be A Number Followed By 'GB' (eg: 256GB, 512GB)");
+        return false;
+    }
+    
+    public boolean validateCpu(String cpu){
+        if(cpu != null){
+            return true;
+        }
+        System.out.println(">>> Error: CPU Cannot Be Empty!");
+        return false;
+    }
+    
+    
     public String getRam() { 
         return ram; }
     
