@@ -19,7 +19,7 @@ public class Laptop extends Product{
     String rom;
     String cpu;
     
-    public Laptop(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String ram, String rom, String cpu) {
+    public Laptop(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, ProductType productType, String ram, String rom, String cpu) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.ram = ram;
         this.rom = rom;
@@ -78,7 +78,7 @@ public class Laptop extends Product{
     }
     
     public boolean validateRom(String rom){
-        if(ram != null && ram.matches("\\d+GB")){
+        if(rom != null && rom.matches("\\d+GB")){
             return true;
         }
         System.out.println(">>> Error: ROM Must Be A Number Followed By 'GB' (eg: 256GB, 512GB)");

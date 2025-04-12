@@ -20,7 +20,7 @@ public class Keyboard extends Product{
     
 
     
-    public Keyboard (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String type, String switches, String size) {
+    public Keyboard (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, ProductType productType, String type, String switches, String size) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.type = type;
         this.switches = switches;
@@ -78,28 +78,36 @@ public class Keyboard extends Product{
        
        type = type.trim().toLowerCase();
        
-       if(!type.equals("mechanical") && !type.equals("membrane")){
+       if(!type.equalsIgnoreCase("mechanical") && !type.equalsIgnoreCase("membrane")){
            System.out.println(">>> Error: Keyboard Type Must Be Either 'Mechanical' or 'Membrane'!");
            return false;
        }
        return true; 
    }
    
-   public boolean keyboardSwithcesValidate(String switches){
-       if(switches == null || switches.trim().isEmpty()){
-           System.out.println(">>> Error: Keyboard Switches Cannot Be Empty!");
-           return false;   
-        }
-       
-       switches = switches.trim().toLowerCase();
-       
-       if(!switches.equals("red switches")&& !switches.equals("blue switches") && !switches.equals("brown switches")){
-           System.out.println(">>> Error: Keyboard Swicthes Must Be 'Red', 'Blue', or 'Brown'!");
-           return false;
-       }
-       
-       return true;   
-   }
+  public boolean keyboardSwitchesValidate(String switches) {
+    if (switches == null || switches.trim().isEmpty()) {
+        System.out.println(">>> Error: Keyboard Switches Cannot Be Empty!");
+        return false;
+    }
+
+    switches = switches.trim().toLowerCase();
+
+    if (!switches.equals("red") && !switches.equals("blue") && !switches.equals("brown")) {
+        System.out.println(">>> Error: Keyboard Switches Must Be 'Red', 'Blue', or 'Brown'!");
+        return false;
+    }
+
+    // Use StringBuffer to append " switches"
+    StringBuffer sb = new StringBuffer(switches);
+    sb.append(" switches");
+
+    String formattedSwitches = sb.toString();
+    System.out.println("Validated switches value: " + formattedSwitches);
+    
+    return true;
+}
+
    
    public boolean keyboardSizeValidate(String size){
        if(size == null || size.trim().isEmpty()){
@@ -110,7 +118,7 @@ public class Keyboard extends Product{
        size = size.trim();
        
        if(!size.matches("^\\d+%$")){
-           System.out.println(">>> Error: Keyboard Size Must Be A Number Followed By % (eg: 100% / 75% / 60%)!)");
+           System.out.println(">>> Error: Keyboard Size Must Be A Number Followed By % (eg: 100% / 75% / 60%))");
            return false;
        }
        return true;

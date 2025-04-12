@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
+
+
 public class AssasComputers {
 
     /**
@@ -30,6 +32,17 @@ public class AssasComputers {
                             "| |              | || |              | || |              | || |              | || |              | |\n" +
                             "| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |\n" +
                             " '----------------'  '----------------'  '----------------'  '----------------'  '----------------' ");
+    }
+    
+    public static void clearScreen() {
+    // ANSI escape code for clearing the screen
+    String ansiClearScreen = "\033[H\033[2J";
+    
+    // Print the ANSI code to clear the screen
+    System.out.print(ansiClearScreen);
+    
+    // Flush the output to ensure it’s printed immediately
+    System.out.flush();
     }
     
     public static void home() {
@@ -152,9 +165,10 @@ public class AssasComputers {
         Inventory inventory = new Inventory();
         Manager m1 = new Manager ("S0009","def@gmail.com", "manager");
         Admin admin = new Admin("S0001", "admin@example.com", "Admin");
+                
         
-        System.out.println("Role: " + admin.getRole());
-        admin.editStaffDetails();
+       // System.out.println("Role: " + admin.getRole());
+        //admin.editStaffDetails();
 
         //admin.registration();
         
@@ -167,6 +181,7 @@ public class AssasComputers {
         
         do {
         Scanner scanner = new Scanner(System.in);
+        clearScreen();
         m1.removeProduct(inventory);
 
             

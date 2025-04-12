@@ -19,7 +19,7 @@ public class Monitor extends Product{
     String panelSize;
     String refreshRate;
     
-    public Monitor (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType, String resolution, String panelSize, String refreshRate) {
+    public Monitor (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, ProductType productType, String resolution, String panelSize, String refreshRate) {
         super(productID, productName, productPrice, productStock, productDescription, productColor, productType);
         this.resolution = resolution;
         this.panelSize = panelSize;
@@ -81,12 +81,12 @@ public class Monitor extends Product{
         if(resolution != null && resolution.matches("\\d+x\\d+")){
             return true;
         }
-        System.out.println(">>> Error: Resolution Must Be In 'Width x Height' Format (eg: '1920x1080'");
+        System.out.println(">>> Error: Resolution Must Be In 'Width x Height' Format (eg: '1920x1080')");
         return false;
     }
     
     public boolean validatePanelSize(String panelSize){
-        if(panelSize != null && panelSize.matches("d+cm x \\d+cm")){
+        if(panelSize != null && panelSize.matches("\\d+cm x \\d+cm")){
             return true;
         }
         System.out.println(">>> Error: Panel Size Must Be In 'XXcm x XXcm' Format (eg: 50cm x 50cm)");
@@ -94,7 +94,7 @@ public class Monitor extends Product{
         
     }
     
-    public String getResolution() { 
+    public String getResolution () { 
         return resolution; }
     
     public String getPanelSize() { 

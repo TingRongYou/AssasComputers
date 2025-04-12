@@ -4,6 +4,9 @@
  */
 package assas.computers;
 
+import static assas.computers.Product.ProductType.KEYBOARD;
+import static assas.computers.Product.ProductType.LAPTOP;
+import static assas.computers.Product.ProductType.MONITOR;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,11 +26,18 @@ public abstract class Product {
     protected int productStock;
     protected String productDescription;
     protected String productColor;
-    protected String productType;
+    protected ProductType productType;
     
     private static ArrayList<Product> productList = new ArrayList<>();
     
-    Product (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, String productType) {
+    public static enum ProductType{
+        KEYBOARD,
+        MONITOR,
+        LAPTOP;
+    }
+    
+    
+    Product (String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, ProductType productType) {
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -36,28 +46,54 @@ public abstract class Product {
         this.productColor = productColor;
         this.productType = productType;
             
+    }
+    
+    public static ProductType fromString(String type){
+        switch(type.toLowerCase()){
+            case"keyboard" : return KEYBOARD;
+            case "monitor" : return MONITOR;
+            case "laptop" : return LAPTOP;
+            default: throw new IllegalArgumentException("Unknown product type: " + type);
         }
+    }
+    
+    
+    
+    public static String getProductPath(){
+        return filePath;
+    }
     
     public String getProductID() {
-        return productID; }
+        return productID; 
+    }
     
     public String getProductName() { 
-        return productName; }
+        return productName; 
+    }
     
     public double getProductPrice() { 
-        return productPrice; }
+        return productPrice; 
+    }
     
     public int getProductStock() { 
-        return productStock; }
+        return productStock; 
+    }
     
     public String getProductDescription() { 
-        return productDescription; }
+        return productDescription; 
+    }
     
     public String getProductColor() { 
-        return productColor; }
+        return productColor; 
+    }
+    
+    public ProductType getProductType() {
+        return productType; 
+    }
 
-    Object getProductId() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public String getProductId() {
+        return productID;
     }
     
     public boolean productIDValidate(String productID){
@@ -146,7 +182,7 @@ public abstract class Product {
         productType = productType.trim().toLowerCase();
         
         if((firstLetter == 'K'  && !productType.equals("keyboard")) || 
-          (firstLetter == 'L' && productType.equals("laptop")) ||
+          (firstLetter == 'L' && !productType.equals("laptop")) ||
           (firstLetter == 'M' && !productType.equals("monitor"))){
             System.out.println(">>> Error: Product Type Does Not Match Product ID");
             return false;
