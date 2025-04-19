@@ -175,7 +175,6 @@ public class AssasComputers {
         //m1.removeProduct(inventory);
 
         System.out.println("\n\nWelcome to Assas Computer!");
-
         
         int identity;
         
