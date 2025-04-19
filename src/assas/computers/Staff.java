@@ -19,15 +19,18 @@ import java.util.Scanner;
  * @author Acer
  */
 
-public class Staff extends User {
+public abstract class Staff extends User {
     private static final String filePath = "src/StaffAcc.txt"; // Keep as static constant
-    private String role;
+    protected String staffID;
+    protected String email;
+    protected String role;
     
-    public Staff(String name, String email, String password, String phoneNum) {
-        super(name, email, password, phoneNum);
-    }
     
-    public Staff(){
+    
+    public Staff(String staffID, String email, String role){
+        this.staffID = staffID;
+        this.email = email;
+        this.role = role;
         
     }
     
@@ -83,17 +86,15 @@ public class Staff extends User {
             phoneNum = scanner.nextLine();
             if(!phoneNumValidate(phoneNum)){
                 System.out.println(">>> Error: Your Phone Number Should Start With '01' And Be 10 Or 11 Digits Long!");
-                System.out.println(">>> Error: Please Enter Your Email Again !!");
+                System.out.println(">>> Error: Please Enter Staff Phone Number Again !!");
                 System.out.println();
             }
         }while(!phoneNumValidate(phoneNum));        
         
-        Staff staff = new Staff();
-        staff.roleAllocation();
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { 
-            writer.write(staffID + ";" + email + ";" + password + ";" + staff.getRole() + ";" + phoneNum);
+            writer.write(staffID + ";" + email + ";" + password + ";" + phoneNum);
             writer.newLine();
+            writer.flush();
             System.out.println(">>> Registration Successful! Customer Account Data Saved.");
         } catch (IOException e) {
             System.out.println(">>> Error: Unable To Save Customer Account Data.");
@@ -171,16 +172,26 @@ public class Staff extends User {
     } while (!isAuthenticated);
     
 }
-    public void roleAllocation(){
-        String [] position = {"Manager", "Supervisor", "Inventory Manager", "Package Manager"};
-        Random random = new Random();
-        int randomIndex = random.nextInt(position.length);
-        
-        this.role = position[randomIndex];
+    public boolean roleValidate(String role){
+        boolean found = false;
+        String [] position = {"Normal Staff", "Manager", "Admin"};
+        for (int i = 0; i<position.length ; i++){
+            if(role.equalsIgnoreCase(position[i])){
+                found = true;
+            }   
+            if(!found){
+                System.out.println("Please enter a valid role !! (Normal Staff / Manager / Admin)");
+            }
+        }
+        return found;   
     }
     
     public String getRole(){
         return role;
+    }
+    
+    public static String getStaffPath(){
+        return filePath;
     }
     
     public static boolean staffIdValidate(String staffID){
