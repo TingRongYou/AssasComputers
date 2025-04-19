@@ -1,0 +1,3 @@
+M0001;Assas MJ10002;7000.89;40;A very good monitor;black;Monitor;1020x780;60cm x 60cm;75Hz
+L0001;HP A32;3204.77;20;A very good laptop;khaki;Laptop;8GB;128GB;i7    
+K0001;Aula;Aula11;500.00;A very good Aula;white;Keyboard;mechanical;blue,100%

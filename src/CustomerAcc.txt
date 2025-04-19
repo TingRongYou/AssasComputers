@@ -1,5 +1,0 @@
-John;john1@gmail.com;John7181@;0163454569;Jalan BukitMak
-dato;dato7181@gmail.com;Dato7181@;0163453495;kj
-Johnny;johnny1@gmail.com;Johnny7181@;01234050203;k
-Tries;tries1@gmail.com;Tries6969@;01639374582;k
-Jayden;jayden1@gmail.com;Jayden7181@;01203948202;kj

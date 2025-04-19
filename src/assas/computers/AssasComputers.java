@@ -11,6 +11,9 @@ package assas.computers;
 import java.io.IOException;
 import java.util.Scanner;
 
+
+
+
 public class AssasComputers {
 
     /**
@@ -125,16 +128,15 @@ public class AssasComputers {
                     System.out.print("Please enter your option(1/2): ");
                     staffOption = scanner.nextInt();
                     
-                   Staff staff = new Staff();
                     
                     switch (staffOption)
                     {
                         case 1:
-                            staff.registration();
+                            //staff.registration();
                             break;
                             
                         case 2:
-                            staff.login();
+                            //staff.login();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
 
@@ -149,9 +151,7 @@ public class AssasComputers {
     public static void main(String[] args) {
        
         displayLogo();
-
         System.out.println("\n\nWelcome to Assas Computer!");
-
         
         int identity;
         
