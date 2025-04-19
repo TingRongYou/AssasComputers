@@ -151,7 +151,6 @@ public class AssasComputers {
         displayLogo();
 
         System.out.println("\n\nWelcome to Assas Computer!");
-
         
         int identity;
         
