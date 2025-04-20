@@ -8,7 +8,12 @@ package assas.computers;
  *
  * @author Acer
  */
+import assas.computers.Product.ProductType;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -52,18 +57,36 @@ public class AssasComputers {
                     
                     switch (customerOption)
                     {
-                        case 1:
-                            //
+                         case 1:
+                            searchAndFilterProducts();
                             break;
-
                         case 2:
-                            //
+                            Cart cart = new Cart(Cart.AuthService.getCurrentUserEmail());
+                            cart.displayCart();
+
+                            if (!cart.getCartItems().isEmpty()) {  // Only ask if cart is not empty
+                                Scanner checkoutScanner = new Scanner(System.in);
+                                while (true) {
+                                    System.out.print("\nDo you want to proceed to checkout? (y/n): ");
+                                    String checkoutChoice = checkoutScanner.nextLine().trim().toLowerCase();
+
+                                    if (checkoutChoice.equals("y")) {
+                                        cart.checkout();
+                                        break;
+                                    } else if (checkoutChoice.equals("n")) {
+                                        System.out.println("Returning to home menu...");
+                                        break;
+                                    } else {
+                                        System.out.println("Invalid input. Please enter 'y' or 'n'.");
+                                    }
+                                }
+                            }
                             break;
                         case 3:
-                            //
+                            // View Order History implementation
                             break;
                         case 4:
-                            //
+                            // Track Order Status implementation
                             break;
                         case 5:
                             customerPage();
@@ -76,6 +99,284 @@ public class AssasComputers {
                 
                 scanner.close();
         
+    }
+    
+    public static void searchAndFilterProducts() {
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            System.out.println("\n\n#" + "=".repeat(20) + " Search & Filter " + "=".repeat(20) + "#");
+            System.out.println("1. Search by product type");
+            System.out.println("2. Filter by price range");
+            System.out.println("3. Filter by color");
+            System.out.println("4. Combine filters");
+            System.out.println("5. View all products");
+            System.out.println("6. Return to home");
+            System.out.println("#" + "=".repeat(60) + "#");
+            System.out.print("Please enter your option(1-6): ");
+            int searchOption = scanner.nextInt();
+            scanner.nextLine();
+
+            String searchType = "";
+            String searchColor = "";
+            double minPrice = 0;
+            double maxPrice = Double.MAX_VALUE;
+
+            switch (searchOption) {
+                case 1:
+                    System.out.print("\nEnter product type (e.g., Laptop, Keyboard): ");
+                    searchType = scanner.nextLine();
+                    break;
+                case 2:
+                    System.out.print("\nEnter minimum price: ");
+                    minPrice = scanner.nextDouble();
+                    System.out.print("Enter maximum price: ");
+                    maxPrice = scanner.nextDouble();
+                    scanner.nextLine();
+                     if (maxPrice < minPrice) {
+                    System.out.println("Maximum price cannot be less than minimum price. Swapping values.");
+                    double temp = minPrice;
+                    minPrice = maxPrice;
+                    maxPrice = temp;
+                }
+                    break;
+                case 3:
+                    System.out.print("\nEnter color: ");
+                    searchColor = scanner.nextLine();
+                    break;
+                case 4:
+                System.out.print("\nEnter product type (leave empty for any): ");
+                searchType = scanner.nextLine();
+                System.out.print("Enter color (leave empty for any): ");
+                searchColor = scanner.nextLine();
+
+                // Handle minimum price input
+                System.out.print("Enter minimum price (press Enter for any): ");
+                String minInput = scanner.nextLine().trim();
+                minPrice = 0.0;  // Default minimum
+                if (!minInput.isEmpty()) {
+                    try {
+                        minPrice = Double.parseDouble(minInput);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid minimum price format. Using default (0).");
+                    }
+                }
+
+                // Handle maximum price input
+                System.out.print("Enter maximum price (press Enter for any): ");
+                String maxInput = scanner.nextLine().trim();
+                maxPrice = Double.MAX_VALUE;  // Default maximum
+                if (!maxInput.isEmpty()) {
+                    try {
+                        maxPrice = Double.parseDouble(maxInput);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid maximum price format. Using default (no limit).");
+                    }
+                }
+
+                // Validate price range
+                if (maxPrice < minPrice) {
+                    System.out.println("Maximum price cannot be less than minimum price. Swapping values.");
+                    double temp = minPrice;
+                    minPrice = maxPrice;
+                    maxPrice = temp;
+                }
+                break;
+                case 5:
+                    break; // View all products
+                case 6:
+                    return;
+                default:
+                    System.out.println("\nPlease enter valid option(1-6)!!\n");
+                    continue;
+            }
+            searchProducts(searchType, searchColor, minPrice, maxPrice);
+        }
+    }
+
+    private static void searchProducts(String productType, String productColor, double minPrice, double maxPrice) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(Product.filePath));
+            String line;
+            boolean found = false;
+            
+            System.out.println("\n\n#" + "=".repeat(23) + "Search Results" + "=".repeat(24) + "#");
+            System.out.printf("%-10s %-20s %-10s %-10s %-15s %-15s %-30s\n","ID", "Name", "Price", "Stock", "Color", "Type", "Description");
+            System.out.println("-".repeat(110));
+            
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";");
+                if (parts.length >= 7) {
+                    Product product = new Product(
+                        parts[0].trim(), 
+                        parts[1].trim(), 
+                        Double.parseDouble(parts[2].trim()), 
+                        Integer.parseInt(parts[3].trim()), 
+                        parts[4].trim(), 
+                        parts[5].trim(), 
+                        ProductType.valueOf(parts[6].trim().toUpperCase())
+                    );
+
+                    boolean matchesType = productType.isEmpty() || product.productType.name().equalsIgnoreCase(productType);
+                    boolean matchesColor = productColor.isEmpty() || product.productColor.equalsIgnoreCase(productColor);
+                    boolean matchesPrice = product.productPrice >= minPrice && product.productPrice <= maxPrice;
+
+                    if (matchesType && matchesColor && matchesPrice) {
+                        System.out.printf("%-10s %-20s RM%-9.2f %-10d %-15s %-15s %-30s\n",  product.productID,  product.productName, product.productPrice,  product.productStock, product.productColor, product.productType, truncateDescription(product.productDescription));
+                        found = true;
+                    }
+                }
+            }
+            
+            if (!found) {
+                System.out.println("No products found matching your criteria.");
+            } else {
+                productActionMenu();
+            }
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: Product data file not found at " + Product.filePath);
+        } catch (IOException e) {
+            System.out.println("Error reading product data: " + e.getMessage());
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Error closing file: " + e.getMessage());
+            }
+        }
+    }
+
+  private static void productActionMenu() {
+    Scanner scanner = new Scanner(System.in);
+    
+    while (true) {
+        System.out.println("\n#" + "=".repeat(23) + "Product Actions" + "=".repeat(23) + "#");
+        System.out.println("1. Add product to cart");
+        System.out.println("2. Delete product from cart");
+        System.out.println("3. Search for more products");
+        System.out.println("4. Return to home menu");
+        System.out.println("#" + "=".repeat(60) + "#");
+        System.out.print("Please enter your option(1-4): ");
+        
+        try {
+            int action = scanner.nextInt();
+            
+            switch (action) {
+                case 1:
+                    System.out.print("Enter product ID to add to cart: ");
+                    String productID = scanner.next().trim();
+
+                    // Quantity validation
+                    int quantity = 0;
+                    boolean validInput = false;
+                    while (!validInput) {
+                        System.out.print("Enter quantity: ");
+                        try {
+                            quantity = scanner.nextInt();
+                            if (quantity > 0) {
+                                validInput = true;
+                            } else {
+                                System.out.println(">>> Error: Quantity must be at least 1!");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println(">>> Error: Please enter a valid number!");
+                            scanner.nextLine(); // Clear invalid input
+                        }
+                    }
+
+                    // User check
+                    String email = Cart.AuthService.getCurrentUserEmail();
+                    if (email == null) {
+                        System.out.println(">>> Error: No user logged in!");
+                        break;
+                    }
+
+                    // Cart operations
+                    Cart cart = new Cart(email);
+                    cart.loadCart();
+                    
+                    Product product = Cart.productCatalog.get(productID);
+                    if (product == null) {
+                        System.out.println(">>> Error: Product not found.");
+                        break;
+                    }
+
+                    if (product.productStock < quantity) {
+                        System.out.println(">>> Error: Not enough stock available! (Available: " + product.productStock + ")");
+                        break;
+                    }
+
+                    cart.addItem(productID, quantity);
+                    cart.saveCart();
+
+                    System.out.print("Show updated cart? (y/n): ");
+                    scanner.nextLine(); // Consume newline
+                    if (scanner.nextLine().equalsIgnoreCase("y")) {
+                        cart.displayCart();
+                    }
+                    break;
+
+                case 2: 
+                    // Get current user
+                    String userEmail = Cart.AuthService.getCurrentUserEmail();
+                    if (userEmail == null) {
+                        System.out.println(">>> Error: No user logged in!");
+                        break;
+                    }
+
+                    // Load and display cart first
+                    Cart userCart = new Cart(userEmail);
+                    userCart.loadCart();
+
+                    if (userCart.getCartItems().isEmpty()) {
+                        System.out.println(">>> Your cart is empty. Nothing to delete!");
+                        break;
+                    }
+
+                    System.out.println("\nCurrent Cart Contents:");
+                    userCart.displayCart();
+
+                    // Get product ID to delete
+                    System.out.print("\nEnter product ID to delete from cart: ");
+                    String deleteID = scanner.next().trim();
+
+                    // Perform deletion
+                    userCart.deleteProduct(deleteID);
+
+                    // Show updated cart confirmation
+                    System.out.print("Show updated cart? (y/n): ");
+                    scanner.nextLine(); // Clear buffer
+                    if (scanner.nextLine().equalsIgnoreCase("y")) {
+                        userCart.displayCart();
+                    }
+                    break;
+
+                case 3:
+                    searchAndFilterProducts();
+                    break;
+                    
+                case 4:
+                    home();
+                    return;
+                    
+                default:
+                    System.out.println("\nPlease enter valid option(1-4)!!\n");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a number.");
+            scanner.nextLine(); // Clear invalid input
+        }
+    }
+}
+
+    private static String truncateDescription(String description) {
+        return description.length() > 30 ? 
+            description.substring(0, 27) + "..." : 
+            description;
     }
     
     public static void customerPage() {

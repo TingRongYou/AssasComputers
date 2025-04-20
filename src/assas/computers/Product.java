@@ -17,7 +17,7 @@ import java.util.Scanner;
  *
  * @author Acer
  */
-public abstract class Product {
+public class Product {
     
     static final String filePath = "src/textFile/Product.txt";
     protected String productID;

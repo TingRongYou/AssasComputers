@@ -173,6 +173,7 @@ public class Customer extends User {
 
                         if (otpInput.matches("\\d{6}") && gAuth.authorize(mfaSecret, Integer.parseInt(otpInput))) {
                             System.out.println("\n>>> Login Successfully! Welcome, " + words[0]);
+                            Cart.AuthService.setCurrentUserEmail(email);
                             isValidOTP = true;
                             break;
                         } else {
