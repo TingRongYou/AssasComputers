@@ -16,8 +16,14 @@ public abstract class User {
     private String email;
     private String password;
     private String phoneNum;
-
-    // Constructor
+    
+    /** 
+     * constructors
+     */
+    public User() {
+        
+    }
+    
     public User(String name, String email, String password, String phoneNum) {
         this.username = name;
         this.email = email;
@@ -25,8 +31,22 @@ public abstract class User {
         this.phoneNum = phoneNum;
     }
     
-    public User() {
-        
+    /**
+     * Getter and Setter
+     */
+    public String getUsername(){
+        return username;  
+    }
+    
+    public String getEmail(){
+       return email;
+    }
+    
+    public String getPassword(){
+        return password;
+    }
+    public String getPhoneNum(){
+        return phoneNum;
     }
 
     // Registration method
@@ -136,20 +156,7 @@ public abstract class User {
         }
     }
     
-    public String getUsername(){
-        return username;  
-    }
-    
-    public String getEmail(){
-       return email;
-    }
-    
-    public String getPassword(){
-        return password;
-    }
-    public String getPhoneNum(){
-        return phoneNum;
-    }
+
     
     
     public void login() {

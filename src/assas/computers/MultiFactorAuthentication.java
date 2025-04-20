@@ -27,10 +27,8 @@ public class MultiFactorAuthentication {
         return secret;
     }
 
-    public boolean verifyOTP(String secret) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the 6-digit OTP: ");
-        String otpInput = scanner.nextLine().trim();
+    public boolean verifyOTP(String secret, String otpInput) {
+
 
         return otpInput.matches("\\d{6}") && gAuth.authorize(secret, Integer.parseInt(otpInput));
     }
