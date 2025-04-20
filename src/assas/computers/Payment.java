@@ -9,5 +9,71 @@ package assas.computers;
  * @author Acer
  */
 public class Payment {
+    private String paymentID;
+    //Order order;
+    private PaymentMethod paymentMethod;
     
+    public static enum PaymentMethod {
+        CREDITCARD,
+        DEBITCARD,
+        ONLINEBANKING,
+        EWALLET
+    }
+    
+    public static enum Ewallet {
+        TOUCHNGO, 
+        BOOSTPAY,
+        GRAPPAY,
+        SHOPEEPAY
+    }
+
+    public Payment() {
+    }
+    
+    public Payment(String paymentID, PaymentMethod paymentMethod) {
+        this.paymentID = paymentID;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentID() {
+        return paymentID;
+    }
+
+    public void setPaymentID(String paymentID) {
+        this.paymentID = paymentID;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+    
+    public PaymentMethod choosePaymentMethod(String paymentMethod) {
+    if (paymentMethod == null) {
+        return null;
+    }
+
+    switch (paymentMethod.trim().toUpperCase()) {
+        case "CREDITCARD":
+            return PaymentMethod.CREDITCARD;
+        case "DEBITCARD":
+            return PaymentMethod.DEBITCARD;
+        case "ONLINEBANKING":
+            return PaymentMethod.ONLINEBANKING;
+        case "EWALLET":
+            return PaymentMethod.EWALLET;
+        default:
+            return null; // Or throw an IllegalArgumentException
+        }
+    }
+    
+    
+
+    
+    
+            
+            
 }

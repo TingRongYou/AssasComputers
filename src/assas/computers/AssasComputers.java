@@ -398,11 +398,11 @@ public class AssasComputers {
                     switch (customerOption)
                     {
                         case 1:
-                            customer.registration();
+                            register();
                             break;
 
                         case 2:
-                            customer.login();
+                            login();
                             home();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
@@ -449,8 +449,122 @@ public class AssasComputers {
                 
     }
     
+    public static void register() {
+        Scanner scanner = new Scanner(System.in);
+        String username, email, password, phoneNum, deliveryAddress;
+
+        System.out.println("\n\n#" + "=".repeat(27) + " Customer Account Registration " + "=".repeat(28) + "#");
+
+        // Username validation
+        do {
+            System.out.print("Please enter a username: ");
+            username = scanner.nextLine().trim();
+            if (!UserAccountValidation.usernameValidate(username)) {
+                System.out.println(">>> Error: Username must be 1-20 characters.");
+            }
+        } while (!UserAccountValidation.usernameValidate(username));
+
+        // Email validation
+        do {
+            System.out.print("Please enter your email: ");
+            email = scanner.nextLine().trim();
+            if (!UserAccountValidation.emailValidate(email)) {
+                System.out.println(">>> Error: Your email should include '@' and '.com'");
+            } else if (CustomerFileHandler.isEmailRegistered(email)) {
+                System.out.println(">>> Error: This email is already registered.");
+            }
+        } while (!UserAccountValidation.emailValidate(email) || CustomerFileHandler.isEmailRegistered(email));
+
+        // Password validation
+        do {
+            System.out.print("Please enter a password: ");
+            password = scanner.nextLine().trim();
+            if (!UserAccountValidation.passwordValidate(password)) {
+                System.out.println(">>> Error: Password must include uppercase, lowercase, number, special char (!@#%*&$), and be 8-15 chars long.");
+            }
+        } while (!UserAccountValidation.passwordValidate(password));
+
+        // Phone number validation
+        do {
+            System.out.print("Please enter your phone number: ");
+            phoneNum = scanner.nextLine().trim();
+            if (!UserAccountValidation.phoneNumValidate(phoneNum)) {
+                System.out.println(">>> Error: Phone number must start with '01' and be 10-11 digits.");
+            }
+        } while (!UserAccountValidation.phoneNumValidate(phoneNum));
+
+        // Delivery address validation
+        do {
+            System.out.print("Please enter your delivery address: ");
+            deliveryAddress = scanner.nextLine().trim();
+            if (!UserAccountValidation.addressCheck(deliveryAddress)) {
+                System.out.println(">>> Error: Address must be 1–50 characters.");
+            }
+        } while (!UserAccountValidation.addressCheck(deliveryAddress));
+
+        // Set up MFA
+        MultiFactorAuthentication mfa = new MultiFactorAuthentication();
+        String mfaSecret = mfa.setupMFA(email);
+        System.out.print("Enter the 6-digit code from Google Authenticator: ");
+        String otpInput = scanner.nextLine().trim();
+        if (!mfa.verifyOTP(mfaSecret, otpInput)) {
+            System.out.println(">>> Error: Invalid OTP. Registration failed.");
+            return;
+        }
+
+        // Save data
+        boolean saved = CustomerFileHandler.saveCustomerData(username, email, password, phoneNum, deliveryAddress, mfaSecret);
+        if (saved) {
+            System.out.println(">>> Registration Successful! Welcome, " + username);
+        } else {
+            System.out.println(">>> Registration Failed! Please try again.");
+        }
+    }
+    public static void login() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isAuthenticated = false;
+
+        System.out.println("\n\n#" + "=".repeat(27) + " Customer Account Login " + "=".repeat(28) + "#");
+
+        do {
+            System.out.print("Please enter your email: ");
+            String email = scanner.nextLine().trim();
+
+            System.out.print("Please enter your password: ");
+            String password = scanner.nextLine().trim();
+
+            // Read and validate user credentials from file
+            String[] customerData = CustomerFileHandler.getCustomerDataByEmail(email);
+            if (customerData != null && customerData.length == 6) {
+                String savedPassword = customerData[2];
+                String mfaSecret = customerData[5];
+
+                if (savedPassword.equals(password)) {
+                    // Validate MFA
+                    MultiFactorAuthentication mfa = new MultiFactorAuthentication();
+                    System.out.print("Enter the 6-digit code from Google Authenticator: ");
+                    String otpInput = scanner.nextLine().trim();
+
+                    if (mfa.verifyOTP(mfaSecret, otpInput)) {
+                        System.out.println("\n>>> Login Successful! Welcome, " + customerData[0]);
+                        Cart.AuthService.setCurrentUserEmail(email); // Track the logged-in user
+                        isAuthenticated = true;
+                        break;
+                    } else {
+                        System.out.println(">>> Error: Invalid OTP. Please try again.");
+                    }
+                } else {
+                    System.out.println(">>> Error: Incorrect password.");
+                }
+            } else {
+                System.out.println(">>> Error: Email not found or data corrupted.");
+            }
+        } while (!isAuthenticated);
+    }
+
+    
     public static void main(String[] args) {
-       
+               
         displayLogo();
         System.out.println("\n\nWelcome to Assas Computer!");
         
