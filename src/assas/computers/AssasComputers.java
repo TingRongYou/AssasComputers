@@ -561,10 +561,11 @@ public class AssasComputers {
             }
         } while (!isAuthenticated);
     }
-
     
     public static void main(String[] args) {
                
+        StaffAccountManager manager = new StaffAccountManager();
+        manager.viewAllStaff();
         displayLogo();
         System.out.println("\n\nWelcome to Assas Computer!");
         

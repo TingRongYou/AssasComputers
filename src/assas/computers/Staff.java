@@ -23,15 +23,14 @@ public abstract class Staff extends User {
     private static final String filePath = "src/textFile/StaffAcc.txt"; // Keep as static constant
     protected String staffID;
     protected String email;
-    protected String role;
+    protected Role role;
     
     
     
-    public Staff(String staffID, String email, String role){
+    public Staff(String staffID, String email, Role role){
         this.staffID = staffID;
-        this.email = email;
+        this.email = email;        
         this.role = role;
-        
     }
     
     
@@ -186,10 +185,6 @@ public abstract class Staff extends User {
         return found;   
     }
     
-    public String getRole(){
-        return role;
-    }
-    
     public static String getStaffPath(){
         return filePath;
     }
@@ -212,5 +207,16 @@ public abstract class Staff extends User {
             }
         }
         return isValid; 
+    }
+    
+    public abstract void postLoginAction();
+    
+    public enum Role {
+        NORMALSTAFF, ADMIN, MANAGER
+    }
+    
+    @Override
+    public String toString() {
+        return staffID + " (" + email + ") - Role: " + role;
     }
 }

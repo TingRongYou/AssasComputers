@@ -8,10 +8,10 @@ package assas.computers;
  *
  * @author User
  */
-public class Normal_Staff extends Staff {
+public class NormalStaff extends Staff {
 
-    public Normal_Staff(String staffID, String email, String role) {
-        super(staffID, email, role);
+    public NormalStaff(String staffID, String email) {
+        super(staffID, email, Role.NORMALSTAFF);
     }
     
     
@@ -21,5 +21,9 @@ public class Normal_Staff extends Staff {
         
         
     }
-    
+    @Override
+    public void postLoginAction() {
+        System.out.println(">>> Welcome to Normal Staff Dashboard.");
+        // Maybe show options like "View Profile", "Logout", etc.
+    }
 }

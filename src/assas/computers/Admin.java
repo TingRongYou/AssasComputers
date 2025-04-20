@@ -18,8 +18,9 @@ import java.util.Scanner;
  */
 public class Admin extends Staff {
     
-    public Admin(String staffID, String email, String role) {
-        super(staffID, email, role);
+
+    public Admin(String staffID, String email) {
+        super(staffID, email, Role.ADMIN);
     }
     
     @Override
@@ -159,5 +160,10 @@ public class Admin extends Staff {
         catch(IOException e){
             System.out.println(">>> Error: Unable to update staff data.");
         }
+    }
+    
+    @Override
+    public void postLoginAction() {
+        System.out.println("Welcome, Admin. You can manage staff.");
     }
 }

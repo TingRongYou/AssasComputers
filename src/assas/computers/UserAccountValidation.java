@@ -83,4 +83,11 @@ public class UserAccountValidation {
         return (deliveryAddress.length() > 0 && deliveryAddress.length() <= 50);
         }
     
+    /**
+    * Validate staff id matches staff id format
+    */
+    public static boolean isValidStaffID(String staffID) {
+        return staffID.matches("S\\d{4}");
+    }
+    
 }

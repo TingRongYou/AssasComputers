@@ -14,8 +14,8 @@ public class Manager extends Staff {
     private static final String filePath = "src/Product.txt";
     private Scanner scanner = new Scanner(System.in);
 
-    public Manager(String staffID, String email, String role) {
-        super(staffID, email, role);
+    public Manager(String staffID, String email) {
+        super(staffID, email, Role.MANAGER);
     }
 
     public void addProduct(Inventory inventory) {
@@ -500,6 +500,10 @@ public void editProduct(Inventory inventory) {
     }
 
     System.out.println(">>> Product updated successfully!");
+    }
+    @Override
+    public void postLoginAction() {
+        System.out.println("Welcome, Manager. You can manage products.");
     }
 }
 
