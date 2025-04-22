@@ -5,36 +5,38 @@
 package assas.computers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author User
  */
 public class Inventory {
-    private ArrayList<Product> productList;     
-    
-   
-    public Inventory(){
+        private List<Product> productList;
+
+    public Inventory() {
         this.productList = new ArrayList<>();
     }
-    
-    public void addProduct(Product product){
-            productList.add(product);
-            System.out.println("Product added to inventory: " + product.getProductName());
+
+    public void addProduct(Product product) {
+        productList.add(product);
     }
-    public void removeProductById(String productId) {
-    for (int i = 0; i < productList.size(); i++) {
-        if (productList.get(i).getProductId().equals(productId)) {
-            productList.remove(i);
-            System.out.println(">>> Product removed from inventory: " + productId);
-            return;
+
+    public boolean removeProductById(String productId) {
+        return productList.removeIf(p -> p.getProductId().equals(productId));
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public Product getProductById(String productId) {
+        for (Product p : productList) {
+            if (p.getProductId().equals(productId)) {
+                return p;
+            }
         }
-    }
-    System.out.println(">>> Error: Product not found in inventory!");
-    }
-    
-    public void productIDValidate(){
-        System.out.println("Validating the Product ID.....");
+        return null;
     }
 
 }

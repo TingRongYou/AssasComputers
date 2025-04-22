@@ -10,17 +10,17 @@ package assas.computers;
  */
 public class NormalStaff extends Staff {
 
-    public NormalStaff(String staffID, String email) {
-        super(staffID, email, Role.NORMALSTAFF);
+    /**
+    * constructor
+    */
+    public NormalStaff() {
+    }
+
+    public NormalStaff(String staffID, String email, Role role, String setupKey) {
+        super(staffID, email, Role.NORMALSTAFF, setupKey);
     }
     
-    
-    
-    public void performRoleDuties(){
-        System.out.println(">>> Normal Staff: Cannot add/ remove products.");
-        
-        
-    }
+    //Action that normal staff can perform after login
     @Override
     public void postLoginAction() {
         System.out.println(">>> Welcome to Normal Staff Dashboard.");

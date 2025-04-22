@@ -15,10 +15,13 @@ import java.io.IOException;
  *
  * @author Acer
  */
+
+// A class that is use to handle operation regarding file CustomerAcc.txt
 public class CustomerFileHandler {
             
     private static final String CUSTOMER_FILE_PATH = "src/textFile/CustomerAcc.txt";
 
+    // Check if the email is stored in CustomerAcc.txt
     public static boolean isEmailRegistered(String email) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -34,6 +37,7 @@ public class CustomerFileHandler {
         return false;
     }
 
+    // Save customer account information into Customer.txt
     public static boolean saveCustomerData(String username, String email, String password, String phoneNum, String deliveryAddress, String mfaSecret) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH, true))) {
             String customerLine = String.join(";", username, email, password, phoneNum, deliveryAddress, mfaSecret);
@@ -47,6 +51,7 @@ public class CustomerFileHandler {
         }
     }
     
+    // Return customer detail matches email entered
     public static String[] getCustomerDataByEmail(String email) {
     try (BufferedReader reader = new BufferedReader(new FileReader("src/textFile/CustomerAcc.txt"))) {
         String line;

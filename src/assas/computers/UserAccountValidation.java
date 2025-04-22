@@ -8,6 +8,8 @@ package assas.computers;
  *
  * @author Acer
  */
+
+//A class that is use to store validation for user account
 public class UserAccountValidation {
     
     /**

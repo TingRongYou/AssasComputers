@@ -398,11 +398,11 @@ public class AssasComputers {
                     switch (customerOption)
                     {
                         case 1:
-                            register();
+                            customerRegister();
                             break;
 
                         case 2:
-                            login();
+                            customerLogin();
                             home();
                             break;
                         default: System.out.println("\nPlease enter valid option(1/2)!!\n");
@@ -415,41 +415,90 @@ public class AssasComputers {
                 
     }
     
-    public static void staffPage() {
+    public static void staffLogin() {
+        Scanner scanner = new Scanner(System.in);
         
-                Scanner scanner = new Scanner(System.in);
-                
-                int staffOption;
-                
-                do {
-                    
-                    System.out.println("\n\n#" + "=".repeat(27) + "Staff" + "=".repeat(28) + "#");
-                    System.out.println("1. Staff registration\n2. Staff login");
-                    System.out.println("#" + "=".repeat(60) + "#");
-                    System.out.print("Please enter your option(1/2): ");
-                    staffOption = scanner.nextInt();
-                    
-                    
-                    switch (staffOption)
-                    {
-                        case 1:
-                            //staff.registration();
-                            break;
-                            
-                        case 2:
-                            //staff.login();
-                            break;
-                        default: System.out.println("\nPlease enter valid option(1/2)!!\n");
+        System.out.println("\n\n#" + "=".repeat(27) + " Staff Account Login " + "=".repeat(28) + "#");
 
-                    }
+        System.out.print("Enter your email: ");
+        String email = scanner.nextLine();
 
-                } while (staffOption != 1 && staffOption != 2);
-                
-                scanner.close();
-                
+        if (!StaffFileHandler.isEmailRegistered(email)) {
+            System.out.println(">>> Error: Email is not registered.");
+            AssasComputers.main(new String[0]);
+            return;
+        }
+
+        Staff staff = StaffFileHandler.loadStaffByEmail(email);
+
+        if (staff == null) {
+            System.out.println(">>> Error: Unable to load staff details.");
+            System.out.println("");
+            return;
+        }
+
+        // === Step 1: Verify Password ===
+        int pwdAttempts = 3;
+        boolean correctPassword = false;
+
+        while (pwdAttempts-- > 0) {
+            System.out.print("Enter your password: ");
+            String enteredPassword = scanner.nextLine();
+
+            if (StaffFileHandler.verifyPassword(email, enteredPassword)) {
+                correctPassword = true;
+                break;
+            } else {
+                System.out.println(">>> Incorrect password. Try again.");
+                System.out.println("");
+            }
+        }
+
+        if (!correctPassword) {
+            System.out.println(">>> Too many failed password attempts. Access denied.");
+            return;
+        }
+
+        // === Step 2: Setup MFA if no key ===
+        if (staff.getSetupKey() == null || staff.getSetupKey().isEmpty()) {
+            MultiFactorAuthentication mfa = new MultiFactorAuthentication();
+            String secretKey = mfa.setupMFA(email);
+            staff.setSetupKey(secretKey);
+            StaffFileHandler.updateStaff(staff);
+            System.out.println(">>> MFA setup key saved. Please scan the QR code and enter the OTP.");
+        }
+
+        // === Step 3: Verify OTP ===
+        MultiFactorAuthentication mfa = new MultiFactorAuthentication();
+        boolean validOTP = false;
+        int otpAttempts = 3;
+        while (otpAttempts-- > 0 && !validOTP) {
+            System.out.print("Enter 6-digit OTP from google Authenticator: ");
+            String otpInput = scanner.nextLine();
+            validOTP = mfa.verifyOTP(staff.getSetupKey(), otpInput);
+
+            if (!validOTP) {
+                System.out.println(">>> Invalid OTP. Please try again.");
+                System.out.println("");
+            }
+        }
+
+        if (!validOTP) {
+            System.out.println(">>> MFA failed. Access denied.");
+            return;
+        }
+
+        System.out.println(">>> MFA verified successfully!");
+
+        // === Step 4: Redirect based on role ===
+        switch (staff.getRole()) {
+            case ADMIN -> ((Admin) staff).postLoginAction();
+            case MANAGER -> ((Manager) staff).postLoginAction();
+            case NORMALSTAFF -> ((NormalStaff) staff).postLoginAction();
+        }
     }
     
-    public static void register() {
+    public static void customerRegister() {
         Scanner scanner = new Scanner(System.in);
         String username, email, password, phoneNum, deliveryAddress;
 
@@ -461,6 +510,7 @@ public class AssasComputers {
             username = scanner.nextLine().trim();
             if (!UserAccountValidation.usernameValidate(username)) {
                 System.out.println(">>> Error: Username must be 1-20 characters.");
+                System.out.println("");
             }
         } while (!UserAccountValidation.usernameValidate(username));
 
@@ -470,8 +520,10 @@ public class AssasComputers {
             email = scanner.nextLine().trim();
             if (!UserAccountValidation.emailValidate(email)) {
                 System.out.println(">>> Error: Your email should include '@' and '.com'");
+                System.out.println("");
             } else if (CustomerFileHandler.isEmailRegistered(email)) {
                 System.out.println(">>> Error: This email is already registered.");
+                System.out.println("");
             }
         } while (!UserAccountValidation.emailValidate(email) || CustomerFileHandler.isEmailRegistered(email));
 
@@ -481,6 +533,7 @@ public class AssasComputers {
             password = scanner.nextLine().trim();
             if (!UserAccountValidation.passwordValidate(password)) {
                 System.out.println(">>> Error: Password must include uppercase, lowercase, number, special char (!@#%*&$), and be 8-15 chars long.");
+                System.out.println("");
             }
         } while (!UserAccountValidation.passwordValidate(password));
 
@@ -490,6 +543,7 @@ public class AssasComputers {
             phoneNum = scanner.nextLine().trim();
             if (!UserAccountValidation.phoneNumValidate(phoneNum)) {
                 System.out.println(">>> Error: Phone number must start with '01' and be 10-11 digits.");
+                System.out.println("");
             }
         } while (!UserAccountValidation.phoneNumValidate(phoneNum));
 
@@ -499,6 +553,7 @@ public class AssasComputers {
             deliveryAddress = scanner.nextLine().trim();
             if (!UserAccountValidation.addressCheck(deliveryAddress)) {
                 System.out.println(">>> Error: Address must be 1–50 characters.");
+                System.out.println("");
             }
         } while (!UserAccountValidation.addressCheck(deliveryAddress));
 
@@ -509,6 +564,7 @@ public class AssasComputers {
         String otpInput = scanner.nextLine().trim();
         if (!mfa.verifyOTP(mfaSecret, otpInput)) {
             System.out.println(">>> Error: Invalid OTP. Registration failed.");
+            System.out.println("");
             return;
         }
 
@@ -516,11 +572,12 @@ public class AssasComputers {
         boolean saved = CustomerFileHandler.saveCustomerData(username, email, password, phoneNum, deliveryAddress, mfaSecret);
         if (saved) {
             System.out.println(">>> Registration Successful! Welcome, " + username);
+            customerLogin();
         } else {
             System.out.println(">>> Registration Failed! Please try again.");
         }
     }
-    public static void login() {
+    public static void customerLogin() {
         Scanner scanner = new Scanner(System.in);
         boolean isAuthenticated = false;
 
@@ -549,23 +606,25 @@ public class AssasComputers {
                         System.out.println("\n>>> Login Successful! Welcome, " + customerData[0]);
                         Cart.AuthService.setCurrentUserEmail(email); // Track the logged-in user
                         isAuthenticated = true;
+                        home();
                         break;
                     } else {
                         System.out.println(">>> Error: Invalid OTP. Please try again.");
+                        System.out.println("");
                     }
                 } else {
                     System.out.println(">>> Error: Incorrect password.");
+                    System.out.println("");
                 }
             } else {
                 System.out.println(">>> Error: Email not found or data corrupted.");
+                System.out.println("");
             }
         } while (!isAuthenticated);
     }
     
     public static void main(String[] args) {
-               
-        StaffAccountManager manager = new StaffAccountManager();
-        manager.viewAllStaff();
+        
         displayLogo();
         System.out.println("\n\nWelcome to Assas Computer!");
         
@@ -588,7 +647,7 @@ public class AssasComputers {
                 break;
                
             case 2:
-                staffPage();
+                staffLogin();
                 break;
             default: System.out.println("\nPlease enter valid option(1/2)!!\n");
 

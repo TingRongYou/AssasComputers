@@ -9,17 +9,11 @@ package assas.computers;
  * @author Acer
  */
 
-import static assas.computers.User.addressCheck;
-import static assas.computers.User.phoneNumValidate;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
 
+// A class that use to store customer account registration
 public class CustManageProfile {
-    private static final String filePath = "src/textFile/CustomerAcc.txt";
     
     public boolean registerCustomer(String username, String email, String password, String phoneNum, String deliveryAddress) {
         if (!UserAccountValidation.usernameValidate(username) || 

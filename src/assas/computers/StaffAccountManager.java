@@ -16,24 +16,48 @@ import java.util.List;
  *
  * @author Acer
  */
+
+// A class that store operation regarding staff account
 public class StaffAccountManager {
-     public void viewAllStaff() {
-        System.out.println("\n\n#" + "=".repeat(27) + " Staff Details " + "=".repeat(28) + "#");
+    
+    // Assist admin to view all of the staff account in assas computers
+     public static void viewAllStaff() {
+        System.out.println("\n#" + "=".repeat(42) + " Staff Details " + "=".repeat(41) + "#");
+
+        // Print header
+        System.out.printf("%-10s | %-25s | %-15s | %-12s | %-13s | %-10s\n",
+                "Staff ID", "Email", "Password", "Role", "Phone", "MFA");
+        System.out.println("-".repeat(100));
 
         try (BufferedReader reader = new BufferedReader(new FileReader(Staff.getStaffPath()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] staffDetails = line.split(";");
-                System.out.println("Staff ID: " + staffDetails[0] + "\nEmail: " + staffDetails[1] +
-                        "\nPassword: " + staffDetails[2] + "\nRole: " + staffDetails[3] +
-                        "\nPhone Number: " + staffDetails[4] + "\n");
+                if (staffDetails.length < 5) {
+                    System.out.println(">>> Warning: Incomplete staff record. Skipping.");
+                    continue;
+                }
+
+                String staffID = staffDetails[0];
+                String email = staffDetails[1];
+                String password = staffDetails[2];
+                String role = staffDetails[3];
+                String phone = staffDetails[4];
+                String mfaStatus = (staffDetails.length == 6 && !staffDetails[5].isEmpty()) ? "Enabled" : "Not Set";
+
+                // Print each row
+                System.out.printf("%-10s | %-25s | %-15s | %-12s | %-13s | %-10s\n",
+                        staffID, email, password, role, phone, mfaStatus);
             }
         } catch (IOException e) {
             System.out.println(">>> Error: Unable to read staff data");
         }
+
+        System.out.println("#" + "=".repeat(98) + "#\n");
     }
 
-    public boolean updateStaff(String targetStaffID, int fieldChoice, String newValue) {
+    // Assist admin in editing details for a staff
+    public static boolean editStaffDetails(String targetStaffID, int fieldChoice, String newValue) {
         ArrayList<String> fileContent = new ArrayList<>();
         String[] staffDetails = null;
         boolean found = false;
@@ -64,7 +88,8 @@ public class StaffAccountManager {
         return writeFile(fileContent, targetStaffID, staffDetails);
     }
 
-    private boolean writeFile(List<String> content, String targetID, String[] updatedDetails) {
+    // Help to write information into file during editStaffDetails
+    private static boolean writeFile(List<String> content, String targetID, String[] updatedDetails) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(Staff.getStaffPath()))) {
             for (String line : content) {
                 String[] parts = line.split(";");
