@@ -7,7 +7,6 @@ package assas.computers;
 import static assas.computers.Product.ProductType.KEYBOARD;
 import static assas.computers.Product.ProductType.LAPTOP;
 import static assas.computers.Product.ProductType.MONITOR;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,9 +22,7 @@ public class Product {
     protected String productDescription;
     protected String productColor;
     protected ProductType productType;
-    
-    private static ArrayList<Product> productList = new ArrayList<>();
-    
+        
     /**
     * constructor
     */
@@ -56,6 +53,15 @@ public class Product {
             default: throw new IllegalArgumentException("Unknown product type: " + type);
         }
     }
+    
+    public static void displayAllProductTypes() {
+        System.out.println("\n\n#" + "=".repeat(20) + " Available Product Types " + "=".repeat(20) + "#");
+        for (ProductType type : ProductType.values()) {
+            System.out.println("- " + type.name().charAt(0) + type.name().substring(1).toLowerCase());
+        }
+        System.out.print("#" + "=".repeat(65) + "#");
+    }
+
     
     /**
     * getter and setter

@@ -22,7 +22,7 @@ public class StaffAccountManager {
     
     // Assist admin to view all of the staff account in assas computers
      public static void viewAllStaff() {
-        System.out.println("\n#" + "=".repeat(42) + " Staff Details " + "=".repeat(41) + "#");
+        System.out.println("\n\n#" + "=".repeat(42) + " Staff Details " + "=".repeat(41) + "#");
 
         // Print header
         System.out.printf("%-10s | %-25s | %-15s | %-12s | %-13s | %-10s\n",

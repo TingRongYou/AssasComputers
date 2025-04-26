@@ -4,6 +4,10 @@
  */
 package assas.computers;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -28,13 +32,17 @@ public class ManagerController {
         boolean exit = false;
         
         while (!exit) {
-            System.out.println("\n#" + "=".repeat(46) + " Manager Menu " + "=".repeat(46) + "#");
+            System.out.println("\n\n#" + "=".repeat(46) + " Manager Menu " + "=".repeat(46) + "#");
             System.out.println("1. Add Product");
             System.out.println("2. Remove Product");
             System.out.println("3. Update Product");
             System.out.println("4. Search Product");
-            System.out.println("5. Exit");
-            System.out.print("Choose an option (1-5): ");
+            System.out.println("5. View All Products");
+            System.out.println("6. View All Order");
+            System.out.println("7. Update Order Status");
+            System.out.println("8. Logout");
+            System.out.println("#" + "=".repeat(106) + "#");
+            System.out.print("Please enter your option(1-8): ");
             
             int choice = scanner.nextInt();
             scanner.nextLine();  // consume newline
@@ -53,11 +61,21 @@ public class ManagerController {
                     searchProduct();
                     break;
                 case 5:
+                    viewAllProducts();
+                    break;
+                case 6:
+                    OrderFileHandler.viewAllOrders();
+                    break;
+                case 7:
+                    OrderFileHandler.updateOrderStatus();
+                    break;
+                case 8:
                     exit = true;
-                    System.out.println("Exiting Manager Menu...");
+                    System.out.println(">>> Log out successfully");
+                    AssasComputers.main(new String[0]);
                     break;
                 default:
-                    System.out.println("Invalid choice! Please try again.");
+                    System.out.println(">>> Invalid choice! Please try again.");
                     break;
             }
         }
@@ -65,11 +83,11 @@ public class ManagerController {
 
     // Manager add product to Product.txt 
     public void addProduct() {
-        System.out.println("\n#" + "=".repeat(46) + " Add Product " + "=".repeat(46) + "#");
+        System.out.println("\n\n#" + "=".repeat(46) + " Add Product " + "=".repeat(46) + "#\n");
 
         String productId;
         do {
-            System.out.print("\nEnter Product ID: ");
+            System.out.print("Enter Product ID: ");
             productId = scanner.nextLine();
             if (!ProductValidation.isValidProductId(productId)) {
                 System.out.println(">>> Invalid product ID. Only alphanumeric, dash or underscore allowed.");
@@ -225,56 +243,109 @@ public class ManagerController {
             return;
         }
 
-        System.out.print("Enter New Product Name: ");
+        // Name
+        System.out.print("Enter New Product Name (press Enter to keep \"" + existingProduct.getProductName() + "\"): ");
         String newName = scanner.nextLine();
+        if (newName.isEmpty()) newName = existingProduct.getProductName();
 
-        System.out.print("Enter New Product Price: ");
-        double newPrice = ProductValidation.getValidatedDouble(scanner);
+        // Price
+        System.out.print("Enter New Product Price (press Enter to keep " + existingProduct.getProductPrice() + "): ");
+        String priceInput = scanner.nextLine();
+        double newPrice = existingProduct.getProductPrice();
+        if (!priceInput.isEmpty()) {
+            try {
+                newPrice = Double.parseDouble(priceInput);
+                if (newPrice < 0) {
+                    System.out.println(">>> Price cannot be negative.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(">>> Invalid price input. Please enter a valid number.");
+                return;
+            }
+        }
 
-        System.out.print("Enter New Product Stock: ");
-        int newStock = ProductValidation.getValidatedInt(scanner);
+        // Stock
+        System.out.print("Enter New Product Stock (press Enter to keep " + existingProduct.getProductStock() + "): ");
+        String stockInput = scanner.nextLine();
+        int newStock = existingProduct.getProductStock();
+        if (!stockInput.isEmpty()) {
+            try {
+                newStock = Integer.parseInt(stockInput);
+                if (newStock < 0) {
+                    System.out.println(">>> Stock cannot be negative.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(">>> Invalid stock input. Please enter a whole number.");
+                return;
+            }
+        }
 
-        System.out.print("Enter New Product Description: ");
+
+        // Description
+        System.out.print("Enter New Product Description (press Enter to keep current): ");
         String newDescription = scanner.nextLine();
-        if (!ProductValidation.isValidDescription(newDescription)) {
+        if (newDescription.isEmpty()) {
+            newDescription = existingProduct.getProductDescription();
+        } else if (!ProductValidation.isValidDescription(newDescription)) {
             System.out.println(">>> Invalid product description.");
             return;
         }
 
-        System.out.print("Enter New Product Color: ");
+        // Color
+        System.out.print("Enter New Product Color (press Enter to keep current): ");
         String newColor = scanner.nextLine();
-        if (!ProductValidation.isValidColor(newColor)) {
+        if (newColor.isEmpty()) {
+            newColor = existingProduct.getProductColor();
+        } else if (!ProductValidation.isValidColor(newColor)) {
             System.out.println(">>> Invalid product color.");
             return;
         }
 
+        // Extra info
         String[] extraDetails = null;
         if (existingProduct instanceof Keyboard) {
-            System.out.print("Enter New Keyboard Type: ");
+            System.out.print("Enter New Keyboard Type (press Enter to keep current): ");
             String kbType = scanner.nextLine();
-            System.out.print("Enter New Keyboard Switches: ");
+            System.out.print("Enter New Keyboard Switches (press Enter to keep current): ");
             String kbSwitches = scanner.nextLine();
-            System.out.print("Enter New Keyboard Size: ");
+            System.out.print("Enter New Keyboard Size (press Enter to keep current): ");
             String kbSize = scanner.nextLine();
-            extraDetails = new String[] { kbType, kbSwitches, kbSize };
+
+            extraDetails = new String[] {
+                kbType.isEmpty() ? ((Keyboard) existingProduct).getType() : kbType,
+                kbSwitches.isEmpty() ? ((Keyboard) existingProduct).getSwitches() : kbSwitches,
+                kbSize.isEmpty() ? ((Keyboard) existingProduct).getSize() : kbSize
+            };
 
         } else if (existingProduct instanceof Monitor) {
-            System.out.print("Enter New Monitor Resolution: ");
+            System.out.print("Enter New Monitor Resolution (press Enter to keep current): ");
             String resolution = scanner.nextLine();
-            System.out.print("Enter New Monitor Panel Size: ");
+            System.out.print("Enter New Monitor Panel Size (press Enter to keep current): ");
             String panelSize = scanner.nextLine();
-            System.out.print("Enter New Monitor Refresh Rate: ");
+            System.out.print("Enter New Monitor Refresh Rate (press Enter to keep current): ");
             String refreshRate = scanner.nextLine();
-            extraDetails = new String[] { resolution, panelSize, refreshRate };
+
+            extraDetails = new String[] {
+                resolution.isEmpty() ? ((Monitor) existingProduct).getResolution() : resolution,
+                panelSize.isEmpty() ? ((Monitor) existingProduct).getPanelSize() : panelSize,
+                refreshRate.isEmpty() ? ((Monitor) existingProduct).getRefreshRate() : refreshRate
+            };
 
         } else if (existingProduct instanceof Laptop) {
-            System.out.print("Enter New Laptop RAM: ");
+            System.out.print("Enter New Laptop RAM (press Enter to keep current): ");
             String ram = scanner.nextLine();
-            System.out.print("Enter New Laptop ROM: ");
+            System.out.print("Enter New Laptop ROM (press Enter to keep current): ");
             String rom = scanner.nextLine();
-            System.out.print("Enter New Laptop CPU: ");
+            System.out.print("Enter New Laptop CPU (press Enter to keep current): ");
             String cpu = scanner.nextLine();
-            extraDetails = new String[] { ram, rom, cpu };
+
+            extraDetails = new String[] {
+                ram.isEmpty() ? ((Laptop) existingProduct).getRam() : ram,
+                rom.isEmpty() ? ((Laptop) existingProduct).getRom() : rom,
+                cpu.isEmpty() ? ((Laptop) existingProduct).getCpu() : cpu
+            };
         }
 
         boolean updated = inventoryManagement.updateProductById(
@@ -301,5 +372,72 @@ public class ManagerController {
         }
     }
 
+   public void viewAllProducts() {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(Product.filePath));
+            String line;
+            boolean found = false;
+
+            System.out.println("\n#" + "=".repeat(85) + " Product List " + "=".repeat(85) + "#");
+            System.out.printf("%-10s | %-22s | %-10s | %-5s | %-12s | %-10s | %-28s | %-40s\n",
+                    "Product ID", "Name", "Price", "Stock", "Color", "Type", "Description", "Extra Info");
+            System.out.println("-".repeat(186));
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";");
+                if (parts.length >= 10) {
+                    String id = parts[0].trim();
+                    String name = parts[1].trim();
+                    double price = Double.parseDouble(parts[2].trim());
+                    int stock = Integer.parseInt(parts[3].trim());
+                    String description = parts[4].trim();
+                    String color = parts[5].trim();
+                    Product.ProductType type = Product.ProductType.valueOf(parts[6].trim().toUpperCase());
+
+                    String extraInfo = "-";
+                    switch (type) {
+                        case LAPTOP:
+                            extraInfo = String.format("RAM: %s, Storage: %s, Processor: %s",
+                                    parts[7].trim(), parts[8].trim(), parts[9].trim());
+                            break;
+                        case MONITOR:
+                            extraInfo = String.format("Resolution: %s, Size: %s, Refresh Rate: %s",
+                                    parts[7].trim(), parts[8].trim(), parts[9].trim());
+                            break;
+                        case KEYBOARD:
+                            extraInfo = String.format("Type: %s, Switches: %s, Size: %s",
+                                    parts[7].trim(), parts[8].trim(), parts[9].trim());
+                            break;
+                    }
+
+                    System.out.printf("%-10s | %-22s | RM%-8.2f | %-5d | %-12s | %-10s | %-28s | %-40s\n",
+                            id, name, price, stock, color, type, truncateDescription(description), extraInfo);
+                    found = true;
+                }
+            }
+
+            System.out.println("#" + "=".repeat(184) + "#");
+
+            if (!found) {
+                System.out.println(">>> No products available.");
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: Product file not found at " + Product.filePath);
+        } catch (IOException e) {
+            System.out.println("Error reading product data: " + e.getMessage());
+        } finally {
+            try {
+                if (reader != null) reader.close();
+            } catch (IOException e) {
+                System.out.println("Error closing file: " + e.getMessage());
+            }
+        }
+    }
+   
+    private String truncateDescription(String desc) {
+        return desc.length() > 25 ? desc.substring(0, 22) + "..." : desc;
+    }
 
 }

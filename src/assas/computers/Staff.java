@@ -65,7 +65,7 @@ public abstract class Staff extends User {
         NORMALSTAFF, ADMIN, MANAGER
     }
     
-    public abstract void postLoginAction();
+    public abstract void postLoginAction(); // Enforce all of the staff to have a unique postLoginAction
     
     @Override
     public String toString() {

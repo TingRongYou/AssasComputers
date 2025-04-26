@@ -19,13 +19,6 @@ public class Payment {
         ONLINEBANKING,
         EWALLET
     }
-    
-    public static enum Ewallet {
-        TOUCHNGO, 
-        BOOSTPAY,
-        GRAPPAY,
-        SHOPEEPAY
-    }
 
     public Payment() {
     }
@@ -51,7 +44,7 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
     
-    public PaymentMethod choosePaymentMethod(String paymentMethod) {
+    public static PaymentMethod choosePaymentMethod(String paymentMethod) {
     if (paymentMethod == null) {
         return null;
     }
@@ -68,7 +61,7 @@ public class Payment {
         default:
             return null; // Or throw an IllegalArgumentException
         }
-    }
+    } 
     
     
 

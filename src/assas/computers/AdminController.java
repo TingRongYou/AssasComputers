@@ -4,7 +4,6 @@
  */
 package assas.computers;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,30 +15,42 @@ import java.util.Scanner;
 public class AdminController {
     private static final Scanner scanner = new Scanner(System.in);
 
+    private static boolean validOption = true;
+   
     // Display menu for an admin
     public static void adminMenu(Admin admin) {
-        while (true) {
+        while (validOption) {
             System.out.println("\n\n#" + "=".repeat(27) + " Admin Menu " + "=".repeat(28) + "#");
             System.out.println("1. Register New Staff");
             System.out.println("2. Edit Existing Staff");
             System.out.println("3. View All Staff");
-            System.out.println("0. Logout");
-            System.out.print("Enter your choice: ");
+            System.out.println("4. Logout");
+            System.out.print("Please enter your option(1-4): ");
 
             String choice = scanner.nextLine();
-            System.out.println("");
             switch (choice) {
-                case "1" -> registerStaff();
-                case "2" -> editStaff();
-                case "3" -> viewAllStaff();
-                case "0" -> {
+                // This case block does not required break
+                case "1" -> {
+                    registerStaff();
+                    validOption = false;
+                }
+                case "2" -> {
+                    editStaff();
+                    validOption = false;
+                }
+                case "3" -> {
+                    viewAllStaff();
+                    validOption = false;
+                }
+                case "4" -> {
                     System.out.println(">>> Logged out successfully.");
                     System.out.println("");
                     System.out.println("");
                     AssasComputers.main(new String[0]);
                     return;
                 }
-                default -> {System.out.println(">>> Invalid choice. Try again.");
+                default -> {
+                    System.out.println(">>> Invalid choice. Try again.");
                     System.out.println("");
                 }
             }
@@ -50,6 +61,7 @@ public class AdminController {
     private static void registerStaff() {
         System.out.println("\n\n#" + "=".repeat(27) + " Register New Staff " + "=".repeat(28) + "#");
 
+        // Validation are done before the data are stored, the validation are predefined in UserAccountValidation class
         String id;
         do {
             System.out.print("Enter staff ID (Format: Sxxxx): ");
@@ -86,6 +98,7 @@ public class AdminController {
             }
         } while (!UserAccountValidation.phoneNumValidate(phone));
 
+        // Ensures that the role entered are correct
         String role;
         do {
             System.out.print("Enter role (ADMIN / MANAGER / NORMALSTAFF): ");
@@ -95,7 +108,10 @@ public class AdminController {
             }
         } while (!role.equals("ADMIN") && !role.equals("MANAGER") && !role.equals("NORMALSTAFF"));
 
+        // From StaffFileHandler class, the staff information are staff through the saveStaff method by passing required information
         boolean success = StaffFileHandler.saveStaff(id, email, password, role, phone);
+        
+        // Based on the value of success, if true, then display successful message while if saving failed, display unsuccessful message
         System.out.println(success ? ">>> Staff registered successfully." : ">>> Registration failed.");
     }
     
@@ -121,23 +137,29 @@ public class AdminController {
             }
         }
 
+        // There are only a few field that are available for changes, the admin need to choose which information to modify
         int fieldChoice;
+        // Use infinite loop to enhance code readability, reduce the amount of boolean variable
         while (true) {
             System.out.println("1. Edit Email");
             System.out.println("2. Edit Phone Number");
             System.out.println("3. Edit Role");
-            System.out.print("Enter your choice: ");
+            System.out.println("#" + "=".repeat(75) + "#");
+            System.out.print("Please enter your option(1-3): ");
             try {
+                // Convert String to integer
                 fieldChoice = Integer.parseInt(scanner.nextLine());
-                if (fieldChoice >= 1 && fieldChoice <= 3) break;
+                if (fieldChoice >= 1 && fieldChoice <= 3) break; // If the fieldChoice is within range of 1-3, then break
                 else System.out.println(">>> Error: Please enter a number between 1 and 3.");
                 System.out.println("");
+                // NumberFormatException when Integer.parseInt failed due to invalid input such as "abc" or 1.5
             } catch (NumberFormatException e) {
                 System.out.println(">>> Error: Invalid input. Please enter a number.");
                 System.out.println("");
             }
         }
 
+        // Capturing new data 
         String newValue;
         while (true) {
             System.out.print("Enter new value: ");

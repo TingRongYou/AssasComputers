@@ -23,7 +23,8 @@ public class NormalStaff extends Staff {
     //Action that normal staff can perform after login
     @Override
     public void postLoginAction() {
-        System.out.println(">>> Welcome to Normal Staff Dashboard.");
-        // Maybe show options like "View Profile", "Logout", etc.
+        System.out.println("Welcome, Normal Staff. You can view and update orders.");
+        new NormalStaffController().normalStaffMenu(this); // Pass this if needed
     }
+
 }

@@ -3,9 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package assas.computers;
-
-import java.io.*;
-import java.util.Scanner;
     
 public abstract class User {
     /*static is not needed since static variable shares resources among all instances of the class,
@@ -47,6 +44,22 @@ public abstract class User {
     }
     public String getPhoneNum(){
         return phoneNum;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
 }

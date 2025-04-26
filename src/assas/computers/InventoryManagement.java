@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -212,7 +211,7 @@ public class InventoryManagement {
             if (productDetails[0].equalsIgnoreCase(productId)) {
                 String productType = productDetails[6];
 
-                System.out.println("\n#" + "=".repeat(46) + " Product Details " + "=".repeat(46) + "#");
+                System.out.println("\n\n#" + "=".repeat(46) + " Product Details " + "=".repeat(46) + "#");
 
                 // Common fields
                 System.out.printf("%-12s | %-20s | %-8s | %-6s | %-25s | %-10s | %-12s\n",
@@ -251,7 +250,7 @@ public class InventoryManagement {
                         System.out.println("Unknown product type.");
                 }
 
-                System.out.println("#" + "=".repeat(109) + "#\n");
+                System.out.println("#" + "=".repeat(109) + "#");
                 return ""; // Found, already printed
             }
         }

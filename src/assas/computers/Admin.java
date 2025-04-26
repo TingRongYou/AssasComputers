@@ -10,10 +10,16 @@ package assas.computers;
  */
 public class Admin extends Staff {
     
+    /** 
+     * constructors
+     */
     public Admin(String staffID, String email, Role role, String setupKey) {
         super(staffID, email, Role.ADMIN, setupKey);
     }
 
+    /** 
+     * getter and setter
+     */
     public String getStaffID() {
         return staffID;
     }
@@ -46,6 +52,7 @@ public class Admin extends Staff {
         this.role = role;
     }
     
+    // Overriding postLoginAction for staff, creating a exclusive interface after admin login
     @Override
     public void postLoginAction() {
         System.out.println("Welcome, Admin. You can manage staff account for Assas Computers.");

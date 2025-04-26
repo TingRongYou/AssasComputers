@@ -10,6 +10,11 @@ public class Customer extends User {
      public Customer() {
         this.deliveryAddress = null;
     }
+     
+    public Customer(String email) {
+        setEmail(email);
+        this.deliveryAddress = null;
+    }
 
     public Customer(String name, String email, String password, String phoneNum, String deliveryAddress) {
         super(name, email, password, phoneNum);
