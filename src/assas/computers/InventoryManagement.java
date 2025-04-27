@@ -33,9 +33,9 @@ public class InventoryManagement {
     // Save a single product to file
     private void saveProductToFile(Product product, String productType) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder(); // Build big String without the need of creating many temporary strings
 
-            sb.append(product.getProductID()).append(";")
+            sb.append(product.getProductID()).append(";") // .append() add text to the end of current StringBuilder
               .append(product.getProductName()).append(";")
               .append(product.getProductPrice()).append(";")
               .append(product.getProductStock()).append(";")
@@ -43,6 +43,7 @@ public class InventoryManagement {
               .append(product.getProductColor()).append(";")
               .append(productType);
 
+            // Check type of product
             if (product instanceof Keyboard kb) {
                 sb.append(";").append(kb.getType())
                   .append(";").append(kb.getSwitches())
@@ -57,9 +58,8 @@ public class InventoryManagement {
                   .append(";").append(lap.getCpu());
             }
 
-            // Write the built line with a newline character
             writer.write(sb.toString());
-            writer.newLine(); // ✅ ensures a new line after every product
+            writer.newLine(); 
 
         } catch (IOException e) {
             System.out.println(">>> Error: Error saving product! " + e.getMessage());

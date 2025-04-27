@@ -127,6 +127,7 @@ public class CustomerController {
         // Set up MFA
         MultiFactorAuthentication mfa = new MultiFactorAuthentication();
         String mfaSecret = mfa.setupMFA(email);
+        // Get OTP code
         System.out.print("Enter the 6-digit code from Google Authenticator: ");
         String otpInput = scanner.nextLine().trim();
         if (!mfa.verifyOTP(mfaSecret, otpInput)) {
@@ -261,6 +262,7 @@ public class CustomerController {
                 // Prompt for item IDs
                 System.out.print("\nEnter items to checkout (comma-separated, e.g. L0001,P1234): ");
                 String[] rawIds = scanner.nextLine().split(",");
+                // Convert array of string to list of string
                 List<String> selectedIds = Arrays.asList(rawIds);
 
                 Map<String, Integer> validItems = cart.getValidCheckoutItems(selectedIds);
@@ -326,10 +328,8 @@ public class CustomerController {
                     return;
                 }
 
-                // ✅ Only print once here
                 System.out.println(">>> Payment successful! Thank you.");
 
-                // Deduct stock & update cart
                 cart.processCheckout(validItems, amountPaid, method, orderId, orderDate);
 
                 // Save order
@@ -341,9 +341,8 @@ public class CustomerController {
 
                 System.out.println(">>> Order successfully placed! Order ID: " + orderId);
 
-                // ✅ Print receipt once only here
+                // Print receipt 
                 PaymentHandler.printReceipt(finalPayment, amountPaid, total, customer.getEmail(), orderId, validItems, orderDate);
-
                 break;
 
             } else if (choice.equals("n")) {
@@ -354,7 +353,6 @@ public class CustomerController {
         }
     }
 
-    
     public static void searchAndFilterProducts() {
         Scanner scanner = new Scanner(System.in);
         
@@ -656,6 +654,7 @@ public class CustomerController {
     }
 }
 
+  // Reduce the description length
     private static String truncateDescription(String description) {
         return description.length() > 30 ? 
             description.substring(0, 27) + "..." : 

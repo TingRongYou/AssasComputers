@@ -8,11 +8,12 @@ package assas.computers;
  *
  * @author Acer
  */
+
 public class Payment {
     private String paymentID;
-    //Order order;
     private PaymentMethod paymentMethod;
     
+    // Enum for payment method
     public static enum PaymentMethod {
         CREDITCARD,
         DEBITCARD,
@@ -20,6 +21,9 @@ public class Payment {
         EWALLET
     }
 
+    /**
+    * constructors
+    */
     public Payment() {
     }
     
@@ -28,6 +32,10 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
+    
+    /**
+    * getter and setter
+    */
     public String getPaymentID() {
         return paymentID;
     }
@@ -44,6 +52,7 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
     
+    // Choose payment method
     public static PaymentMethod choosePaymentMethod(String paymentMethod) {
     if (paymentMethod == null) {
         return null;
@@ -59,7 +68,7 @@ public class Payment {
         case "EWALLET":
             return PaymentMethod.EWALLET;
         default:
-            return null; // Or throw an IllegalArgumentException
+            return null; 
         }
     } 
     

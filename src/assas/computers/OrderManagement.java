@@ -15,9 +15,14 @@ import java.io.IOException;
  *
  * @author Acer
  */
+
+
 public class OrderManagement {
+    
+    // A file use to store latest order ID
      private static final String ORDER_ID_FILE = "src/textFile/LastOrderId.txt";
 
+     // Generate new order id
     public static String generateOrderID() {
         int lastId = readLastOrderID();
         int newId = lastId + 1;
@@ -25,6 +30,7 @@ public class OrderManagement {
         return String.format("ORD%04d", newId); // e.g., ORD0001
     }
 
+    // Read last used order ID from text file
     private static int readLastOrderID() {
         File file = new File(ORDER_ID_FILE);
         if (!file.exists()) return 0;
@@ -38,6 +44,8 @@ public class OrderManagement {
         }
     }
 
+    // Saves the updated ID into the file
+    // Ovewrite the file with new value
     private static void saveLastOrderID(int id) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ORDER_ID_FILE))) {
             writer.write(String.valueOf(id));

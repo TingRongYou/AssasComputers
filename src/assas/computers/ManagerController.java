@@ -21,7 +21,9 @@ public class ManagerController {
     private InventoryManagement inventoryManagement;
     private Scanner scanner;
 
-    
+    /**
+    * constructor
+    */
     public ManagerController() {
         inventoryManagement = new InventoryManagement();
         scanner = new Scanner(System.in);
@@ -47,6 +49,7 @@ public class ManagerController {
             int choice = scanner.nextInt();
             scanner.nextLine();  // consume newline
             
+            // Action to be performed by manager
             switch (choice) {
                 case 1:
                     addProduct();

@@ -15,27 +15,33 @@ import java.util.UUID;
  *
  * @author Acer
  */
+
+// A class that handle tasks related to payment processing 
 public class PaymentHandler {
     
+    // Handle payment logic where user pays for an order
     public Payment processPayment(Payment.PaymentMethod method, double amountPaid, double totalAmount,
         String orderId, Map<String, Integer> validItems, String dateTime) {
+        
+        // Check if payment is sufficient
         if (amountPaid < totalAmount) {
             System.out.println(">>> Insufficient payment.");
             return null;
         }
 
+        // Generate unique payment ID
         String paymentID = UUID.randomUUID().toString();
         Payment payment = new Payment(paymentID, method);
         String userEmail = AuthService.getCurrentUserEmail();
 
-        // Save receipt-like format
+        // Save payment details to file
         savePaymentToFile(payment, amountPaid, totalAmount, userEmail, orderId, validItems, dateTime);
 
         System.out.printf(">>> Payment of RM%.2f received. Change: RM%.2f\n", amountPaid, amountPaid - totalAmount);
         return payment;
     }
 
-
+    // Save payment to file with receipt-like format
     private static void savePaymentToFile(Payment payment, double amountPaid, double totalAmount, String email,
         String orderId, Map<String, Integer> validItems, String dateTime) {
         try (FileWriter writer = new FileWriter("src/textFile/Receipt.txt", true)) {
@@ -58,6 +64,7 @@ public class PaymentHandler {
         }
     }
 
+    // Print receipt
     public static void printReceipt(Payment payment, double amountPaid, double totalAmount, 
         String email, String orderId, Map<String, Integer> validItems, String dateTime) {
         // Print receipt on console
@@ -79,6 +86,7 @@ public class PaymentHandler {
         
     }
     
+    // View past payment history for specific customer
     public static void viewPaymentHistory(String email) {
     System.out.println("\n\n+--------------------------------------------------------------------------------------+");
     System.out.println("|                                  PAYMENT HISTORY                                     |");
@@ -153,7 +161,5 @@ public class PaymentHandler {
 
     System.out.println("+--------------------------------------------------------------------------------------+");
 }
-
-
 
 }

@@ -12,7 +12,9 @@ import java.util.Scanner;
  * @author Acer
  */
 public class NormalStaffController {
-public void normalStaffMenu(NormalStaff staff) {
+    
+    // Display menu for normal staff
+    public void normalStaffMenu(NormalStaff staff) {
         Scanner scanner = new Scanner(System.in);
         int choice;
 

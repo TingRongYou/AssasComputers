@@ -14,6 +14,8 @@ import java.util.Scanner;
  * @author Acer
  */
 public class StaffController {
+    
+    // Allows staff login
     public static void staffLogin() {
         Scanner scanner = new Scanner(System.in);
         
@@ -38,7 +40,7 @@ public class StaffController {
         }
 
         // === Step 1: Verify Password ===
-        int pwdAttempts = 3;
+        int pwdAttempts = 3; // Allow password entering for only 3 times
         boolean correctPassword = false;
 
         while (pwdAttempts-- > 0) {
@@ -61,7 +63,7 @@ public class StaffController {
             return;
         }
 
-        // === Step 2: Setup MFA if no key ===
+        // === Step 2: Setup MFA if no key === (Account created by admin does not contain key)
         if (staff.getSetupKey() == null || staff.getSetupKey().isEmpty()) {
             MultiFactorAuthentication mfa = new MultiFactorAuthentication();
             String secretKey = mfa.setupMFA(email);
@@ -96,7 +98,7 @@ public class StaffController {
         System.out.println(">>> MFA verified successfully!");
         System.out.println("");
 
-        // === Step 4: Redirect based on role ===
+        // === Step 4: Redirect based on role === (Each staff has their own interface)
         switch (staff.getRole()) {
             case ADMIN -> ((Admin) staff).postLoginAction();
             case MANAGER -> ((Manager) staff).postLoginAction();

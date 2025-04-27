@@ -1,6 +1,9 @@
 package assas.computers;
 
 import assas.computers.Product.ProductType;
+import static assas.computers.Product.ProductType.KEYBOARD;
+import static assas.computers.Product.ProductType.LAPTOP;
+import static assas.computers.Product.ProductType.MONITOR;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,48 +34,48 @@ public class Cart {
         this.cartItems = new HashMap<>();
         loadCart(); // Load user's existing cart data
     }
-
-    public static class AuthService { 
-        private static String currentUserEmail = null;  // Added "String" type
-
-        public static String getCurrentUserEmail() {
-            return currentUserEmail;
-        }  
-
-        public static void setCurrentUserEmail(String email) {
-            currentUserEmail = email;
-        } 
-
-        public static void clearCurrentUser() {
-            currentUserEmail = null;
-        }  
-    }
-
-
-        // Load products into catalog
-        public static void loadProducts() {
+    
+    /** 
+     * getter 
+     */
+    public String getEmail() { return email; }
+    public HashMap<String, Integer> getCartItems() { return new HashMap<>(cartItems); }
+    
+    // Load products into catalog
+    public static void loadProducts() {
+        
+        // Clear existing products in the catalog before reloading
         productCatalog.clear();
+        
+        // Read file line by line
         try (BufferedReader reader = new BufferedReader(new FileReader(productFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                
+                // Split line into parts using semicolon
                 String[] data = line.split(";");
                 if (data.length >= 10) {
+                    // Extract product data
                     String id = data[0];
                     String name = data[1];
+                    // Convert String to double for calculation
                     double price = Double.parseDouble(data[2]);
                     int stock = Integer.parseInt(data[3]);
                     String desc = data[4];
                     String color = data[5];
                     String typeString = data[6];
+                    
+                    // Convert String to enum
                     ProductType productType = ProductType.valueOf(typeString.trim().toUpperCase());
 
-                    // Common fields (RAM, ROM, CPU, etc.)
+                    // Product specifics fields (RAM, ROM, CPU, etc.)
                     String spec1 = data[7];
                     String spec2 = data[8];
                     String spec3 = data[9];
 
                     Product product = null;
 
+                    // Create product based on type
                     switch (productType) {
                         case LAPTOP:
                             product = new Laptop(id, name, price, stock, desc, color, productType, spec1, spec2, spec3);
@@ -88,7 +91,7 @@ public class Cart {
                             continue;
                     }
 
-
+                    // Add product to catalog if valid
                     if (product != null) {
                         productCatalog.put(id, product);
                     }
@@ -97,28 +100,30 @@ public class Cart {
                 }
             }
         } catch (IOException e) {
+            // Handle file read errors
             System.out.println("IO Error: " + e.getMessage());
         } catch (NumberFormatException e) {
+            // Handle invalid number formats in price or stock
             System.out.println("Number Format Error: " + e.getMessage());
         } catch (IllegalArgumentException e) {
+            // Handle invalid enum values (wrong product type)
             System.out.println("Invalid Product Type: " + e.getMessage());
         }
 
-}
-
-
-
-        // Load user's cart from file
-        public void loadCart() {
+    }
+    
+    // Load user's cart from file
+    public void loadCart() {
         cartItems.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                // Check for new format (5 fields)
+                // Check for new format (5 fields), ensure it matches user email    
                 if (data.length >= 5 && data[0].equals(email)) {
                     String productID = data[1];
                     int quantity = Integer.parseInt(data[4]); // Quantity is now at index 4
+                    // Add to cart item                     
                     cartItems.put(productID, cartItems.getOrDefault(productID, 0) + quantity);
                 }
                 // Optional: Handle old format (3 fields) for backward compatibility
@@ -171,6 +176,7 @@ public class Cart {
                 String displayName = product.productName.length() > 18 ? 
                     product.productName.substring(0, 15) + "..." : product.productName;
 
+                // - for left align, .2 for 2 decimal places
                 double itemTotal = product.productPrice * entry.getValue();
                 System.out.printf("| %-8s | %-18s   | %5d  | %10.2f  | %9.2f |%n", 
                     displayID, 
@@ -191,20 +197,21 @@ public class Cart {
     public void saveCart() {
         List<String> otherUsersData = new ArrayList<>();
 
-        // Read all non-current-user entries
+        // --- STEP 1: Read all lines from Cart.txt and store other users' data ---
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                // If the line does NOT belong to the current user, keep it
                 if (!line.startsWith(email + ";")) {
                     otherUsersData.add(line);  // Keep other users' data
                 }
             }
         } catch (IOException e) {
             System.out.println(">>> Error: Failed to read existing cart data.");
-            return;
+            return; // Stop execution if reading fails
         }
 
-        // Write back all data, including the current user's cart
+         // --- STEP 2: Write ALL data back (other users + current user's updated cart) ---
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             // Write other users' data first
             for (String entry : otherUsersData) {
@@ -218,6 +225,7 @@ public class Cart {
                 Product product = productCatalog.get(productID);
 
                 if (product != null) {
+                     // Format: email;productID;productName;price;quantity
                     String line = String.format("%s;%s;%s;%.2f;%d", email, productID, product.productName, product.productPrice, entry.getValue());
                     writer.write(line);
                     writer.newLine();
@@ -232,9 +240,9 @@ public class Cart {
             System.out.println(">>> Error: Failed to save cart.");
             System.out.println("");
         }
-}
-        // Validate stock before checkout
-        public boolean validateStock() {
+    }
+    // Validate stock before checkout (check if enough stock)
+    public boolean validateStock() {
         for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
             Product product = productCatalog.get(entry.getKey());
 
@@ -250,10 +258,12 @@ public class Cart {
                 return false;
             }
         }
+        
+        // All products have enough stock
         return true;
     }
 
-        // Delete a product from cart
+    // Delete a product from cart
     public void deleteProduct(String productID) {
         if (!cartItems.containsKey(productID)) {
             System.out.println(">>> Error: Product " + productID + " not found in your cart.");
@@ -269,7 +279,7 @@ public class Cart {
         System.out.println("");
     }
 
-    // Step 1: Get valid items from user input
+    // Get valid items from user input
     public Map<String, Integer> getValidCheckoutItems(List<String> selectedIds) {
         Map<String, Integer> selectedItems = new HashMap<>();
 
@@ -284,7 +294,7 @@ public class Cart {
         return selectedItems;
     }
 
-    // Step 2: Show summary and return total amount
+    // Show summary and return total amount
     public double generateCheckoutSummary(Map<String, Integer> selectedItems) {
         System.out.println("\n#" + "=".repeat(10) + " Checkout Summary " + "=".repeat(10) + "#");
         double total = 0.0;
@@ -364,10 +374,4 @@ public class Cart {
         }
     }
 
-
-
-
-        // Getters
-        public String getEmail() { return email; }
-        public HashMap<String, Integer> getCartItems() { return new HashMap<>(cartItems); }
-    }
+}

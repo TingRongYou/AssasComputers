@@ -16,12 +16,18 @@ public class Order {
     private double totalAmount;
     private String orderDate;
     private OrderStatus orderStatus;
+    
+    // Dynamic array
     private static ArrayList<Order> orderItem = new ArrayList<>();
     
+    // Enum for order status
     public enum OrderStatus {
         ORDERACCEPTED, ORDERSHIPPED, ORDERARRIVED, ORDERCANCELLED
     }
        
+    /**
+    * constructors
+    */
     public Order() {
         
     }
@@ -33,6 +39,10 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    
+    /**
+    * getter and setter
+    */
     public String getOrderID() {
         return orderID;
     }

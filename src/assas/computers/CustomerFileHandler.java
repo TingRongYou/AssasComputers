@@ -40,7 +40,7 @@ public class CustomerFileHandler {
     // Save customer account information into Customer.txt
     public static boolean saveCustomerData(String username, String email, String password, String phoneNum, String deliveryAddress, String mfaSecret) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH, true))) {
-            String customerLine = String.join(";", username, email, password, phoneNum, deliveryAddress, mfaSecret);
+            String customerLine = String.join(";", username, email, password, phoneNum, deliveryAddress, mfaSecret); // Joining multiple string together witha semicolon placed between each value
             writer.write(customerLine);
             writer.newLine();
             writer.flush();
