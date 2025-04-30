@@ -18,41 +18,38 @@ public class AdminController {
     private static boolean validOption = true;
    
     // Display menu for an admin
-    public static void adminMenu(Admin admin) {
-        while (validOption) {
+   public static void adminMenu(Admin admin) {
+        Scanner scanner = new Scanner(System.in);  // Ensure this is initialized
+        boolean keepRunning = true;
+
+        while (keepRunning) {
             System.out.println("\n\n#" + "=".repeat(27) + " Admin Menu " + "=".repeat(28) + "#");
             System.out.println("1. Register New Staff");
             System.out.println("2. Edit Existing Staff");
             System.out.println("3. View All Staff");
             System.out.println("4. Logout");
-            System.out.print("Please enter your option(1-4): ");
+            System.out.println("#" + "=".repeat(94) + "#");
+            System.out.print("Please enter your option (1-4): ");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
+
             switch (choice) {
-                // This case block does not required break
-                case "1" -> {
+                case "1":
                     registerStaff();
-                    validOption = false;
-                }
-                case "2" -> {
+                    break;
+                case "2":
                     editStaff();
-                    validOption = false;
-                }
-                case "3" -> {
+                    break;
+                case "3":
                     viewAllStaff();
-                    validOption = false;
-                }
-                case "4" -> {
-                    System.out.println(">>> Logged out successfully.");
-                    System.out.println("");
-                    System.out.println("");
+                    break;
+                case "4":
+                    System.out.println(">>> Logged out successfully.\n\n");
                     AssasComputers.main(new String[0]);
-                    return;
-                }
-                default -> {
-                    System.out.println(">>> Invalid choice. Try again.");
-                    System.out.println("");
-                }
+                    keepRunning = false;
+                    break;
+                default:
+                    System.out.println(">>> Invalid choice. Please enter a number between 1 and 4.");
             }
         }
     }
@@ -150,11 +147,11 @@ public class AdminController {
                 // Convert String to integer
                 fieldChoice = Integer.parseInt(scanner.nextLine());
                 if (fieldChoice >= 1 && fieldChoice <= 3) break; // If the fieldChoice is within range of 1-3, then break
-                else System.out.println(">>> Error: Please enter a number between 1 and 3.");
+                else System.out.println(">>> Error: Please enter a number between 1 and 3.\n");
                 System.out.println("");
                 // NumberFormatException when Integer.parseInt failed due to invalid input such as "abc" or 1.5
             } catch (NumberFormatException e) {
-                System.out.println(">>> Error: Invalid input. Please enter a number.");
+                System.out.println(">>> Error: Invalid input. Please enter a number.\n");
                 System.out.println("");
             }
         }

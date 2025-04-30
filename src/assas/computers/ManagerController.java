@@ -32,7 +32,7 @@ public class ManagerController {
     // Display menu when manager login to their account
     public void managerMenu(Manager manager) {
         boolean exit = false;
-        
+
         while (!exit) {
             System.out.println("\n\n#" + "=".repeat(46) + " Manager Menu " + "=".repeat(46) + "#");
             System.out.println("1. Add Product");
@@ -44,49 +44,39 @@ public class ManagerController {
             System.out.println("7. Update Order Status");
             System.out.println("8. Logout");
             System.out.println("#" + "=".repeat(106) + "#");
-            System.out.print("Please enter your option(1-8): ");
-            
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // consume newline
-            
-            // Action to be performed by manager
+            System.out.print("Please enter your option (1-8): ");
+
+            int choice;
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline
+            } else {
+                System.out.println(">>> Invalid input! Please enter a number between 1 and 8.");
+                scanner.nextLine(); // Clear invalid input
+                continue;
+            }
+
             switch (choice) {
-                case 1:
-                    addProduct();
-                    break;
-                case 2:
-                    removeProduct();
-                    break;
-                case 3:
-                    updateProduct();
-                    break;
-                case 4:
-                    searchProduct();
-                    break;
-                case 5:
-                    viewAllProducts();
-                    break;
-                case 6:
-                    OrderFileHandler.viewAllOrders();
-                    break;
-                case 7:
-                    OrderFileHandler.updateOrderStatus();
-                    break;
-                case 8:
+                case 1 -> addProduct();
+                case 2 -> removeProduct();
+                case 3 -> updateProduct();
+                case 4 -> searchProduct();
+                case 5 -> viewAllProducts();
+                case 6 -> OrderFileHandler.viewAllOrders();
+                case 7 -> OrderFileHandler.updateOrderStatus();
+                case 8 -> {
                     exit = true;
-                    System.out.println(">>> Log out successfully");
+                    System.out.println(">>> Log out successfully\n\n");
                     AssasComputers.main(new String[0]);
-                    break;
-                default:
-                    System.out.println(">>> Invalid choice! Please try again.");
-                    break;
+                }
+                default -> System.out.println(">>> Invalid choice! Please enter a number between 1 and 8.");
             }
         }
     }
 
     // Manager add product to Product.txt 
     public void addProduct() {
-        System.out.println("\n\n#" + "=".repeat(46) + " Add Product " + "=".repeat(46) + "#\n");
+        System.out.println("\n\n#" + "=".repeat(46) + " Add Product " + "=".repeat(46) + "#");
 
         String productId;
         do {
@@ -382,7 +372,7 @@ public class ManagerController {
             String line;
             boolean found = false;
 
-            System.out.println("\n#" + "=".repeat(85) + " Product List " + "=".repeat(85) + "#");
+            System.out.println("\n\n#" + "=".repeat(85) + " Product List " + "=".repeat(85) + "#");
             System.out.printf("%-10s | %-22s | %-10s | %-5s | %-12s | %-10s | %-28s | %-40s\n",
                     "Product ID", "Name", "Price", "Stock", "Color", "Type", "Description", "Extra Info");
             System.out.println("-".repeat(186));

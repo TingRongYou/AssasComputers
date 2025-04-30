@@ -46,8 +46,7 @@ public class NormalStaffController {
                     break;
                 case 3:
                     exit = false;
-                    System.out.println(">>> Log out successfully");
-                    System.out.println("");
+                    System.out.println(">>> Log out successfully\n\n");
                     AssasComputers.main(new String[0]);
                     return;
                 default:

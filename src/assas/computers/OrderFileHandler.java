@@ -114,7 +114,7 @@ public class OrderFileHandler {
             return;
         }
 
-        System.out.println("\n#=== All Orders ===#");
+        System.out.println("\n\n#=== All Orders ===#");
         for (String line : lines) {
             String[] parts = line.split(",");
             if (parts.length >= 6) {

@@ -25,41 +25,39 @@ import java.util.Scanner;
 public class CustomerController {
     
     public static void customerPage() {
-        
-                Scanner scanner = new Scanner(System.in);
-                
-                int customerOption;
-                
-                do {
-                    
-                    System.out.println("\n\n#" + "=".repeat(25) + " Customer " + "=".repeat(25) + "#");
-                    System.out.println("1. Customer registration\n2. Customer login\n3. Back");
-                    System.out.println("#" + "=".repeat(60) + "#");
-                    System.out.print("Please enter your option(1-3): ");
-                    customerOption = scanner.nextInt();
-                                        
-                    switch (customerOption)
-                    {
-                        case 1:
-                            customerRegister();
-                            break;
+        Scanner scanner = new Scanner(System.in);
+        int customerOption = -1;
 
-                        case 2:
-                            customerLogin();
-                            home();
-                        case 3:
-                            System.out.println("");
-                            System.out.println("");
-                            main(new String[0]);
-                            break;
-                        default: System.out.println("\n>>> Please enter valid option(1-3)!!\n");
+        do {
+            System.out.println("\n\n#" + "=".repeat(25) + " Customer " + "=".repeat(25) + "#");
+            System.out.println("1. Customer registration\n2. Customer login\n3. Back");
+            System.out.println("#" + "=".repeat(60) + "#");
+            System.out.print("Please enter your option (1-3): ");
 
-                    }
+            if (scanner.hasNextInt()) {
+                customerOption = scanner.nextInt();
+                scanner.nextLine(); // Consume newline left behind
 
-                } while (customerOption != 1 && customerOption != 2);
-                
-                scanner.close();
-                
+                switch (customerOption) {
+                    case 1:
+                        customerRegister();
+                        break;
+                    case 2:
+                        customerLogin();
+                        home();
+                        break;
+                    case 3:
+                        System.out.println(">>> Returning to main menu...\n\n");
+                        main(new String[0]);
+                    default:
+                        System.out.println(">>> Please enter a valid option (1-3)!!");
+                }
+            } else {
+                System.out.println(">>> Invalid input. Please enter a number between 1 and 3.");
+                scanner.nextLine(); // Clear invalid input
+            }
+
+        } while (true); 
     }
     
     public static void customerRegister() {
@@ -238,10 +236,11 @@ public class CustomerController {
                     requestRefund();
                     break;
                 case 6:
+                    System.out.println(">>> Logged out successfully.");
                     customerPage();
                     break;
                 default:
-                    System.out.println("\n>>> Please enter a valid option (1-6)!!\n");
+                    System.out.println(">>> Please enter a valid option (1-6)!!");
             }
 
         } while (customerOption != 6); // Loop until Log out
@@ -402,7 +401,7 @@ public class CustomerController {
 
     public static void searchAndFilterProducts() {
         Scanner scanner = new Scanner(System.in);
-        
+
         while (true) {
             System.out.println("\n\n#" + "=".repeat(20) + " Search & Filter " + "=".repeat(20) + "#");
             System.out.println("1. Search by product type");
@@ -412,9 +411,17 @@ public class CustomerController {
             System.out.println("5. View all products");
             System.out.println("6. Return to home");
             System.out.println("#" + "=".repeat(57) + "#");
-            System.out.print("Please enter your option(1-6): ");
-            int searchOption = scanner.nextInt();
-            scanner.nextLine();
+            System.out.print("Please enter your option (1-6): ");
+
+            int searchOption;
+            if (scanner.hasNextInt()) {
+                searchOption = scanner.nextInt();
+                scanner.nextLine(); // Clear newline
+            } else {
+                System.out.println(">>> Invalid input. Please enter a number between 1 and 6.");
+                scanner.nextLine(); // Clear invalid input
+                continue;
+            }
 
             String searchType = "";
             String searchColor = "";
@@ -422,74 +429,77 @@ public class CustomerController {
             double maxPrice = Double.MAX_VALUE;
 
             switch (searchOption) {
-                case 1:
+                case 1 -> {
                     Product.displayAllProductTypes();
                     System.out.print("\nEnter product type (e.g., Laptop, Keyboard): ");
                     searchType = scanner.nextLine();
-                    break;
-                case 2:
-                    System.out.print("\nEnter minimum price: ");
-                    minPrice = scanner.nextDouble();
-                    System.out.print("Enter maximum price: ");
-                    maxPrice = scanner.nextDouble();
-                    scanner.nextLine();
-                     if (maxPrice < minPrice) {
-                    System.out.println("Maximum price cannot be less than minimum price. Swapping values.");
-                    double temp = minPrice;
-                    minPrice = maxPrice;
-                    maxPrice = temp;
                 }
-                    break;
-                case 3:
+                case 2 -> {
+                    try {
+                        System.out.print("\nEnter minimum price: ");
+                        minPrice = Double.parseDouble(scanner.nextLine());
+                        System.out.print("Enter maximum price: ");
+                        maxPrice = Double.parseDouble(scanner.nextLine());
+                        if (maxPrice < minPrice) {
+                            System.out.println(">>> Maximum price cannot be less than minimum price. Swapping values.");
+                            double temp = minPrice;
+                            minPrice = maxPrice;
+                            maxPrice = temp;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println(">>> Invalid input. Please enter valid numeric values.");
+                        continue;
+                    }
+                }
+                case 3 -> {
                     System.out.print("\nEnter color: ");
                     searchColor = scanner.nextLine();
-                    break;
-                case 4:
-                System.out.print("\nEnter product type (leave empty for any): ");
-                searchType = scanner.nextLine();
-                System.out.print("Enter color (leave empty for any): ");
-                searchColor = scanner.nextLine();
+                }
+                case 4 -> {
+                    System.out.print("\nEnter product type (leave empty for any): ");
+                    searchType = scanner.nextLine();
+                    System.out.print("Enter color (leave empty for any): ");
+                    searchColor = scanner.nextLine();
 
-                // Handle minimum price input
-                System.out.print("Enter minimum price (press Enter for any): ");
-                String minInput = scanner.nextLine().trim();
-                minPrice = 0.0;  // Default minimum
-                if (!minInput.isEmpty()) {
-                    try {
-                        minPrice = Double.parseDouble(minInput);
-                    } catch (NumberFormatException e) {
-                        System.out.println(">>> Invalid minimum price format. Using default (0).");
+                    System.out.print("Enter minimum price (press Enter for any): ");
+                    String minInput = scanner.nextLine().trim();
+                    if (!minInput.isEmpty()) {
+                        try {
+                            minPrice = Double.parseDouble(minInput);
+                        } catch (NumberFormatException e) {
+                            System.out.println(">>> Invalid minimum price format. Using default (0).");
+                        }
+                    }
+
+                    System.out.print("Enter maximum price (press Enter for any): ");
+                    String maxInput = scanner.nextLine().trim();
+                    if (!maxInput.isEmpty()) {
+                        try {
+                            maxPrice = Double.parseDouble(maxInput);
+                        } catch (NumberFormatException e) {
+                            System.out.println(">>> Invalid maximum price format. Using default (no limit).");
+                        }
+                    }
+
+                    if (maxPrice < minPrice) {
+                        System.out.println(">>> Maximum price cannot be less than minimum price. Swapping values.");
+                        double temp = minPrice;
+                        minPrice = maxPrice;
+                        maxPrice = temp;
                     }
                 }
-
-                // Handle maximum price input
-                System.out.print("Enter maximum price (press Enter for any): ");
-                String maxInput = scanner.nextLine().trim();
-                maxPrice = Double.MAX_VALUE;  // Default maximum
-                if (!maxInput.isEmpty()) {
-                    try {
-                        maxPrice = Double.parseDouble(maxInput);
-                    } catch (NumberFormatException e) {
-                        System.out.println(">>> Invalid maximum price format. Using default (no limit).");
-                    }
+                case 5 -> {
+                    // Leave searchType, searchColor, minPrice, maxPrice 
                 }
-
-                // Validate price range
-                if (maxPrice < minPrice) {
-                    System.out.println(">>> Maximum price cannot be less than minimum price. Swapping values.");
-                    double temp = minPrice;
-                    minPrice = maxPrice;
-                    maxPrice = temp;
+                case 6 -> {
+                    return; // Exit to home
                 }
-                break;
-                case 5:
-                    break; // View all products
-                case 6:
-                    return;
-                default:
-                    System.out.println("\nP>>> lease enter valid option(1-6)!!\n");
+                default -> {
+                    System.out.println(">>> Please enter a valid option (1-6)!!");
                     continue;
+                }
             }
+
             searchProducts(searchType, searchColor, minPrice, maxPrice);
         }
     }
@@ -692,7 +702,7 @@ public class CustomerController {
                     return;
                     
                 default:
-                    System.out.println("\n>>> Please enter valid option(1-4)!!\n");
+                    System.out.println(">>> Please enter valid option(1-4)!!");
             }
         } catch (InputMismatchException e) {
             System.out.println(">>> Invalid input! Please enter a number.");
