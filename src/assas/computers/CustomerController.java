@@ -114,7 +114,7 @@ public class CustomerController {
             System.out.print("Please enter your delivery address: ");
             deliveryAddress = scanner.nextLine().trim();
             if (!UserAccountValidation.addressCheck(deliveryAddress)) {
-                System.out.println(">>> Error: Address must be 1–50 characters.");
+                System.out.println(">>> Error: Address must be 1-50 characters.");
                 System.out.println("");
             }
         } while (!UserAccountValidation.addressCheck(deliveryAddress));
@@ -670,11 +670,22 @@ public class CustomerController {
                     cart.addItem(productID, quantity);
                     cart.saveCart();
 
-                    System.out.print("\nShow updated cart? (y/n): ");
-                    scanner.nextLine(); // Consume newline
-                    if (scanner.nextLine().equalsIgnoreCase("y")) {
-                        viewCart();
-                    }
+                    scanner.nextLine(); // Consume leftover newline after nextInt()
+
+                    String showCartInput;
+                    do {
+                        System.out.print("\nShow updated cart? (y/n): ");
+                        showCartInput = scanner.nextLine().trim().toLowerCase();
+
+                        if (showCartInput.equals("y")) {
+                            viewCart();
+                            break;
+                        } else if (showCartInput.equals("n")) {
+                            break;
+                        } else {
+                            System.out.println(">>> Invalid input! Please enter 'y' or 'n'.");
+                        }
+                    } while (true);
                     break;
 
                 case 2: 

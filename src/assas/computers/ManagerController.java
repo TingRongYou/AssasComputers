@@ -109,7 +109,7 @@ public class ManagerController {
                     System.out.println("");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number for price.");
+                System.out.println(">>> Please enter a valid number for price.");
                 System.out.println("");
             }
         }
@@ -125,7 +125,7 @@ public class ManagerController {
                     System.out.println("");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid whole number for stock.");
+                System.out.println(">>> Please enter a valid whole number for stock.");
                 System.out.println("");
             }
         }

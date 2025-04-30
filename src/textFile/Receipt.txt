@@ -133,3 +133,52 @@ Date     : 2025-04-30 20:38
 Items    : 
  - K0007 x3
 ========================================
+========================================
+Order ID : ORD0012
+Email    : john7181@gmail.com
+PaymentID: 748bc95a-b307-4fb6-93e6-5d49e52d7f22
+Method   : EWALLET
+Total    : RM48217.31
+Paid     : RM50000.00
+Change   : RM1782.69
+Date     : 2025-04-30 23:20
+Items    : 
+ - L0001 x6
+ - L0003 x7
+========================================
+========================================
+Order ID : ORD0013
+Email    : worawich7181@gmail.com
+PaymentID: d67270af-805f-4b0e-b86f-d2e0d9954fba
+Method   : CREDITCARD
+Total    : RM35004.45
+Paid     : RM40000.00
+Change   : RM4995.55
+Date     : 2025-04-30 23:40
+Items    : 
+ - M0001 x5
+========================================
+========================================
+Order ID : ORD0014
+Email    : worawich7181@gmail.com
+PaymentID: 330c175c-dae6-44f3-97c9-955af511583e
+Method   : CREDITCARD
+Total    : RM37361.70
+Paid     : RM40000.00
+Change   : RM2638.30
+Date     : 2025-04-30 23:45
+Items    : 
+ - K0007 x5
+========================================
+========================================
+Order ID : ORD0015
+Email    : worawich7181@gmail.com
+PaymentID: 8e5e36c2-6654-4007-a63b-ad8fd1f5638c
+Method   : CREDITCARD
+Total    : RM657.00
+Paid     : RM100000000000.00
+Change   : RM99999999343.00
+Date     : 2025-04-30 23:46
+Items    : 
+ - K0001 x3
+========================================
