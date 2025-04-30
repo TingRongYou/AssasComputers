@@ -8,8 +8,8 @@
                     - Title: Assas Computers
                     - Types of user: Staff(Normal Staff, Manager, Admin) and Customer
                     - Type of product: Keyboard, Laptop, Monitor
-                    - Process to order a product: Register(optional) -> Login -> Add product to cart -> Proceed checkout -> Make payment -> Wait for staff to change order status
-                    - Function for customers: Register, login, search&filer product, add product to cart view cart, delete product from cart, view order history, view payment history
+                    - Process to order a product: Register(optional) -> Login -> Add product to cart -> Proceed checkout -> Make payment -> Wait for staff to change order status -> Request refund(optional)
+                    - Function for customers: Register, login, search&filer product, add product to cart view cart, delete product from cart, view order history, view payment history, request refund
                     - Function for admin: Register new staff, edit existing staff, view all staff
                     - Function for manager: Add product, remove product, update product, search product, view all product, view all orders, update order status
                     - Fucntion for normal staff: View all orders, update order status
@@ -19,7 +19,7 @@
                     - Text file
 
     Text file included:
-                    - Total of (7) file
+                    - Total of (8) file
                     - CustomerAcc.txt
                     - StaffAcc.txt
                     - Cart.txt
@@ -27,10 +27,9 @@
                     - Order.txt
                     - Product.txt
                     - Receipt.txt
+                    - Refunds.txt
                             
 */
-
-
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -46,10 +45,6 @@ import java.util.Scanner;
 
 public class AssasComputers {
 
-    /**
-     * @param args the command line arguments
-     */
-    
     public static void displayLogo() {
         System.out.println(" .----------------.  .----------------.  .----------------.  .----------------.  .----------------. \n" +
                             "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |\n" +

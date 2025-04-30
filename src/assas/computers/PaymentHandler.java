@@ -31,8 +31,11 @@ public class PaymentHandler {
 
         // Generate unique payment ID
         String paymentID = UUID.randomUUID().toString();
-        Payment payment = new Payment(paymentID, method);
         String userEmail = AuthService.getCurrentUserEmail();
+
+        // Create Payment object (updated constructor)
+        Payment payment = new Payment(paymentID, method, userEmail, dateTime);
+
 
         // Save payment details to file
         savePaymentToFile(payment, amountPaid, totalAmount, userEmail, orderId, validItems, dateTime);
@@ -48,7 +51,7 @@ public class PaymentHandler {
             writer.write("========================================\n");
             writer.write("Order ID : " + orderId + "\n");
             writer.write("Email    : " + email + "\n");
-            writer.write("PaymentID: " + payment.getPaymentID() + "\n");
+            writer.write("PaymentID: " + payment.getTransactionID() + "\n");
             writer.write("Method   : " + payment.getPaymentMethod() + "\n");
             writer.write(String.format("Total    : RM%.2f\n", totalAmount));
             writer.write(String.format("Paid     : RM%.2f\n", amountPaid));
@@ -72,7 +75,7 @@ public class PaymentHandler {
         System.out.println("");
         System.out.println("Order ID : " + orderId);
         System.out.println("Email    : " + email);
-        System.out.println("PaymentID: " + payment.getPaymentID());
+        System.out.println("PaymentID: " + payment.getTransactionID());
         System.out.println("Method   : " + payment.getPaymentMethod());
         System.out.printf("Total    : RM%.2f\n", totalAmount);
         System.out.printf("Paid     : RM%.2f\n", amountPaid);
@@ -88,78 +91,78 @@ public class PaymentHandler {
     
     // View past payment history for specific customer
     public static void viewPaymentHistory(String email) {
-    System.out.println("\n\n+--------------------------------------------------------------------------------------+");
-    System.out.println("|                                  PAYMENT HISTORY                                     |");
-    System.out.println("+--------------------------------------------------------------------------------------+");
+        System.out.println("\n\n+--------------------------------------------------------------------------------------+");
+        System.out.println("|                                  PAYMENT HISTORY                                     |");
+        System.out.println("+--------------------------------------------------------------------------------------+");
 
-    boolean found = false;
+        boolean found = false;
 
-    try (Scanner scanner = new Scanner(new File("src/textFile/Receipt.txt"))) {
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
+        try (Scanner scanner = new Scanner(new File("src/textFile/Receipt.txt"))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
 
-            // Check if this block contains the email
-            if (line.contains("Order ID :")) {
-                StringBuilder receipt = new StringBuilder();
-                boolean isTargetEmail = false;
+                // Check if this block contains the email
+                if (line.contains("Order ID :")) {
+                    StringBuilder receipt = new StringBuilder();
+                    boolean isTargetEmail = false;
 
-                receipt.append("----------------------------------------------------------------------------------------\n");
+                    receipt.append("----------------------------------------------------------------------------------------\n");
 
-                // Start reading this receipt block
-                while (!line.contains("========================================")) {
-                    if (line.contains("Email") && line.contains(email)) {
-                        isTargetEmail = true;
-                    }
-
-                    if (line.contains(":")) {
-                        String[] parts = line.split(":", 2);
-                        String key = parts[0].trim();
-                        String value = parts.length > 1 ? parts[1].trim() : "N/A";
-
-                        switch (key) {
-                            case "Order ID":
-                            case "Email":
-                            case "PaymentID":
-                            case "Method":
-                            case "Date":
-                                receipt.append(String.format("%-11s: %s\n", key, value));
-                                break;
-                            case "Total":
-                            case "Paid":
-                            case "Change":
-                                receipt.append(String.format("%-11s: RM %.2f\n", key, Double.parseDouble(value.replace("RM", "").trim())));
-                                break;
-                            case "Items":
-                                receipt.append("Items      :\n");
-                                break;
-                            default:
-                                break;
+                    // Start reading this receipt block
+                    while (!line.contains("========================================")) {
+                        if (line.contains("Email") && line.contains(email)) {
+                            isTargetEmail = true;
                         }
-                    } else if (line.trim().startsWith("-")) {
-                        receipt.append("    ").append(line.trim()).append("");
+
+                        if (line.contains(":")) {
+                            String[] parts = line.split(":", 2);
+                            String key = parts[0].trim();
+                            String value = parts.length > 1 ? parts[1].trim() : "N/A";
+
+                            switch (key) {
+                                case "Order ID":
+                                case "Email":
+                                case "PaymentID":
+                                case "Method":
+                                case "Date":
+                                    receipt.append(String.format("%-11s: %s\n", key, value));
+                                    break;
+                                case "Total":
+                                case "Paid":
+                                case "Change":
+                                    receipt.append(String.format("%-11s: RM %.2f\n", key, Double.parseDouble(value.replace("RM", "").trim())));
+                                    break;
+                                case "Items":
+                                    receipt.append("Items      :\n");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else if (line.trim().startsWith("-")) {
+                            receipt.append("    ").append(line.trim()).append("");
+                        }
+
+                        if (!scanner.hasNextLine()) break;
+                        line = scanner.nextLine();
                     }
 
-                    if (!scanner.hasNextLine()) break;
-                    line = scanner.nextLine();
-                }
-
-                // If this block was the correct email, print it
-                if (isTargetEmail) {
-                    System.out.println(receipt);
-                    found = true;
+                    // If this block was the correct email, print it
+                    if (isTargetEmail) {
+                        System.out.println(receipt);
+                        found = true;
+                    }
                 }
             }
+        } catch (IOException e) {
+            System.out.println(">>> Error reading payment history: " + e.getMessage());
+            return;
         }
-    } catch (IOException e) {
-        System.out.println(">>> Error reading payment history: " + e.getMessage());
-        return;
-    }
 
-    if (!found) {
-        System.out.println(">>> No payment history found for email: " + email);
-    }
+        if (!found) {
+            System.out.println(">>> No payment history found for email: " + email);
+        }
 
-    System.out.println("+--------------------------------------------------------------------------------------+");
-}
+        System.out.println("+--------------------------------------------------------------------------------------+");
+    }
 
 }

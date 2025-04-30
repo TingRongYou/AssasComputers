@@ -9,10 +9,9 @@ package assas.computers;
  * @author Acer
  */
 
-public class Payment {
-    private String paymentID;
+public class Payment extends Transaction {
     private PaymentMethod paymentMethod;
-    
+
     // Enum for payment method
     public static enum PaymentMethod {
         CREDITCARD,
@@ -25,25 +24,17 @@ public class Payment {
     * constructors
     */
     public Payment() {
+        super();
     }
-    
-    public Payment(String paymentID, PaymentMethod paymentMethod) {
-        this.paymentID = paymentID;
+
+    public Payment(String paymentID, PaymentMethod paymentMethod, String email, String dateTime) {
+        super(paymentID, email, dateTime); // call Transaction's constructor
         this.paymentMethod = paymentMethod;
     }
 
-    
     /**
     * getter and setter
     */
-    public String getPaymentID() {
-        return paymentID;
-    }
-
-    public void setPaymentID(String paymentID) {
-        this.paymentID = paymentID;
-    }
-
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
@@ -51,31 +42,32 @@ public class Payment {
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
-    
+
     // Choose payment method
     public static PaymentMethod choosePaymentMethod(String paymentMethod) {
-    if (paymentMethod == null) {
-        return null;
+        if (paymentMethod == null) {
+            return null;
+        }
+        switch (paymentMethod.trim().toUpperCase()) {
+            case "CREDITCARD":
+                return PaymentMethod.CREDITCARD;
+            case "DEBITCARD":
+                return PaymentMethod.DEBITCARD;
+            case "ONLINEBANKING":
+                return PaymentMethod.ONLINEBANKING;
+            case "EWALLET":
+                return PaymentMethod.EWALLET;
+            default:
+                return null; 
+        }
     }
 
-    switch (paymentMethod.trim().toUpperCase()) {
-        case "CREDITCARD":
-            return PaymentMethod.CREDITCARD;
-        case "DEBITCARD":
-            return PaymentMethod.DEBITCARD;
-        case "ONLINEBANKING":
-            return PaymentMethod.ONLINEBANKING;
-        case "EWALLET":
-            return PaymentMethod.EWALLET;
-        default:
-            return null; 
-        }
-    } 
-    
-    
-
-    
-    
-            
-            
+    // Implement abstract method
+    @Override
+    public void printTransactionDetails() {
+        System.out.println("Payment ID : " + getTransactionID());
+        System.out.println("Email      : " + getEmail());
+        System.out.println("Date       : " + getDateTime());
+        System.out.println("Method     : " + paymentMethod);
+    }
 }

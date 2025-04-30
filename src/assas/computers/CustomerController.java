@@ -194,27 +194,32 @@ public class CustomerController {
         } while (!isAuthenticated);
     }
     
-    public static void home() {
+   public static void home() {
         Scanner scanner = new Scanner(System.in);
         int customerOption;
 
         do {
             System.out.println("\n\n#" + "=".repeat(27) + " Home " + "=".repeat(27) + "#");
-            System.out.println("1. Search and filter product\n2. View Cart\n3. View Order History\n4. View Payment History\n5. Log out");
+            System.out.println("1. Search and filter product");
+            System.out.println("2. View Cart");
+            System.out.println("3. View Order History");
+            System.out.println("4. View Payment History");
+            System.out.println("5. Request Refund"); // <--- Added here
+            System.out.println("6. Log out");
             System.out.println("#" + "=".repeat(60) + "#");
-            System.out.print("Please enter your option(1-5): ");
+            System.out.print("Please enter your option (1-6): ");
 
             if (scanner.hasNextInt()) {
                 customerOption = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline left by nextInt()
+                scanner.nextLine(); // Consume newline
             } else {
-                System.out.println(">>> Invalid input. Please enter a number between 1 and 5.");
-                scanner.nextLine(); // Clear the invalid input
+                System.out.println(">>> Invalid input. Please enter a number between 1 and 6.");
+                scanner.nextLine(); // Clear invalid input
                 customerOption = -1; // Force loop to continue
             }
 
             Customer customer = new Customer();
-            customer.setEmail(AuthService.getCurrentUserEmail()); // make sure your Customer class has setEmail()
+            customer.setEmail(AuthService.getCurrentUserEmail());
 
             switch (customerOption) {
                 case 1:
@@ -230,17 +235,59 @@ public class CustomerController {
                     PaymentHandler.viewPaymentHistory(AuthService.getCurrentUserEmail());
                     break;
                 case 5:
+                    requestRefund();
+                    break;
+                case 6:
                     customerPage();
                     break;
                 default:
-                    System.out.println("\n>>> Please enter a valid option (1-5)!!\n");
+                    System.out.println("\n>>> Please enter a valid option (1-6)!!\n");
             }
 
-        } while (customerOption != 5); // Continue until Log out option (5)
+        } while (customerOption != 6); // Loop until Log out
 
-        scanner.close(); // Close the scanner after use
+        scanner.close();
     }
-    
+   
+   private static void requestRefund() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n#" + "=".repeat(25) + " Request Refund " + "=".repeat(25) + "#");
+
+        System.out.print("Enter your Order ID to refund: ");
+        String orderId = scanner.nextLine();
+
+        System.out.print("Enter the refund amount (RM): ");
+        double refundAmount;
+        if (scanner.hasNextDouble()) {
+            refundAmount = scanner.nextDouble();
+            scanner.nextLine(); // Consume newline
+        } else {
+            System.out.println(">>> Invalid refund amount. Please enter a number!");
+            scanner.nextLine();
+            return;
+        }
+
+        System.out.print("Enter reason for refund: ");
+        String refundReason = scanner.nextLine();
+
+        String email = AuthService.getCurrentUserEmail();
+
+        // Create and save refund
+        Refund refund = new Refund(email, orderId, refundAmount, refundReason);
+        refund.saveToFile();
+
+        // Update order status
+        boolean updated = OrderFileHandler.updateOrderStatus(orderId, "ORDERCANCELLED");
+
+        if (updated) {
+            System.out.println("\n>>> Refund request submitted successfully!");
+            refund.printTransactionDetails();
+        } else {
+            System.out.println("\n>>> Refund request submitted, but failed to update order status!");
+        }
+    }
+   
     public static void viewCart() {
         Scanner scanner = new Scanner(System.in);
         Cart cart = new Cart(AuthService.getCurrentUserEmail());

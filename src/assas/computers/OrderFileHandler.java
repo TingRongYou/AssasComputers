@@ -165,7 +165,28 @@ public class OrderFileHandler {
             System.out.println(">>> Order ID not found.");
         }
     }
-        
+   
+   // Overloaded method (for customer)
+   public static boolean updateOrderStatus(String orderId, String newStatus) {
+        List<String> lines = readLines(ORDER_FILE);
+        boolean updated = false;
+
+        for (int i = 0; i < lines.size(); i++) {
+            String[] parts = lines.get(i).split(",");
+            if (parts.length >= 6 && parts[0].equalsIgnoreCase(orderId)) {
+                parts[4] = newStatus;
+                lines.set(i, String.join(",", parts));
+                updated = true;
+                break;
+            }
+        }
+
+        if (updated) {
+            writeLines(ORDER_FILE, lines);
+        }
+        return updated;
+    }
+   
     // Helper method
     // Read all lines from a file and return as List<String>
     public static List<String> readLines(String filename) {
