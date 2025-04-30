@@ -81,14 +81,14 @@ public class Refund extends Transaction {
     // Implement abstract method from Transaction
     @Override
     public void printTransactionDetails() {
-        System.out.println("=== Refund Transaction Details ===");
+        System.out.println("\n\n========== Refund Transaction Details ==========");
         System.out.println("Refund ID : " + getTransactionID());
         System.out.println("Email     : " + getEmail());
         System.out.println("Order ID  : " + orderId);
         System.out.printf("Amount    : RM%.2f\n", refundAmount);
         System.out.println("Reason    : " + refundReason);
         System.out.println("Date      : " + getDateTime());
-        System.out.println("===================================");
+        System.out.println("================================================");
     }
 
     @Override

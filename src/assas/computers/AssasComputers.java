@@ -74,7 +74,7 @@ public class AssasComputers {
             System.out.println("#" + "=".repeat(62) + "#");
 
             // Prompt the users to choose their identity (Customer/Staff)
-            System.out.print("Please enter your option(1-3): ");
+            System.out.print("Please enter your option (1-3): ");
 
             if (scanner.hasNextInt()) {
                 identity = scanner.nextInt();

@@ -4,8 +4,10 @@
 */
 package assas.computers;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -206,6 +208,65 @@ public class OrderFileHandler {
             System.out.println(">>> Error writing to file: " + filename);
         }
     }
+    
+    public static Order getEligibleOrder(String orderId) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(ORDER_FILE))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) continue; // Skip empty lines
+
+                String[] parts = line.split(",");
+                if (parts.length < 6) {
+                    // Skip lines with missing fields
+                    System.out.println(">>> Invalid line (too few fields): " + line);
+                    continue;
+                }
+
+                // Remove leading/trailing spaces from each field
+                for (int i = 0; i < parts.length; i++) {
+                    parts[i] = parts[i].trim();
+                }
+
+                // Check if this line matches the requested orderId
+                if (parts[0].equals(orderId)) {
+                    // Create a Customer object and set the email
+                    Customer customer = new Customer();
+                    customer.setEmail(parts[1]);
+
+                    // Create an Order object using the parsed data
+                    Order order = new Order(
+                        parts[0], // orderId
+                        customer,
+                        Double.parseDouble(parts[2]), // totalAmount
+                        parts[3] // orderDate
+                    );
+
+                    // Attempt to parse and set the order status (with error handling)
+                    try {
+                        order.setOrderStatus(Order.OrderStatus.valueOf(parts[4]));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(">>> Invalid order status in file: " + parts[4]);
+                    }
+
+                    // Return the successfully constructed Order object
+                    return order;
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            // Handle file reading and number format errors
+            System.out.println(">>> Error reading order file: " + e.getMessage());
+        }
+
+        // Return null if no matching order is found or an error occurred
+        return null;
+    }
+
+    // An order is eligible only if its status is ORDERACCEPTED.
+    public static boolean isRefundEligible(Order order) {
+        return order.getOrderStatus() == Order.OrderStatus.ORDERACCEPTED;
+    }
+    
 }
 
     

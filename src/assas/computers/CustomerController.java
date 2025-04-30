@@ -250,34 +250,53 @@ public class CustomerController {
    
    private static void requestRefund() {
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("\n#" + "=".repeat(25) + " Request Refund " + "=".repeat(25) + "#");
-
         System.out.print("Enter your Order ID to refund: ");
-        String orderId = scanner.nextLine();
+        String orderId = scanner.nextLine().trim();
 
-        System.out.print("Enter the refund amount (RM): ");
-        double refundAmount;
-        if (scanner.hasNextDouble()) {
-            refundAmount = scanner.nextDouble();
-            scanner.nextLine(); // Consume newline
-        } else {
-            System.out.println(">>> Invalid refund amount. Please enter a number!");
-            scanner.nextLine();
+        Order order = OrderFileHandler.getEligibleOrder(orderId);
+
+        if (order == null) {
+            System.out.println(">>> Order not found! Please check your Order ID.");
+            return;
+        }
+
+        if (!OrderFileHandler.isRefundEligible(order)) {
+            System.out.println(">>> This order is not eligible for refund. Only orders with ORDERACCEPTED status can be refunded.");
+            return;
+        }
+
+        String currentUserEmail = AuthService.getCurrentUserEmail();
+        if (!currentUserEmail.equals(order.getCustomer().getEmail())) {
+            System.out.println(">>> You can only request refunds for your own orders!");
+            return;
+        }
+
+        // Display order details
+        System.out.println("\nOrder Details:");
+        System.out.println("Order ID: " + order.getOrderID());
+        System.out.println("Email: " + order.getCustomer().getEmail());
+        System.out.printf("Amount: RM%.2f\n", order.getTotalAmount());
+        System.out.println("Status: " + order.getOrderStatus());
+
+        System.out.print("\nDo you want to request a refund for this order? (Y/N): ");
+        String confirmation = scanner.nextLine().trim().toUpperCase();
+        if (!confirmation.equals("Y")) {
+            System.out.println(">>> Refund request cancelled.");
             return;
         }
 
         System.out.print("Enter reason for refund: ");
-        String refundReason = scanner.nextLine();
+        String refundReason = scanner.nextLine().trim();
+        if (refundReason.isBlank()) {
+            System.out.println(">>> Refund reason cannot be empty.");
+            return;
+        }
 
-        String email = AuthService.getCurrentUserEmail();
-
-        // Create and save refund
-        Refund refund = new Refund(email, orderId, refundAmount, refundReason);
+        Refund refund = new Refund(currentUserEmail, orderId, order.getTotalAmount(), refundReason);
         refund.saveToFile();
 
-        // Update order status
-        boolean updated = OrderFileHandler.updateOrderStatus(orderId, "ORDERCANCELLED");
+        boolean updated = OrderFileHandler.updateOrderStatus(orderId, Order.OrderStatus.ORDERCANCELLED.toString());
 
         if (updated) {
             System.out.println("\n>>> Refund request submitted successfully!");
