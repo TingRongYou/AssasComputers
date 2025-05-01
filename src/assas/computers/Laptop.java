@@ -9,9 +9,9 @@ package assas.computers;
  * @author Acer
  */
 public class Laptop extends Product{
-    String ram;
-    String rom;
-    String cpu;
+    private String ram;
+    private String rom;
+    private String cpu;
     
     /**
     * constructor

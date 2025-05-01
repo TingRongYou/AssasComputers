@@ -12,8 +12,8 @@ import java.util.*;
 public class Cart {
     
     // Define file path for cart and product
-    static final String CARTFILEPATH = "src/textFile/Cart.txt";
-    static final String PRODUCTFILEPATH = "src/textFile/Product.txt";
+    private static final String CARTFILEPATH = "src/textFile/Cart.txt";
+    private static final String PRODUCTFILEPATH = "src/textFile/Product.txt";
     
     // A data structure that stores data in key-value pairs 
     static public HashMap<String, Product> productCatalog = new HashMap<>(); // Key: productID, Value: product type (e.g. Keyboard/Laptop)

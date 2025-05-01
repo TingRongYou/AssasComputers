@@ -9,9 +9,9 @@ package assas.computers;
  * @author Acer
  */
 public class Monitor extends Product{
-    String resolution;
-    String panelSize;
-    String refreshRate;
+    private String resolution;
+    private String panelSize;
+    private String refreshRate;
     
     /**
     * constructor

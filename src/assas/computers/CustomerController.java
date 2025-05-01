@@ -511,7 +511,7 @@ public class CustomerController {
                     // Leave searchType, searchColor, minPrice, maxPrice 
                 }
                 case 6 -> {
-                    return; // Exit to home
+                    home(); // Exit to home
                 }
                 default -> {
                     System.out.println(">>> Please enter a valid option (1-6)!!");
@@ -526,7 +526,7 @@ public class CustomerController {
     private static void searchProducts(String productType, String productColor, double minPrice, double maxPrice) {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(Product.filePath));
+            reader = new BufferedReader(new FileReader(Product.getProductPath()));
             String line;
             boolean found = false;
 
@@ -554,28 +554,37 @@ public class CustomerController {
                         Product product;
                         String extraInfo = "";
 
+                        // Ensure all parameters are extracted correctly
+                        String switchValue = parts.length > 7 ? parts[7].trim() : ""; // Switches for keyboard
+                        String sizeValue = parts.length > 8 ? parts[8].trim() : ""; // Size for keyboard
+                        String resolutionValue = parts.length > 7 ? parts[7].trim() : ""; // Resolution for monitor
+                        String panelSizeValue = parts.length > 8 ? parts[8].trim() : ""; // Panel size for monitor
+                        String refreshRateValue = parts.length > 9 ? parts[9].trim() : ""; // Refresh rate for monitor
+                        String ramValue = parts.length > 7 ? parts[7].trim() : ""; // RAM for laptop
+                        String romValue = parts.length > 8 ? parts[8].trim() : ""; // ROM for laptop
+                        String cpuValue = parts.length > 9 ? parts[9].trim() : ""; // CPU for laptop
+
                         switch (type) {
                             case LAPTOP:
                                 product = new Laptop(id, name, price, stock, description, color, type,
-                                        parts[7].trim(), parts[8].trim(), parts[9].trim());
-                                extraInfo = String.format("RAM: %s, Storage: %s, Processor: %s",
-                                        parts[7], parts[8], parts[9]);
+                                        ramValue, romValue, cpuValue);
+                                extraInfo = String.format("RAM: %s, Storage: %s, Processor: %s", ramValue, romValue, cpuValue);
                                 break;
                             case MONITOR:
                                 product = new Monitor(id, name, price, stock, description, color, type,
-                                        parts[7].trim(), parts[8].trim(), parts[9].trim());
+                                        resolutionValue, panelSizeValue, refreshRateValue);
                                 extraInfo = String.format("Resolution: %s, Size: %s, Refresh Rate: %s",
-                                        parts[7], parts[8], parts[9]);
+                                        resolutionValue, panelSizeValue, refreshRateValue);
                                 break;
                             case KEYBOARD:
                                 product = new Keyboard(id, name, price, stock, description, color, type,
-                                        parts[7].trim(), parts[8].trim(), parts[9].trim());
-                                extraInfo = String.format("Type: %s, Switches: %s, Size: %s",
-                                        parts[7], parts[8], parts[9]);
+                                        switchValue, sizeValue, "");
+                                extraInfo = String.format("Type: %s, Switches: %s, Size: %s", switchValue, sizeValue, "");
                                 break;
                             default:
-                                product = new Product(id, name, price, stock, description, color, type);
+                                product = null;
                                 extraInfo = "-";
+                                break;
                         }
 
                         System.out.printf("%-10s | %-22s | RM%-8.2f | %-5d | %-12s | %-10s | %-28s | %-40s\n",
@@ -594,7 +603,7 @@ public class CustomerController {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Error: Product data file not found at " + Product.filePath);
+            System.out.println("Error: Product data file not found at " + Product.getProductPath());
         } catch (IOException e) {
             System.out.println("Error reading product data: " + e.getMessage());
         } finally {

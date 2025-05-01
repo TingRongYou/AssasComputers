@@ -368,7 +368,7 @@ public class ManagerController {
    public void viewAllProducts() {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(Product.filePath));
+            reader = new BufferedReader(new FileReader(Product.getProductPath()));
             String line;
             boolean found = false;
 
@@ -417,7 +417,7 @@ public class ManagerController {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Error: Product file not found at " + Product.filePath);
+            System.out.println("Error: Product file not found at " + Product.getProductPath());
         } catch (IOException e) {
             System.out.println("Error reading product data: " + e.getMessage());
         } finally {

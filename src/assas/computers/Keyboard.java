@@ -9,9 +9,9 @@ package assas.computers;
  * @author Acer
  */
 public class Keyboard extends Product{
-    String type;
-    String switches;
-    String size;
+    private String type;
+    private String switches;
+    private String size;
     
     /**
     * constructor

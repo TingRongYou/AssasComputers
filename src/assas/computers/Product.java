@@ -12,9 +12,9 @@ import static assas.computers.Product.ProductType.MONITOR;
  *
  * @author Acer
  */
-public class Product {
+public abstract class Product {
     
-    static final String filePath = "src/textFile/Product.txt";
+    private static final String FILEPATH = "src/textFile/Product.txt";
     protected String productID;
     protected String productName;
     protected double productPrice;
@@ -26,7 +26,7 @@ public class Product {
     /**
     * constructor
     */
-    public Product(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, ProductType productType) {
+    protected Product(String productID, String productName, double productPrice, int productStock, String productDescription, String productColor, ProductType productType) {
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -67,7 +67,7 @@ public class Product {
     * getter and setter
     */
     public static String getProductPath(){
-        return filePath;
+        return FILEPATH;
     }
     
     public String getProductID() {
