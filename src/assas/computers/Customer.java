@@ -1,8 +1,8 @@
 package assas.computers;
 
 public class Customer extends User {
-    private static final String filePath = "src/textFile/CustomerAcc.txt";
-    private final String deliveryAddress;
+    private static final String FILEPATH = "src/textFile/CustomerAcc.txt";
+    private String deliveryAddress;
     
     /** 
      * constructors
@@ -25,7 +25,7 @@ public class Customer extends User {
      * getter
      */
     public static String getFilePath() {
-        return filePath;
+        return FILEPATH;
     }
 
     public String getDeliveryAddress() {

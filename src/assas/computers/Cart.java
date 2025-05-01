@@ -12,8 +12,8 @@ import java.util.*;
 public class Cart {
     
     // Define file path for cart and product
-    static final String filePath = "src/textFile/Cart.txt";
-    static final String productFilePath = "src/textFile/Product.txt";
+    static final String CARTFILEPATH = "src/textFile/Cart.txt";
+    static final String PRODUCTFILEPATH = "src/textFile/Product.txt";
     
     // A data structure that stores data in key-value pairs 
     static public HashMap<String, Product> productCatalog = new HashMap<>(); // Key: productID, Value: product type (e.g. Keyboard/Laptop)
@@ -48,7 +48,7 @@ public class Cart {
         productCatalog.clear();
         
         // Read file line by line
-        try (BufferedReader reader = new BufferedReader(new FileReader(productFilePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(PRODUCTFILEPATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 
@@ -115,7 +115,7 @@ public class Cart {
     // Load user's cart from file
     public void loadCart() {
         cartItems.clear();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(CARTFILEPATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
@@ -198,7 +198,7 @@ public class Cart {
         List<String> otherUsersData = new ArrayList<>();
 
         // --- STEP 1: Read all lines from Cart.txt and store other users' data ---
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(CARTFILEPATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 // If the line does NOT belong to the current user, keep it
@@ -212,7 +212,7 @@ public class Cart {
         }
 
          // --- STEP 2: Write ALL data back (other users + current user's updated cart) ---
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CARTFILEPATH))) {
             // Write other users' data first
             for (String entry : otherUsersData) {
                 writer.write(entry);

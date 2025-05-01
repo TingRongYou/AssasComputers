@@ -9,16 +9,16 @@ package assas.computers;
  * @author Acer
  */
 public abstract class Transaction {
-    private String transactionID;
-    private String email;
-    private String dateTime;
+    protected String transactionID;
+    protected String email;
+    protected String dateTime;
 
     /**
     * constructors
     */
-    public Transaction() {}
+    protected Transaction() {}
 
-    public Transaction(String transactionID, String email, String dateTime) {
+    protected Transaction(String transactionID, String email, String dateTime) {
         this.transactionID = transactionID;
         this.email = email;
         this.dateTime = dateTime;

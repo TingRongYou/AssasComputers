@@ -9,19 +9,19 @@ public abstract class User {
     every time a new user registers, their details will overwrite the previous user's data
     */
     
-    private String username;
-    private String email;
-    private String password;
-    private String phoneNum;
+    protected String username;
+    protected String email;
+    protected String password;
+    protected String phoneNum;
     
     /** 
      * constructors
      */
-    public User() {
+    protected User() {
         
     }
     
-    public User(String name, String email, String password, String phoneNum) {
+    protected User(String name, String email, String password, String phoneNum) {
         this.username = name;
         this.email = email;
         this.password = password;

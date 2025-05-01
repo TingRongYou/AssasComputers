@@ -10,7 +10,7 @@ package assas.computers;
  */
 
 public abstract class Staff extends User {
-    private static final String filePath = "src/textFile/StaffAcc.txt"; // Keep as static constant
+    private static final String FILEPATH = "src/textFile/StaffAcc.txt"; // Keep as static constant
     protected String staffID;
     protected String email;
     protected String setupKey;
@@ -19,11 +19,11 @@ public abstract class Staff extends User {
     /** 
      * constructors
      */
-    public Staff() {
+    protected Staff() {
         
     }
     
-    public Staff(String staffID, String email, Role role, String setupKey){
+    protected Staff(String staffID, String email, Role role, String setupKey){
         this.staffID = staffID;
         this.email = email;        
         this.role = role;
@@ -46,7 +46,7 @@ public abstract class Staff extends User {
     }
     
     public static String getStaffPath(){
-        return filePath;
+        return FILEPATH;
     }
     
     public Role getRole() {
