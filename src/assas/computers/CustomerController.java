@@ -309,6 +309,8 @@ public class CustomerController {
     public static void viewCart() {
         Scanner scanner = new Scanner(System.in);
         Cart cart = new Cart(AuthService.getCurrentUserEmail());
+        CheckoutManager cartManager = new CheckoutManager(cart);
+
 
         // Display cart items
         cart.displayCart();
@@ -330,13 +332,13 @@ public class CustomerController {
                 // Convert array of string to list of string
                 List<String> selectedIds = Arrays.asList(rawIds);
 
-                Map<String, Integer> validItems = cart.getValidCheckoutItems(selectedIds);
+                Map<String, Integer> validItems = cartManager.getValidCheckoutItems(selectedIds);
                 if (validItems.isEmpty()) {
                     System.out.println(">>> No valid items selected. Returning to home.");
                     break;
                 }
-
-                double total = cart.generateCheckoutSummary(validItems);
+                
+                double total = cartManager.generateCheckoutSummary(validItems);
 
                 // Confirm checkout
                 System.out.print("\nConfirm checkout? (y/n): ");
@@ -355,7 +357,6 @@ public class CustomerController {
                 Payment.PaymentMethod method = Payment.choosePaymentMethod(methodInput);
                 while (method == null) {
                     System.out.print(">>> Invalid method. Try again: ");
-                    System.out.println("");
                     method = Payment.choosePaymentMethod(scanner.nextLine().trim().toUpperCase());
                 }
 
@@ -395,15 +396,13 @@ public class CustomerController {
 
                 System.out.println(">>> Payment successful! Thank you.");
 
-                cart.processCheckout(validItems, amountPaid, method, orderId, orderDate);
+                cartManager.processCheckout(validItems, amountPaid, method, orderId, orderDate);
 
                 // Save order
                 Order order = new Order(orderId, customer, total, orderDate);
                 order.setOrderStatus(Order.OrderStatus.ORDERACCEPTED);
                 OrderFileHandler.saveOrder(order, new ArrayList<>(validItems.keySet()));
-
-                cart.deductStock(validItems);
-
+                
                 System.out.println(">>> Order successfully placed! Order ID: " + orderId);
 
                 // Print receipt 
@@ -615,140 +614,152 @@ public class CustomerController {
         }
     }
 
-  private static void productActionMenu() {
-    Scanner scanner = new Scanner(System.in);
-    
-    while (true) {
-        System.out.println("\n\n#" + "=".repeat(22) + " Product Actions " + "=".repeat(22) + "#");
-        System.out.println("1. Add product to cart");
-        System.out.println("2. Delete product from cart");
-        System.out.println("3. Search for more products");
-        System.out.println("4. Return to home menu");
-        System.out.println("#" + "=".repeat(61) + "#");
-        System.out.print("Please enter your option(1-4): ");
-        
-        try {
-            int action = scanner.nextInt();
-            
-            switch (action) {
-                case 1:
-                    System.out.println("");
-                    System.out.print("Enter product ID to add to cart: ");
-                    String productID = scanner.next().trim();
+    private static void productActionMenu() {
+      Scanner scanner = new Scanner(System.in);
 
-                    // Quantity validation
-                    int quantity = 0;
-                    boolean validInput = false;
-                    while (!validInput) {
-                        System.out.print("Enter quantity: ");
-                        try {
-                            quantity = scanner.nextInt();
-                            if (quantity > 0) {
-                                validInput = true;
-                            } else {
-                                System.out.println(">>> Error: Quantity must be at least 1!");
-                            }
-                        } catch (InputMismatchException e) {
-                            System.out.println(">>> Error: Please enter a valid number!");
-                            scanner.nextLine(); // Clear invalid input
-                        }
-                    }
+      while (true) {
+          System.out.println("\n\n#" + "=".repeat(22) + " Product Actions " + "=".repeat(22) + "#");
+          System.out.println("1. Add product to cart");
+          System.out.println("2. Delete product from cart");
+          System.out.println("3. Search for more products");
+          System.out.println("4. Clear cart");
+          System.out.println("5. Return to home menu"); 
+          System.out.println("#" + "=".repeat(61) + "#");
+          System.out.print("Please enter your option(1-5): ");
 
-                    // User check
-                    String email = AuthService.getCurrentUserEmail();
-                    if (email == null) {
-                        System.out.println(">>> Error: No user logged in!");
-                        break;
-                    }
+          try {
+              int action = scanner.nextInt();
 
-                    // Cart operations
-                    Cart cart = new Cart(email);
-                    cart.loadCart();
-                    
-                    Product product = Cart.productCatalog.get(productID);
-                    if (product == null) {
-                        System.out.println(">>> Error: Product not found.");
-                        break;
-                    }
+              switch (action) {
+                  case 1:
+                      System.out.println("");
+                      System.out.print("Enter product ID to add to cart: ");
+                      String productID = scanner.next().trim();
 
-                    if (product.productStock < quantity) {
-                        System.out.println(">>> Error: Not enough stock available! (Available: " + product.productStock + ")");
-                        break;
-                    }
+                      // Quantity validation
+                      int quantity = 0;
+                      boolean validInput = false;
+                      while (!validInput) {
+                          System.out.print("Enter quantity: ");
+                          try {
+                              quantity = scanner.nextInt();
+                              if (quantity > 0) {
+                                  validInput = true;
+                              } else {
+                                  System.out.println(">>> Error: Quantity must be at least 1!");
+                              }
+                          } catch (InputMismatchException e) {
+                              System.out.println(">>> Error: Please enter a valid number!");
+                              scanner.nextLine(); // Clear invalid input
+                          }
+                      }
 
-                    cart.addItem(productID, quantity);
-                    cart.saveCart();
+                      // User check
+                      String email = AuthService.getCurrentUserEmail();
+                      if (email == null) {
+                          System.out.println(">>> Error: No user logged in!");
+                          break;
+                      }
 
-                    scanner.nextLine(); // Consume leftover newline after nextInt()
+                      // Cart operations
+                      Cart cart = new Cart(email);
+                      CartHandler cartHandler = new CartHandler(cart);  // Create CartHandler for the current cart
+                      cartHandler.loadCart();
 
-                    String showCartInput;
-                    do {
-                        System.out.print("\nShow updated cart? (y/n): ");
-                        showCartInput = scanner.nextLine().trim().toLowerCase();
+                      // Access ProductCatalog to get product by ID
+                      ProductCatalog catalog = ProductCatalog.getInstance();  // Singleton to get the catalog
+                      Product product = catalog.getProduct(productID);  // Retrieve product by ID
+                      if (product == null) {
+                          System.out.println(">>> Error: Product not found.");
+                          break;
+                      }
 
-                        if (showCartInput.equals("y")) {
-                            viewCart();
-                            break;
-                        } else if (showCartInput.equals("n")) {
-                            break;
-                        } else {
-                            System.out.println(">>> Invalid input! Please enter 'y' or 'n'.");
-                        }
-                    } while (true);
-                    break;
+                      // Check stock availability
+                      if (product.getProductStock() < quantity) {
+                          System.out.println(">>> Error: Not enough stock available! (Available: " + product.getProductStock() + ")");
+                          break;
+                      }
 
-                case 2: 
-                    // Get current user
-                    String userEmail = AuthService.getCurrentUserEmail();
-                    if (userEmail == null) {
-                        System.out.println(">>> Error: No user logged in!");
-                        break;
-                    }
+                      // Add product to cart
+                      cart.addItem(productID, quantity);
 
-                    // Load and display cart first
-                    Cart userCart = new Cart(userEmail);
-                    userCart.loadCart();
+                      // Ask if the user wants to see the updated cart
+                      scanner.nextLine(); // Consume leftover newline after nextInt()
+                      String showCartInput;
+                      do {
+                          System.out.print("\nShow updated cart? (y/n): ");
+                          showCartInput = scanner.nextLine().trim().toLowerCase();
 
-                    if (userCart.getCartItems().isEmpty()) {
-                        System.out.println(">>> Your cart is empty. Nothing to delete!");
-                        break;
-                    }
+                          if (showCartInput.equals("y")) {
+                              viewCart();
+                              break;
+                          } else if (showCartInput.equals("n")) {
+                              break;
+                          } else {
+                              System.out.println(">>> Invalid input! Please enter 'y' or 'n'.");
+                          }
+                      } while (true);
+                      break;
 
-                    System.out.println("\nCurrent Cart Contents:");
-                    userCart.displayCart();
+                  case 2: 
+                      // Get current user
+                      String userEmail = AuthService.getCurrentUserEmail();
+                      if (userEmail == null) {
+                          System.out.println(">>> Error: No user logged in!");
+                          break;
+                      }
 
-                    // Get product ID to delete
-                    System.out.print("\nEnter product ID to delete from cart: ");
-                    String deleteID = scanner.next().trim();
+                      // Load cart and create CartHandler for the user
+                      Cart userCart = new Cart(userEmail);
+                      CartHandler userCartHandler = new CartHandler(userCart);  // Create CartHandler for the user's cart
+                      userCartHandler.loadCart();
 
-                    // Perform deletion
-                    userCart.deleteProduct(deleteID);
+                      if (userCart.getCartItems().isEmpty()) {
+                          System.out.println(">>> Your cart is empty. Nothing to delete!");
+                          break;
+                      }
 
-                    // Show updated cart confirmation
-                    System.out.print("Show updated cart? (y/n): ");
-                    scanner.nextLine(); // Clear buffer
-                    if (scanner.nextLine().equalsIgnoreCase("y")) {
-                        userCart.displayCart();
-                    }
-                    break;
+                      System.out.println("\nCurrent Cart Contents:");
+                      userCart.displayCart();
 
-                case 3:
-                    searchAndFilterProducts();
-                    break;
-                    
-                case 4:
-                    home();
-                    return;
-                    
-                default:
-                    System.out.println(">>> Please enter valid option(1-4)!!");
-            }
-        } catch (InputMismatchException e) {
-            System.out.println(">>> Invalid input! Please enter a number.");
-            scanner.nextLine(); // Clear invalid input
-        }
-    }
-}
+                      // Get product ID to delete
+                      System.out.print("\nEnter product ID to delete from cart: ");
+                      String deleteID = scanner.next().trim();
+
+                      // Perform deletion
+                      userCart.deleteProduct(deleteID);
+
+                      // Show updated cart confirmation
+                      System.out.print("Show updated cart? (y/n): ");
+                      scanner.nextLine(); // Clear buffer
+                      if (scanner.nextLine().equalsIgnoreCase("y")) {
+                          viewCart();
+                      }
+                      break;
+
+                  case 3:
+                      searchAndFilterProducts();
+                      break;
+
+                  case 4:
+                      Cart cartClear = new Cart(AuthService.getCurrentUserEmail()); 
+                      cartClear.clearCart();
+                      home();
+                      return;
+
+                  case 5:
+                      home();
+                      break;
+
+                  default:
+                      System.out.println(">>> Please enter valid option(1-5)!!");
+              }
+          } catch (InputMismatchException e) {
+              System.out.println(">>> Invalid input! Please enter a number.");
+              scanner.nextLine(); // Clear invalid input
+          }
+      }
+  }
 
   // Reduce the description length
     private static String truncateDescription(String description) {
