@@ -20,7 +20,7 @@ import java.io.IOException;
 public class OrderManagement {
     
     // A file use to store latest order ID
-     private static final String ORDER_ID_FILE = "src/textFile/LastOrderId.txt";
+     private static final String ORDER_ID_FILE_PATH = "src/textFile/LastOrderId.txt";
 
      // Generate new order id
     public static String generateOrderID() {
@@ -32,7 +32,7 @@ public class OrderManagement {
 
     // Read last used order ID from text file
     private static int readLastOrderID() {
-        File file = new File(ORDER_ID_FILE);
+        File file = new File(ORDER_ID_FILE_PATH);
         if (!file.exists()) return 0;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -47,7 +47,7 @@ public class OrderManagement {
     // Saves the updated ID into the file
     // Ovewrite the file with new value
     private static void saveLastOrderID(int id) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ORDER_ID_FILE))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ORDER_ID_FILE_PATH))) {
             writer.write(String.valueOf(id));
         } catch (IOException e) {
             System.out.println(">>> Error saving new order ID.");

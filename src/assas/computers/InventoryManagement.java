@@ -21,7 +21,7 @@ import java.util.List;
 // A class that is use to manage inventory, to assist operation performed by manager
 public class InventoryManagement {
     
-    private final String FILE_PATH = "src/textFile/Product.txt";
+    private final String PRODUCT_FILE_PATH = "src/textFile/Product.txt";
 
     // Add product to Product.txt
     public void addProduct(Inventory inventory, Product product, String productType) {
@@ -32,7 +32,7 @@ public class InventoryManagement {
 
     // Save a single product to file
     private void saveProductToFile(Product product, String productType) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PRODUCT_FILE_PATH, true))) {
             StringBuilder sb = new StringBuilder(); // Build big String without the need of creating many temporary strings
 
             sb.append(product.getProductID()).append(";") // .append() add text to the end of current StringBuilder
@@ -68,7 +68,7 @@ public class InventoryManagement {
 
     // Use when modify, deleting or re-saving everything (updateProduct function for manager)
     private void saveAllProductsToFile(List<String[]> allProducts) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PRODUCT_FILE_PATH))) {
             for (String[] productDetails : allProducts) {
                 writer.write(String.join(";", productDetails));
                 writer.newLine(); // Important for new lines between products
@@ -81,7 +81,7 @@ public class InventoryManagement {
     // Use to get all of the products in Product.txt
     public List<String[]> getAllProducts() {
         List<String[]> allProducts = new ArrayList<>();
-        File file = new File(FILE_PATH);
+        File file = new File(PRODUCT_FILE_PATH);
 
         if (!file.exists()) return allProducts;
 
@@ -103,10 +103,11 @@ public class InventoryManagement {
     // Remove product based on id
     public boolean removeProductById(String productId) {
         List<String[]> allProducts = getAllProducts();
+        // means each array , and the first element for each array
         boolean removed = allProducts.removeIf(p -> p[0].equalsIgnoreCase(productId));
 
         if (removed) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(PRODUCT_FILE_PATH))) {
                 for (String[] product : allProducts) {
                     writer.write(String.join(";", product));
                     writer.newLine();

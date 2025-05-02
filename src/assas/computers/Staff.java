@@ -10,7 +10,7 @@ package assas.computers;
  */
 
 public abstract class Staff extends User {
-    private static final String FILEPATH = "src/textFile/StaffAcc.txt"; // Keep as static constant
+    private static final String STAFF_FILE_PATH = "src/textFile/StaffAcc.txt"; // Keep as static constant
     protected String staffID;
     protected String email;
     protected String setupKey;
@@ -46,7 +46,7 @@ public abstract class Staff extends User {
     }
     
     public static String getStaffPath(){
-        return FILEPATH;
+        return STAFF_FILE_PATH;
     }
     
     public Role getRole() {

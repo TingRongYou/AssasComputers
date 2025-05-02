@@ -14,7 +14,7 @@ import static assas.computers.Product.ProductType.MONITOR;
  */
 public abstract class Product {
     
-    private static final String FILEPATH = "src/textFile/Product.txt";
+    private static final String PRODUCT_FILE_PATH = "src/textFile/Product.txt";
     protected String productID;
     protected String productName;
     protected double productPrice;
@@ -67,7 +67,7 @@ public abstract class Product {
     * getter and setter
     */
     public static String getProductPath(){
-        return FILEPATH;
+        return PRODUCT_FILE_PATH;
     }
     
     public String getProductID() {
