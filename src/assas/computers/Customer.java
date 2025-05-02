@@ -2,7 +2,7 @@ package assas.computers;
 
 public class Customer extends User {
     private static final String CUSTOMER_FILE_PATH = "src/textFile/CustomerAcc.txt";
-    private String deliveryAddress;
+    private final String deliveryAddress;
     
     /** 
      * constructors

@@ -193,59 +193,58 @@ public class CustomerController {
     }
     
    public static void home() {
-        Scanner scanner = new Scanner(System.in);
-        int customerOption;
-
-        do {
-            System.out.println("\n\n#" + "=".repeat(27) + " Home " + "=".repeat(27) + "#");
-            System.out.println("1. Search and filter product");
-            System.out.println("2. View Cart");
-            System.out.println("3. View Order History");
-            System.out.println("4. View Payment History");
-            System.out.println("5. Request Refund"); // <--- Added here
-            System.out.println("6. Log out");
-            System.out.println("#" + "=".repeat(60) + "#");
-            System.out.print("Please enter your option (1-6): ");
-
-            if (scanner.hasNextInt()) {
-                customerOption = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
-            } else {
-                System.out.println(">>> Invalid input. Please enter a number between 1 and 6.");
-                scanner.nextLine(); // Clear invalid input
-                customerOption = -1; // Force loop to continue
-            }
-
-            Customer customer = new Customer();
-            customer.setEmail(AuthService.getCurrentUserEmail());
-
-            switch (customerOption) {
-                case 1:
-                    searchAndFilterProducts();
-                    break;
-                case 2:
-                    viewCart();
-                    break;
-                case 3:
-                    OrderFileHandler.viewOrderHistory(AuthService.getCurrentUserEmail());
-                    break;
-                case 4:
-                    PaymentHandler.viewPaymentHistory(AuthService.getCurrentUserEmail());
-                    break;
-                case 5:
-                    requestRefund();
-                    break;
-                case 6:
-                    System.out.println(">>> Logged out successfully.");
-                    customerPage();
-                    break;
-                default:
-                    System.out.println(">>> Please enter a valid option (1-6)!!");
-            }
-
-        } while (customerOption != 6); // Loop until Log out
-
-        scanner.close();
+        try (Scanner scanner = new Scanner(System.in)) {
+            int customerOption;
+            
+            do {
+                System.out.println("\n\n#" + "=".repeat(27) + " Home " + "=".repeat(27) + "#");
+                System.out.println("1. Search and filter product");
+                System.out.println("2. View Cart");
+                System.out.println("3. View Order History");
+                System.out.println("4. View Payment History");
+                System.out.println("5. Request Refund"); // <--- Added here
+                System.out.println("6. Log out");
+                System.out.println("#" + "=".repeat(60) + "#");
+                System.out.print("Please enter your option (1-6): ");
+                
+                if (scanner.hasNextInt()) {
+                    customerOption = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                } else {
+                    System.out.println(">>> Invalid input. Please enter a number between 1 and 6.");
+                    scanner.nextLine(); // Clear invalid input
+                    customerOption = -1; // Force loop to continue
+                }
+                
+                Customer customer = new Customer();
+                customer.setEmail(AuthService.getCurrentUserEmail());
+                
+                switch (customerOption) {
+                    case 1:
+                        searchAndFilterProducts();
+                        break;
+                    case 2:
+                        viewCart();
+                        break;
+                    case 3:
+                        OrderFileHandler.viewOrderHistory(AuthService.getCurrentUserEmail());
+                        break;
+                    case 4:
+                        PaymentHandler.viewPaymentHistory(AuthService.getCurrentUserEmail());
+                        break;
+                    case 5:
+                        requestRefund();
+                        break;
+                    case 6:
+                        System.out.println(">>> Logged out successfully.");
+                        customerPage();
+                        break;
+                    default:
+                        System.out.println(">>> Please enter a valid option (1-6)!!");
+                }
+                
+            } while (customerOption != 6); // Loop until Log out
+        }
     }
    
    private static void requestRefund() {
