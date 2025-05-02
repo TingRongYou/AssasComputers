@@ -1,10 +1,10 @@
-M0001;Acer Nitro x57;7000.89;25;A great monitor;Black;MONITOR;1920x1080;60cmx60cm;165Hz
+M0001;Acer Nitro x57;7000.89;19;A great monitor;Black;MONITOR;1920x1080;60cmx60cm;165Hz
 L0001;HP OmniBook Z;797.32;36;A very good laptop;Khaki;LAPTOP;8GB;512GB;i7    
 K0001;Aula F75;219.0;49;A very nice keyboard ;White;KEYBOARD;Mechanical;Ice;65%
 M0002;Asus TUF A15;10000.89;5;A gaming monitor;White;MONITOR;1920x1080;120cmx120cm;165Hz
 K0002;Logitech K120;19.00;40;A very standard keyboard ;Black;KEYBOARD;Membrane;MX;120%
 L0003;MacBook Air M4;6204.77;40;Apple Laptop;Silver;LAPTOP;16GB;512GB;M4  
 K0007;Royal Kludge;7472.34;91;RK61;Black;KEYBOARD;Mechanical;Brown;60%
-K0009;Logitech M666;1534.32;77;Best Logitech Keyboard;Grey;KEYBOARD;Mechanical;Brown;120%
+K0009;Logitech M666;1534.32;74;Best Logitech Keyboard;Grey;KEYBOARD;Mechanical;Brown;120%
 K0015;Aula Keyboard V2;5000.0;50;very nice;white;KEYBOARD;mechanical;blue;500
-L0010;d;5000.0;500;d;5;LAPTOP;d
+M0018;Predator MZ112;15555.0;43;A very clear monitor;Orange;MONITOR;1080x1920;112cmx112cm;240Hz
