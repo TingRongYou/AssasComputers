@@ -57,9 +57,9 @@ public class ProductValidation {
     * Validate product color
     */
     public static boolean isValidColor(String color) {
-        return color != null && !color.trim().isEmpty();
+        return color != null && !color.trim().isEmpty() && color.matches("[a-zA-Z ]+");
     }
-
+    
     /**
     * Validate product type enumerator
     */

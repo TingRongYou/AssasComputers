@@ -75,7 +75,7 @@ public class ManagerController {
     }
 
     // Manager add product to Product.txt 
-    public void addProduct() {
+   public void addProduct() {
         System.out.println("\n\n#" + "=".repeat(46) + " Add Product " + "=".repeat(46) + "#");
 
         String productId;
@@ -121,7 +121,7 @@ public class ManagerController {
                 productStock = Integer.parseInt(scanner.nextLine());
                 if (ProductValidation.isValidStock(productStock)) break;
                 else {
-                    System.out.println("Product stock must be non-negative.");
+                    System.out.println(">>> Product stock must be non-negative.");
                     System.out.println("");
                 }
             } catch (NumberFormatException e) {
@@ -145,7 +145,7 @@ public class ManagerController {
             System.out.print("Enter Product Color: ");
             productColor = scanner.nextLine();
             if (!ProductValidation.isValidColor(productColor)) {
-                System.out.println(">>> Color cannot be empty.");
+                System.out.println(">>> Color must contain only alphabetic characters and cannot be empty.");
                 System.out.println("");
             }
         } while (!ProductValidation.isValidColor(productColor));
@@ -168,34 +168,106 @@ public class ManagerController {
 
         switch (productType) {
             case KEYBOARD:
-                System.out.print("Enter Keyboard Type: ");
-                String kbType = scanner.nextLine();
-                System.out.print("Enter Keyboard Switches: ");
-                String kbSwitches = scanner.nextLine();
-                System.out.print("Enter Keyboard Size: ");
-                String kbSize = scanner.nextLine();
+                String kbType;
+                do {
+                    System.out.print("Enter Keyboard Type: ");
+                    kbType = scanner.nextLine();
+                    if (kbType.isEmpty()) {
+                        System.out.println(">>> Keyboard type cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (kbType.isEmpty());
+                
+                String kbSwitches;
+                do {
+                    System.out.print("Enter Keyboard Switches: ");
+                    kbSwitches = scanner.nextLine();
+                    if (kbSwitches.isEmpty()) {
+                        System.out.println(">>> Keyboard switches cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (kbSwitches.isEmpty());
+                
+                String kbSize;
+                do {
+                    System.out.print("Enter Keyboard Size: ");
+                    kbSize = scanner.nextLine();
+                    if (kbSize.isEmpty()) {
+                        System.out.println(">>> Keyboard size cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (kbSize.isEmpty());
+                
                 product = new Keyboard(productId, productName, productPrice, productStock,
                         productDescription, productColor, productType, kbType, kbSwitches, kbSize);
                 break;
 
             case MONITOR:
-                System.out.print("Enter Monitor Resolution: ");
-                String resolution = scanner.nextLine();
-                System.out.print("Enter Monitor Panel Size: ");
-                String panelSize = scanner.nextLine();
-                System.out.print("Enter Monitor Refresh Rate: ");
-                String refreshRate = scanner.nextLine();
+                String resolution;
+                do {
+                    System.out.print("Enter Monitor Resolution: ");
+                    resolution = scanner.nextLine();
+                    if (resolution.isEmpty()) {
+                        System.out.println(">>> Monitor resolution cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (resolution.isEmpty());
+                
+                String panelSize;
+                do {
+                    System.out.print("Enter Monitor Panel Size: ");
+                    panelSize = scanner.nextLine();
+                    if (panelSize.isEmpty()) {
+                        System.out.println(">>> Monitor panel size cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (panelSize.isEmpty());
+                
+                String refreshRate;
+                do {
+                    System.out.print("Enter Monitor Refresh Rate: ");
+                    refreshRate = scanner.nextLine();
+                    if (refreshRate.isEmpty()) {
+                        System.out.println(">>> Monitor refresh rate cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (refreshRate.isEmpty());
+                
                 product = new Monitor(productId, productName, productPrice, productStock,
                         productDescription, productColor, productType, resolution, panelSize, refreshRate);
                 break;
 
             case LAPTOP:
-                System.out.print("Enter Laptop RAM: ");
-                String ram = scanner.nextLine();
-                System.out.print("Enter Laptop ROM: ");
-                String rom = scanner.nextLine();
-                System.out.print("Enter Laptop CPU: ");
-                String cpu = scanner.nextLine();
+                String ram;
+                do {
+                    System.out.print("Enter Laptop RAM: ");
+                    ram = scanner.nextLine();
+                    if (ram.isEmpty()) {
+                        System.out.println(">>> Laptop RAM cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (ram.isEmpty());
+                
+                String rom;
+                do {
+                    System.out.print("Enter Laptop ROM: ");
+                    rom = scanner.nextLine();
+                    if (rom.isEmpty()) {
+                        System.out.println(">>> Laptop ROM cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (rom.isEmpty());
+                
+                String cpu;
+                do {
+                    System.out.print("Enter Laptop CPU: ");
+                    cpu = scanner.nextLine();
+                    if (cpu.isEmpty()) {
+                        System.out.println(">>> Laptop CPU cannot be empty.");
+                        System.out.println("");
+                    }
+                } while (cpu.isEmpty());
+                
                 product = new Laptop(productId, productName, productPrice, productStock,
                         productDescription, productColor, productType, ram, rom, cpu);
                 break;

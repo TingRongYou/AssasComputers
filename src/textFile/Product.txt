@@ -6,3 +6,5 @@ K0002;Logitech K120;19.00;40;A very standard keyboard ;Black;KEYBOARD;Membrane;M
 L0003;MacBook Air M4;6204.77;40;Apple Laptop;Silver;LAPTOP;16GB;512GB;M4  
 K0007;Royal Kludge;7472.34;91;RK61;Black;KEYBOARD;Mechanical;Brown;60%
 K0009;Logitech M666;1534.32;77;Best Logitech Keyboard;Grey;KEYBOARD;Mechanical;Brown;120%
+K0015;Aula Keyboard V2;5000.0;50;very nice;white;KEYBOARD;mechanical;blue;500
+L0010;d;5000.0;500;d;5;LAPTOP;d
