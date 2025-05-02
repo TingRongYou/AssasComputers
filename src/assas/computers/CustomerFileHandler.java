@@ -52,7 +52,7 @@ public class CustomerFileHandler {
     
     // Return customer detail matches email entered
     public static String[] getCustomerDataByEmail(String email) {
-    try (BufferedReader reader = new BufferedReader(new FileReader("src/textFile/CustomerAcc.txt"))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(CUSTOMER_FILE_PATH))) {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] fields = line.split(";");

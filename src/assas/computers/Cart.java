@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Cart {
     
-    private String email;
+    private final String email;
     private HashMap<String, Integer> cartItems; // Key: productID, Value: quantity
     ProductCatalog productCatalog;
     private CartHandler handler;
@@ -35,7 +35,6 @@ public class Cart {
     
     /**
      * Get cart items
-     * @return HashMap of cart items (productID -> quantity)
      */
     public HashMap<String, Integer> getCartItems() { 
         return new HashMap<>(cartItems); 
@@ -43,7 +42,6 @@ public class Cart {
     
     /**
      * Set cart items (used by CartPersistence when loading)
-     * @param items New cart items
      */
     public void setCartItems(HashMap<String, Integer> items) {
         this.cartItems = new HashMap<>(items);
@@ -51,8 +49,6 @@ public class Cart {
     
     /**
      * Add item to cart
-     * @param productID Product ID
-     * @param qty Quantity to add
      */
     public void addItem(String productID, int qty) {
         if (qty <= 0) {

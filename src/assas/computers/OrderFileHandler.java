@@ -24,11 +24,11 @@ import java.util.Scanner;
 // A class that manages everthing related to storing and reading order information
 public class OrderFileHandler {
 
-    private static final String ORDER_FILE = "src/textFile/Order.txt";
+    private static final String ORDER_FILE_PATH = "src/textFile/Order.txt";
 
     // Save new order into file
     public static void saveOrder(Order order, List<String> itemIds) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ORDER_FILE, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ORDER_FILE_PATH, true))) {
             String orderLine = String.join(",",
                     order.getOrderID(),
                     order.getCustomer().getEmail(),
@@ -53,7 +53,7 @@ public class OrderFileHandler {
 
         boolean found = false;
 
-        try (Scanner scanner = new Scanner(new File(ORDER_FILE))) {
+        try (Scanner scanner = new Scanner(new File(ORDER_FILE_PATH))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(",");
@@ -85,7 +85,7 @@ public class OrderFileHandler {
 
         boolean found = false;
 
-        try (Scanner scanner = new Scanner(new File(ORDER_FILE))) {
+        try (Scanner scanner = new Scanner(new File(ORDER_FILE_PATH))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(",");
@@ -109,7 +109,7 @@ public class OrderFileHandler {
 
     // Display every single order in the file for staff
     public static void viewAllOrders() {
-        List<String> lines = readLines(ORDER_FILE); // Use your actual file path
+        List<String> lines = readLines(ORDER_FILE_PATH); // Use your actual file path
 
         if (lines.isEmpty()) {
             System.out.println(">>> No orders found.");
@@ -135,7 +135,7 @@ public class OrderFileHandler {
    // Change order's status by staff
    public static void updateOrderStatus() {
         Scanner scanner = new Scanner(System.in);
-        List<String> lines = readLines(ORDER_FILE);
+        List<String> lines = readLines(ORDER_FILE_PATH);
         boolean updated = false;
 
         System.out.print("Enter Order ID to update status: ");
@@ -161,7 +161,7 @@ public class OrderFileHandler {
         }
 
         if (updated) {
-            writeLines(ORDER_FILE, lines);
+            writeLines(ORDER_FILE_PATH, lines);
             System.out.println(">>> Order status updated successfully.");
         } else {
             System.out.println(">>> Order ID not found.");
@@ -170,7 +170,7 @@ public class OrderFileHandler {
    
    // Overloaded method (for customer)
    public static boolean updateOrderStatus(String orderId, String newStatus) {
-        List<String> lines = readLines(ORDER_FILE);
+        List<String> lines = readLines(ORDER_FILE_PATH);
         boolean updated = false;
 
         for (int i = 0; i < lines.size(); i++) {
@@ -184,7 +184,7 @@ public class OrderFileHandler {
         }
 
         if (updated) {
-            writeLines(ORDER_FILE, lines);
+            writeLines(ORDER_FILE_PATH, lines);
         }
         return updated;
     }
@@ -210,7 +210,7 @@ public class OrderFileHandler {
     }
     
     public static Order getEligibleOrder(String orderId) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(ORDER_FILE))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(ORDER_FILE_PATH))) {
             String line;
 
             while ((line = reader.readLine()) != null) {

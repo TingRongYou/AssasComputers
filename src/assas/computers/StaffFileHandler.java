@@ -20,11 +20,11 @@ import java.util.List;
 // A class that stored operation regarding StaffAcc.txt file
 public class StaffFileHandler {
     
-   private static final String FILE_PATH = "src/textFile/StaffAcc.txt";
+   private static final String STAFF_FILE_PATH = "src/textFile/StaffAcc.txt";
 
    // Save staff account into file
    public static boolean saveStaff(String staffID, String email, String password, String role, String phoneNum) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(STAFF_FILE_PATH, true))) {
             writer.write(staffID + ";" + email + ";" + password + ";" + role + ";" + phoneNum);
             writer.newLine();
             return true;
@@ -35,7 +35,7 @@ public class StaffFileHandler {
 
    // Check if email entered is registerd
     public static boolean isEmailRegistered(String email) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(STAFF_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] words = line.split(";");
@@ -49,7 +49,7 @@ public class StaffFileHandler {
     
     // Display staff acccount through email
     public static Staff loadStaffByEmail(String email) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(STAFF_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -75,7 +75,7 @@ public class StaffFileHandler {
     
     // Ensure password entered is valid by finding email in the file
     public static boolean verifyPassword(String email, String enteredPassword) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(STAFF_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -94,7 +94,7 @@ public class StaffFileHandler {
     public static void updateStaff(Staff updatedStaff) {
         List<String> lines = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(STAFF_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -115,7 +115,7 @@ public class StaffFileHandler {
             System.out.println(">>> Error reading staff file for update.");
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(STAFF_FILE_PATH))) {
             for (String l : lines) {
                 writer.write(l);
                 writer.newLine();

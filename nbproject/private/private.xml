@@ -3,9 +3,45 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/AssasComputers/src/assas/computers/AssasComputers.java</file>
-            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/AssasComputers/src/assas/computers/CustomerController.java</file>
-            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/AssasComputers/src/assas/computers/Cart.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Payment.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Cart.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/StaffAccountManager.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/ManagerController.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/InventoryManagement.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/StaffFileHandler.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/ProductCatalog.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/textFile/Product.txt</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/OrderFileHandler.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/AssasComputers.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Customer.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Transaction.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/AuthService.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/NormalStaff.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Keyboard.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/CustomerFileHandler.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/textFile/Order.txt</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Product.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/StockManager.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Admin.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/OrderManagement.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Staff.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/NormalStaffController.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/AdminController.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/CartHandler.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/CheckoutManager.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/PaymentHandler.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Manager.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Order.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/User.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Laptop.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Monitor.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/CustomerController.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/MultiFactorAuthentication.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Inventory.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/ProductValidation.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/StaffController.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/Refund.java</file>
+            <file>file:/C:/Users/yongc/Desktop/AssasComputers/src/assas/computers/UserAccountValidation.java</file>
         </group>
     </open-files>
 </project-private>
