@@ -8,3 +8,4 @@ K0007;Royal Kludge;7472.34;91;RK61;Black;KEYBOARD;Mechanical;Brown;60%
 K0009;Logitech M666;1534.32;74;Best Logitech Keyboard;Grey;KEYBOARD;Mechanical;Brown;120%
 K0015;Aula Keyboard V2;5000.0;50;very nice;white;KEYBOARD;mechanical;blue;500
 M0018;Predator MZ112;15555.0;43;A very clear monitor;Orange;MONITOR;1080x1920;112cmx112cm;240Hz
+K0020;Acer Nitro Keyboard;569.22;79;New Keyboard;Yellow;KEYBOARD;Mechanical;Red;75%
