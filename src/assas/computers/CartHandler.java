@@ -102,7 +102,7 @@ public class CartHandler {
                 }
             }
 
-            System.out.println(">>> Cart saved successfully.");
+            System.out.print(">>> Cart saved successfully.");
         } catch (IOException e) {
             System.out.println(">>> Error: Failed to save cart.");
             System.out.println("");

@@ -79,6 +79,7 @@ public class CheckoutManager {
         // Step 3: Remove checked out items from the cart
         for (String id : selectedItems.keySet()) {
             cart.deleteProduct(id);
+            System.out.println("");
         }
         
         // Step 4: Confirm checkout completion

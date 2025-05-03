@@ -393,7 +393,7 @@ public class CustomerController {
                     return;
                 }
 
-                System.out.println(">>> Payment successful! Thank you.");
+                System.out.println(">>> Payment successful! Thank you.\n");
 
                 cartManager.processCheckout(validItems, amountPaid, method, orderId, orderDate);
 
@@ -686,7 +686,7 @@ public class CustomerController {
                       scanner.nextLine(); // Consume leftover newline after nextInt()
                       String showCartInput;
                       do {
-                          System.out.print("\nShow updated cart? (y/n): ");
+                          System.out.print("\n\nShow updated cart? (y/n): ");
                           showCartInput = scanner.nextLine().trim().toLowerCase();
 
                           if (showCartInput.equals("y")) {
@@ -729,7 +729,7 @@ public class CustomerController {
                       userCart.deleteProduct(deleteID);
 
                       // Show updated cart confirmation
-                      System.out.print("Show updated cart? (y/n): ");
+                      System.out.print("\n\nShow updated cart? (y/n): ");
                       scanner.nextLine(); // Clear buffer
                       if (scanner.nextLine().equalsIgnoreCase("y")) {
                           viewCart();

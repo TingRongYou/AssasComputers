@@ -88,7 +88,6 @@ public class Cart {
         cartItems.remove(productID);
 
         // Save cart after modification
-        System.out.println("");
         handler.saveCart();
     }
     
@@ -116,7 +115,7 @@ public class Cart {
 
                 // - for left align, .2 for 2 decimal places
                 double itemTotal = product.getProductPrice() * entry.getValue();
-                System.out.printf("| %-8s | %-18s   | %5d  | %10.2f  | %9.2f |%n", 
+                System.out.printf("| %-8s | %-18s  | %5d  | %10.2f   | %9.2f |%n", 
                     displayID, 
                     displayName, 
                     entry.getValue(), 
